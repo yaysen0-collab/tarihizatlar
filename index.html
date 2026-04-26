@@ -22,39 +22,34 @@
         .nav-links button { background: none; border: none; font-weight: 600; color: #57534e; cursor: pointer; font-size: 13px; text-transform: uppercase; margin-left: 10px; transition: 0.2s; }
         .nav-links button:hover { color: var(--nostalgia-brown); }
 
-        /* Arama Barı */
-        .search-box { position: relative; margin-left: 15px; }
-        .search-box input { padding: 10px 18px; border-radius: 20px; border: 1px solid #d6d3d1; outline: none; font-size: 13px; width: 180px; transition: 0.3s; background: #f5f5f4; }
-        .search-box input:focus { width: 250px; border-color: var(--nostalgia-brown); background: #fff; }
+        .search-box input { padding: 10px 18px; border-radius: 20px; border: 1px solid #d6d3d1; outline: none; font-size: 13px; width: 160px; transition: 0.3s; background: #f5f5f4; }
+        .search-box input:focus { width: 220px; border-color: var(--nostalgia-brown); background: #fff; }
 
-        /* Hero & Kartlar */
         .hero { text-align: center; padding: 100px 20px; background: #fff; border-bottom: 1px solid #e7e5e4; }
         .hadis-text { font-size: 28px; font-family: 'Playfair Display', serif; font-style: italic; color: #44403c; line-height: 1.6; max-width: 850px; margin: 0 auto; }
+        
         .grid-portal { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 35px; margin-top: -60px; padding-bottom: 60px; }
         .portal-card { position: relative; height: 420px; border-radius: 24px; overflow: hidden; cursor: pointer; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); transition: 0.3s; }
         .portal-card:hover { transform: translateY(-8px); }
         .portal-card img { width: 100%; height: 100%; object-fit: cover; }
         .card-overlay { position: absolute; bottom: 0; width: 100%; padding: 35px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); color: white; box-sizing: border-box; }
 
-        /* Login Modal */
-        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
-        .login-content { background: white; width: 320px; margin: 15% auto; padding: 30px; border-radius: 20px; text-align: center; }
+        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); }
+        .login-content { background: white; width: 340px; margin: 15% auto; padding: 35px; border-radius: 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
         
-        /* Admin Paneli */
-        .admin-section { display: none; background: white; padding: 35px; border-radius: 20px; border: 2px solid var(--nostalgia-brown); margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .admin-section { display: none; background: white; padding: 35px; border-radius: 20px; border: 2px solid var(--nostalgia-brown); margin-top: 25px; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         .form-box { background: #fdfcfb; padding: 20px; border-radius: 12px; border: 1px solid #e7e5e4; }
         input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #d6d3d1; font-family: inherit; box-sizing: border-box; }
         .save-btn { background: var(--nostalgia-brown); color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%; }
 
-        /* İçerik */
         .tab-content { display: none; padding: 40px 0; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
-        .timeline-item { background: white; padding: 25px; border-radius: 16px; border-left: 5px solid var(--nostalgia-brown); margin-bottom: 20px; border: 1px solid #e7e5e4; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .timeline-row { display: flex; gap: 20px; padding: 15px; border-bottom: 1px solid #e7e5e4; align-items: center; }
-        .year-label { font-weight: 800; color: var(--nostalgia-brown); min-width: 100px; font-size: 1.1rem; }
+        .tab-content.active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .timeline-item { background: white; padding: 25px; border-radius: 16px; border-left: 5px solid var(--nostalgia-brown); margin-bottom: 20px; border: 1px solid #e7e5e4; }
+        .timeline-row { display: flex; gap: 20px; padding: 15px; border-bottom: 1px solid #e7e5e4; align-items: center; }
+        .year-label { font-weight: 800; color: var(--nostalgia-brown); min-width: 90px; }
+
         footer { background: #1c1917; color: #a8a29e; padding: 50px; text-align: center; margin-top: 120px; }
     </style>
 </head>
@@ -83,33 +78,29 @@
 
     <div id="loginModal" class="modal">
         <div class="login-content">
-            <h3 style="color:var(--nostalgia-brown)">Yönetici Girişi</h3>
+            <h3 style="color:var(--nostalgia-brown); margin-bottom:20px;">Yönetici Girişi</h3>
             <input type="password" id="passInput" placeholder="Şifre" onkeydown="if(event.key==='Enter') attemptLogin()">
             <button class="save-btn" onclick="attemptLogin()">Giriş Yap</button>
-            <button onclick="hideLogin()" style="background:none; border:none; color:#94a3b8; margin-top:15px; cursor:pointer;">İptal</button>
+            <button onclick="hideLogin()" style="background:none; border:none; color:#94a3b8; margin-top:15px; cursor:pointer;">Kapat</button>
         </div>
     </div>
 
     <div id="homeView">
         <section class="hero">
             <p class="hadis-text">"Ashabım, yıldızlar gibidir. Hangisine tabi olursanız hidayete erersiniz."</p>
-            <p style="color: var(--nostalgia-brown); margin-top: 25px; font-weight: 700;">— Peygamber Efendimiz (s.a.v.)</p>
         </section>
         <div class="container">
             <div class="grid-portal">
-                <div class="portal-card" onclick="switchTab('archive')"><img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg"><div class="card-overlay"><h3>Arşiv</h3><p>Tüm kayıtları detaylıca inceleyin.</p></div></div>
-                <div class="portal-card" onclick="switchTab('time')"><img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg"><div class="card-overlay"><h3>Zaman Çizelgesi</h3><p>Hicri akışa göre sıralı tarih.</p></div></div>
-                <div class="portal-card" onclick="switchTab('soy')"><img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg"><div class="card-overlay"><h3>Soyağacı</h3><p>Nesil ve aile bağları.</p></div></div>
+                <div class="portal-card" onclick="switchTab('archive')"><img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg"><div class="card-overlay"><h3>Arşiv</h3><p>Tüm kayıtları inceleyin.</p></div></div>
+                <div class="portal-card" onclick="switchTab('time')"><img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg"><div class="card-overlay"><h3>Zaman Çizelgesi</h3><p>Kronolojik Akış.</p></div></div>
+                <div class="portal-card" onclick="switchTab('soy')"><img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg"><div class="card-overlay"><h3>Soyağacı</h3><p>Nesil Bağları.</p></div></div>
             </div>
         </div>
     </div>
 
     <div class="container">
         <div id="adminPanel" class="admin-section">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 style="color:var(--nostalgia-brown); margin:0;">Yönetim Merkezi</h2>
-                <button onclick="logoutAdmin()" style="background:#ef4444; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer; font-weight:700;">Çıkış</button>
-            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2>Yönetim Merkezi</h2><button onclick="logoutAdmin()" style="background:#ef4444; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;">Çıkış</button></div>
             <div class="form-grid">
                 <div class="form-box">
                     <h3>👤 Zat Kaydı</h3>
@@ -117,12 +108,9 @@
                     <input id="z_anne" placeholder="Anne Adı">
                     <input id="z_baba" placeholder="Baba Adı">
                     <input id="z_es" placeholder="Eşleri / Kardeşleri / Çocukları">
-                    <div style="display:flex; gap:10px;">
-                        <input id="z_hicri" placeholder="Doğum (H)">
-                        <input id="z_vefat" placeholder="Vefat (H)">
-                    </div>
+                    <div style="display:flex; gap:10px;"><input id="z_hicri" placeholder="Doğum (H)"><input id="z_vefat" placeholder="Vefat (H)"></div>
                     <textarea id="z_bilgi" placeholder="Biyografi..." rows="3"></textarea>
-                    <button class="save-btn" onclick="saveData('zatlar')">SİSTEME KAYDET</button>
+                    <button class="save-btn" onclick="saveData('zatlar')">KAYDET</button>
                 </div>
                 <div class="form-box">
                     <h3>📜 Olay Kaydı</h3>
@@ -134,38 +122,17 @@
             </div>
         </div>
 
-        <div id="archive" class="tab-content">
-            <h2 style="color:var(--nostalgia-brown)">📚 Tüm Arşiv Kayıtları</h2>
-            <div id="archiveContent"></div>
-        </div>
-
-        <div id="time" class="tab-content">
-            <h2 style="color:var(--nostalgia-brown)">⏳ Kronolojik Akış</h2>
-            <div id="timelineContent"></div>
-        </div>
-
-        <div id="soy" class="tab-content">
-            <h2 style="color:var(--nostalgia-brown)">🌳 Soyağacı ve Bağlar</h2>
-            <div id="soyContent"></div>
-        </div>
+        <div id="archive" class="tab-content"><h2 style="color:var(--nostalgia-brown)">📚 Arşiv</h2><div id="archiveContent"></div></div>
+        <div id="time" class="tab-content"><h2 style="color:var(--nostalgia-brown)">⏳ Zaman Çizelgesi</h2><div id="timelineContent"></div></div>
+        <div id="soy" class="tab-content"><h2 style="color:var(--nostalgia-brown)">🌳 Soyağacı</h2><div id="soyContent"></div></div>
     </div>
 
-    <footer><p>© 2026 Asrı Saadet Portalı</p></footer>
-
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss",
-            authDomain: "tarihizatlar.firebaseapp.com",
-            projectId: "tarihizatlar",
-            storageBucket: "tarihizatlar.firebasestorage.app",
-            messagingSenderId: "930648787998",
-            appId: "1:930648787998:web:db163d0f3811786610b20f"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss", authDomain: "tarihizatlar.firebaseapp.com", projectId: "tarihizatlar", storageBucket: "tarihizatlar.firebasestorage.app", messagingSenderId: "930648787998", appId: "1:930648787998:web:db163d0f3811786610b20f" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        let zatlarData = [];
-        let olaylarData = [];
+        let zatlarData = [], olaylarData = [];
 
         function initData() {
             db.collection("zatlar").onSnapshot(s => { zatlarData = s.docs.map(d => d.data()); refreshUI(); });
@@ -176,70 +143,53 @@
 
         function renderArchive() {
             const container = document.getElementById('archiveContent');
-            const combined = [
-                ...zatlarData.map(z => ({...z, tip: 'Zat'})),
-                ...olaylarData.map(o => ({...o, tip: 'Olay'}))
-            ];
-            container.innerHTML = combined.map(i => `
+            const all = [...zatlarData.map(z=>({...z, tip:'Zat'})), ...olaylarData.map(o=>({...o, tip:'Olay'}))];
+            container.innerHTML = all.map(i => `
                 <div class="timeline-item archive-card" data-name="${(i.isim || i.ad || '').toLowerCase()}">
-                    <h3 style="margin:0; color:var(--nostalgia-brown)">${i.isim || i.ad} <small style="font-size:0.8rem; color:var(--accent)">(${i.tip})</small></h3>
-                    <p style="font-size:0.85rem; color:#64748b; margin: 5px 0;"><b>Hicri: ${i.hicri || '?'}</b> ${i.vefat ? '- '+i.vefat : ''}</p>
-                    ${i.tip === 'Zat' ? `<p style="font-size:0.9rem; color:#444"><b>Aile/Bağ:</b> ${i.baba || '-'} - ${i.anne || '-'} | ${i.es || '-'}</p>` : ''}
-                    <p style="margin-top:10px;">${i.bilgi || ''}</p>
-                </div>
-            `).join('');
+                    <h3>${i.isim || i.ad} <small>(${i.tip})</small></h3>
+                    <p><b>Hicri: ${i.hicri || '?'}</b> ${i.vefat ? ' - Vefat: '+i.vefat : ''}</p>
+                    <p>${i.bilgi || ''}</p>
+                </div>`).join('');
         }
 
         function renderTimeline() {
             const container = document.getElementById('timelineContent');
-            const combined = [
+            const sorted = [
                 ...zatlarData.map(z => ({yil: parseInt(z.hicri) || 0, ad: z.isim, tip: 'Zat'})),
                 ...olaylarData.map(o => ({yil: parseInt(o.hicri) || 0, ad: o.isim, tip: 'Olay'}))
             ].sort((a,b) => a.yil - b.yil);
-
-            container.innerHTML = combined.map(i => `
-                <div class="timeline-row">
-                    <div class="year-label">H ${i.yil}</div>
-                    <div><b>${i.ad}</b> <small style="color:#94a3b8; margin-left:10px;">(${i.tip})</small></div>
-                </div>
-            `).join('');
+            container.innerHTML = sorted.map(i => `<div class="timeline-row"><div class="year-label">H ${i.yil}</div><div><b>${i.ad}</b> <small>(${i.tip})</small></div></div>`).join('');
         }
 
         function renderSoy() {
             const container = document.getElementById('soyContent');
-            container.innerHTML = zatlarData.map(i => `
-                <div class="timeline-item">
-                    <h3 style="color:var(--nostalgia-brown); margin-bottom:10px;">${i.isim}</h3>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.9rem;">
-                        <div><b>Baba:</b> ${i.baba || '-'}</div>
-                        <div><b>Anne:</b> ${i.anne || '-'}</div>
-                        <div style="grid-column: span 2;"><b>Eş/Kardeş/Çocuk:</b> ${i.es || '-'}</div>
-                    </div>
-                </div>
-            `).join('');
+            container.innerHTML = zatlarData.map(i => `<div class="timeline-item"><h3>${i.isim}</h3><p><b>Baba:</b> ${i.baba || '-'} | <b>Anne:</b> ${i.anne || '-'}</p><p><b>Bağlar:</b> ${i.es || '-'}</p></div>`).join('');
+        }
+
+        function switchTab(id) {
+            document.getElementById('homeView').style.display = 'none';
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            const target = document.getElementById(id);
+            if(target) target.classList.add('active');
+            window.scrollTo(0,0);
         }
 
         function filterArchive() {
             const val = document.getElementById('globalSearch').value.toLowerCase();
-            if(document.getElementById('archive').style.display !== 'block') switchTab('archive');
-            document.querySelectorAll('.archive-card').forEach(card => {
-                const name = card.getAttribute('data-name');
-                card.style.display = name.includes(val) ? 'block' : 'none';
-            });
+            if(!document.getElementById('archive').classList.contains('active')) switchTab('archive');
+            document.querySelectorAll('.archive-card').forEach(c => c.style.display = c.getAttribute('data-name').includes(val) ? 'block' : 'none');
         }
 
         function showLogin() { document.getElementById('loginModal').style.display = 'block'; }
         function hideLogin() { document.getElementById('loginModal').style.display = 'none'; }
-        
         function attemptLogin() {
             if(document.getElementById('passInput').value === "130504") {
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('adminBtn').style.display = 'none';
                 document.getElementById('logoutNavBtn').style.display = 'inline-block';
                 hideLogin();
-            } else { alert("Hatalı Şifre!"); }
+            } else { alert("Hatalı!"); }
         }
-
         function logoutAdmin() {
             document.getElementById('adminPanel').style.display = 'none';
             document.getElementById('adminBtn').style.display = 'inline-block';
@@ -249,28 +199,12 @@
 
         async function saveData(type) {
             const d = type === 'zatlar' ? {
-                isim: document.getElementById('z_isim').value,
-                anne: document.getElementById('z_anne').value,
-                baba: document.getElementById('z_baba').value,
-                es: document.getElementById('z_es').value,
-                hicri: document.getElementById('z_hicri').value,
-                vefat: document.getElementById('z_vefat').value,
-                bilgi: document.getElementById('z_bilgi').value
-            } : {
-                isim: document.getElementById('o_ad').value,
-                hicri: document.getElementById('o_hicri').value,
-                bilgi: document.getElementById('o_bilgi').value
-            };
+                isim: document.getElementById('z_isim').value, anne: document.getElementById('z_anne').value, baba: document.getElementById('z_baba').value,
+                es: document.getElementById('z_es').value, hicri: document.getElementById('z_hicri').value, vefat: document.getElementById('z_vefat').value, bilgi: document.getElementById('z_bilgi').value
+            } : { isim: document.getElementById('o_ad').value, hicri: document.getElementById('o_hicri').value, bilgi: document.getElementById('o_bilgi').value };
             await db.collection(type).add(d);
-            alert("Sisteme Başarıyla Kaydedildi!");
-            document.querySelectorAll('.admin-section input, .admin-section textarea').forEach(e => e.value = "");
-        }
-
-        function switchTab(id) {
-            document.getElementById('homeView').style.display = 'none';
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
+            alert("Kaydedildi!");
+            document.querySelectorAll('input, textarea').forEach(e => e.value = "");
         }
 
         initData();
