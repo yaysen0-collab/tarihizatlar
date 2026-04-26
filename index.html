@@ -3,72 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TARİHİ ZATLAR</title>
+    <title>TARİHİ ZATLAR - ARŞİV</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         :root { --primary: #38bdf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .card { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #334155; margin-bottom: 20px; }
+        .container { max-width: 900px; margin: 0 auto; width: 100%; }
+        .card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #334155; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        
+        /* Form Elemanları */
         input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
-        button { padding: 12px 20px; border: none; border-radius: 12px; background: var(--primary); color: #0f172a; font-weight: bold; cursor: pointer; }
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { background: #334155; color: #cbd5e1; padding: 10px 15px; border-radius: 10px; cursor: pointer; border: none; }
-        .tab-btn.active { background: var(--primary); color: #0f172a; }
+        button { padding: 12px 25px; border: none; border-radius: 12px; background: var(--primary); color: #0f172a; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        
+        /* Sekmeler */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { background: #334155; color: #cbd5e1; padding: 10px 20px; border-radius: 10px; cursor: pointer; border: none; white-space: nowrap; }
+        .tab-btn.active { background: var(--primary); color: #0f172a; font-weight: bold; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .kisi-kart { background: var(--card); border: 1px solid #334155; padding: 15px; border-radius: 15px; margin-bottom: 10px; position: relative; }
-        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); display:none; justify-content:center; align-items:center; z-index:9999; }
+
+        /* Kartlar ve Çizelge */
+        .kisi-kart { background: var(--card); border: 1px solid #334155; padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative; }
+        .age-badge { position: absolute; top: 15px; right: 15px; background: var(--primary); color: #0f172a; padding: 4px 10px; border-radius: 8px; font-weight: bold; font-size: 12px; }
+        .timeline-item { border-left: 3px solid var(--primary); padding-left: 20px; margin-bottom: 15px; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: -8px; top: 0; width: 13px; height: 13px; background: var(--primary); border-radius: 50%; }
+        
+        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.98); display:none; justify-content:center; align-items:center; z-index:9999; }
         #adminPanel { display: none; }
-        #openLogin { position: fixed; bottom: 10px; right: 10px; opacity: 0.5; background: none; color: white; border: none; font-size: 10px; cursor: pointer; }
+        #openLogin { position: fixed; bottom: 10px; right: 10px; opacity: 0.3; background: none; color: white; border: none; font-size: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="loginScreen">
-        <div class="card" style="width: 300px; text-align: center;">
+        <div class="card" style="width: 320px; text-align: center;">
             <h2 style="color:var(--primary)">Yönetici Girişi</h2>
-            <input type="text" id="username" placeholder="Kullanıcı Adı">
-            <input type="password" id="password" placeholder="Şifre">
-            <button onclick="checkLogin()">Giriş Yap</button>
-            <p onclick="closeLogin()" style="cursor:pointer; font-size:12px; margin-top:10px;">Vazgeç</p>
+            <input type="text" id="username" placeholder="Kullanıcı Adı (ayris)">
+            <input type="password" id="password" placeholder="Şifre (130504)">
+            <button onclick="checkLogin()" style="width:100%">Giriş Yap</button>
+            <p onclick="closeLogin()" style="cursor:pointer; font-size:12px; margin-top:15px; color:#94a3b8;">Vazgeç</p>
         </div>
     </div>
 
     <div class="container">
-        <h1 style="text-align:center; color: var(--primary);">TARİHİ ZATLAR</h1>
+        <h1 style="text-align:center; color: var(--primary); letter-spacing: 2px;">TARİHİ ZATLAR</h1>
 
         <div id="adminPanel" class="card">
-            <h3 style="color:var(--primary)">🛠️ Yeni Kayıt</h3>
-            <input id="isim" placeholder="İsim">
-            <input id="aile" placeholder="Aile">
-            <input id="dogum" placeholder="Doğum (Örn: 661)">
-            <input id="vefat" placeholder="Vefat (Örn: 680)">
-            <textarea id="bilgi" placeholder="Bilgi..." rows="3"></textarea>
-            <button onclick="saveToCloud()">💾 KAYDET</button>
-            <button onclick="location.reload()" style="background:#475569; color:white;">ÇIKIŞ</button>
+            <h3 style="margin-top:0; color:var(--primary)">🛠️ Kayıt Paneli (Hoş geldin Ayris)</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <input id="isim" placeholder="İsim">
+                <input id="aile" placeholder="Aile / Soy">
+                <input id="dogum" placeholder="Doğum Yılı (Örn: 661)">
+                <input id="vefat" placeholder="Vefat Yılı (Örn: 680)">
+            </div>
+            <textarea id="bilgi" placeholder="Detaylı Bilgi..." rows="3"></textarea>
+            <button onclick="saveToCloud()" style="width:100%">💾 BULUTA KAYDET</button>
+            <button onclick="location.reload()" style="background:#475569; width:100%; margin-top:10px; color:white;">GÜVENLİ ÇIKIŞ</button>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('list', this)">📚 Arşiv</button>
+            <button class="tab-btn" onclick="switchTab('time', this)">📆 Zaman Çizelgesi</button>
             <button class="tab-btn" onclick="switchTab('soy', this)">🌳 Soy Ağacı</button>
         </div>
 
-        <div id="list" class="tab-content active"><div id="listArea">Yükleniyor...</div></div>
+        <div id="list" class="tab-content active"><div id="listArea">Veriler yükleniyor...</div></div>
+        <div id="time" class="tab-content"><div id="timeArea"></div></div>
         <div id="soy" class="tab-content"><div id="soyArea"></div></div>
     </div>
 
     <button id="openLogin" onclick="showLogin()">Giriş</button>
 
     <script>
-        // FIREBASE BİLGİLERİNİ BURAYA DİKKATLİCE YAPIŞTIR
         const firebaseConfig = {
-            apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss" , 
-            authDomain: "tarihizatlar.firebaseapp.com" , 
+            apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss" ,
+            authDomain: "tarihizatlar.firebaseapp.com" ,
             projectId: "tarihizatlar" , 
-            storageBucket:  "tarihizatlar.firebasestorage.app" , 
-            messagingSenderId: "930648787998" , 
+            storageBucket: "tarihizatlar.firebasestorage.app" , 
+            messagingSenderId: "930648787998" ,
             appId: "1:930648787998:web:db163d0f3811786610b20f" ,
         };
 
@@ -86,23 +99,26 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('openLogin').style.display = 'none';
                 loadData();
-            } else { alert("Hatalı!"); }
+            } else { alert("Hatalı kullanıcı adı veya şifre!"); }
         }
 
         async function saveToCloud() {
             const isim = document.getElementById('isim').value;
             if(!isim) return;
             await db.collection("zatlar").add({
-                isim: isim, aile: document.getElementById('aile').value || "Bilinmiyor",
-                dogum: document.getElementById('dogum').value, vefat: document.getElementById('vefat').value,
+                isim: isim, 
+                aile: document.getElementById('aile').value || "Bilinmiyor",
+                dogum: document.getElementById('dogum').value, 
+                vefat: document.getElementById('vefat').value,
                 bilgi: document.getElementById('bilgi').value,
                 "zaman damgası": Date.now() 
             });
-            alert("Kaydedildi!");
+            document.querySelectorAll('input, textarea').forEach(i => i.value = '');
+            alert("Başarıyla kaydedildi!");
         }
 
         function loadData() {
-            // Hata veren "orderBy" kısmını sildim, böylece yükleniyor yazısı hemen gidecek
+            // Hata riskini sıfıra indirmek için düz çekip JS ile sıralıyoruz
             db.collection("zatlar").onSnapshot((snapshot) => {
                 const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 render(data);
@@ -111,30 +127,46 @@
 
         function render(data) {
             const listArea = document.getElementById('listArea');
+            const timeArea = document.getElementById('timeArea');
             const soyArea = document.getElementById('soyArea');
-            listArea.innerHTML = ''; soyArea.innerHTML = '';
+            
+            listArea.innerHTML = ''; timeArea.innerHTML = ''; soyArea.innerHTML = '';
 
-            data.forEach(item => {
+            // 1. ARŞİV (En yeni eklenen en üstte)
+            const sortedByInput = [...data].sort((a,b) => b["zaman damgası"] - a["zaman damgası"]);
+            sortedByInput.forEach(item => {
+                let yas = parseInt(item.vefat) - parseInt(item.dogum);
                 const card = document.createElement('div');
                 card.className = 'kisi-kart';
                 card.innerHTML = `
+                    ${!isNaN(yas) ? `<span class="age-badge">${yas} Yaş</span>` : ''}
                     <h2 style="margin:0; color:var(--primary)">${item.isim}</h2>
-                    <p style="font-size:14px; color:#94a3b8;">${item.dogum} - ${item.vefat} | ${item.aile}</p>
-                    <p>${item.bilgi}</p>
-                    ${isAdmin ? `<button style="background:#ef4444; color:white; border:none; padding:5px; border-radius:5px;" onclick="deleteItem('${item.id}')">Sil</button>` : ''}
+                    <p style="font-size:14px; color:#94a3b8; margin:5px 0;">${item.dogum} - ${item.vefat} | ${item.aile}</p>
+                    <p style="white-space:pre-wrap;">${item.bilgi}</p>
+                    ${isAdmin ? `<button style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;" onclick="deleteItem('${item.id}')">Kayıt Sil</button>` : ''}
                 `;
                 listArea.appendChild(card);
             });
 
-            // Soy Ağacı
+            // 2. ZAMAN ÇİZELGESİ (Yıla göre sıralı)
+            const sortedByYear = [...data].sort((a,b) => parseInt(a.dogum) - parseInt(b.dogum));
+            sortedByYear.forEach(item => {
+                const tItem = document.createElement('div');
+                tItem.className = 'timeline-item';
+                tItem.innerHTML = `<b>${item.dogum}</b>: ${item.isim} <br> <small style="color:#94a3b8">${item.aile}</small>`;
+                timeArea.appendChild(tItem);
+            });
+
+            // 3. SOY AĞACI (Aile gruplu)
             const aileler = {};
             data.forEach(i => { if(!aileler[i.aile]) aileler[i.aile] = []; aileler[i.aile].push(i.isim); });
             for(let a in aileler) {
-                soyArea.innerHTML += `<div class="kisi-kart"><b style="color:var(--primary)">${a}:</b> ${aileler[a].join(", ")}</div>`;
+                soyArea.innerHTML += `<div class="kisi-kart"><b style="color:var(--primary); font-size:1.2rem;">🌳 ${a}</b><br><p style="margin-top:10px;">${aileler[a].join(" • ")}</p></div>`;
             }
         }
 
-        function deleteItem(id) { if(confirm("Silinsin mi?")) db.collection("zatlar").doc(id).delete(); }
+        function deleteItem(id) { if(confirm("Bu kayıt silinsin mi?")) db.collection("zatlar").doc(id).delete(); }
+        
         function switchTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
