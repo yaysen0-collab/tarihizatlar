@@ -12,37 +12,45 @@
         body { font-family: var(--font); background: var(--bg); color: var(--text); margin: 0; padding: 20px; line-height: 1.6; }
         .container { max-width: 1000px; margin: 0 auto; width: 100%; }
         
-        /* Logo ve Başlık Alanı */
-        .header-section { text-align: center; margin-bottom: 40px; }
-        .logo { width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); border: 2px solid #fff; }
-        .logo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        /* Header Alanı */
+        .header-section { text-align: center; margin-bottom: 30px; padding-top: 20px; }
+        .logo { width: 100px; height: 100px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; }
+        .logo img { width: 100%; height: 100%; object-fit: contain; }
         
         /* Hadis Kutusu */
-        .hadis-box { background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); padding: 20px; border-radius: 12px; margin: 20px 0; text-align: center; position: relative; }
-        .hadis-box i { color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 10px; font-style: normal; }
-        .hadis-text { font-style: italic; color: #cbd5e1; font-size: 15px; max-width: 600px; margin: 0 auto; }
+        .hadis-box { background: rgba(56, 189, 248, 0.03); border: 1px solid rgba(56, 189, 248, 0.1); padding: 25px; border-radius: 20px; margin-bottom: 40px; text-align: center; }
+        .hadis-title { color: var(--primary); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        .hadis-text { font-style: italic; color: #cbd5e1; font-size: 1.1rem; max-width: 700px; margin: 0 auto; line-height: 1.5; }
+
+        /* Navigasyon Butonları */
+        .tabs { display: flex; gap: 15px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap; }
+        .tab-btn { background: var(--card); color: #94a3b8; padding: 15px 30px; border-radius: 12px; cursor: pointer; border: 1px solid #334155; font-weight: 600; transition: all 0.3s ease; font-size: 1rem; }
+        .tab-btn:hover { border-color: var(--primary); color: white; }
+        .tab-btn.active { background: var(--primary); color: #0f172a; border-color: var(--primary); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+
+        /* İçerik Alanları (Varsayılan olarak gizli) */
+        .tab-content { display: none; animation: fadeIn 0.5s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card { background: var(--card); border-radius: 16px; padding: 25px; border: 1px solid #334155; margin-bottom: 20px; }
         input, textarea, select { font-family: var(--font); width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
-        button { font-family: var(--font); padding: 12px 20px; border: none; border-radius: 8px; background: var(--primary); color: #0f172a; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        button { font-family: var(--font); padding: 12px 20px; border: none; border-radius: 8px; background: var(--primary); color: #0f172a; font-weight: 700; cursor: pointer; }
         
-        .tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
-        .tab-btn { background: transparent; color: #94a3b8; padding: 10px 20px; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; }
-        .tab-btn.active { background: rgba(56, 189, 248, 0.1); color: var(--primary); }
-
         .kisi-kart { background: var(--card); border: 1px solid #334155; padding: 20px; border-radius: 12px; margin-bottom: 15px; }
         .tree-node { margin-left: 20px; border-left: 1px solid #334155; padding-left: 15px; margin-top: 10px; }
         
-        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15,23,42,0.97); display:none; justify-content:center; align-items:center; z-index: 1000; }
-        #adminPanel { display: none; }
-        #openLogin { position: fixed; bottom: 15px; left: 15px; opacity: 0.2; background: none; color: white; border: none; cursor: pointer; }
+        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15,23,42,0.98); display:none; justify-content:center; align-items:center; z-index: 2000; }
+        #adminPanel { display: none; margin-bottom: 30px; border: 2px solid var(--primary); }
+        #openLogin { position: fixed; bottom: 15px; left: 15px; opacity: 0.1; background: none; color: white; border: none; cursor: pointer; font-size: 10px; }
     </style>
 </head>
 <body>
 
     <div id="loginScreen">
         <div class="card" style="width: 300px; text-align: center;">
-            <h2 style="color:var(--primary)">Yönetici Paneli</h2>
+            <h2 style="color:var(--primary)">Yönetici Girişi</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifre">
             <button onclick="checkLogin()" style="width:100%">Giriş Yap</button>
@@ -54,18 +62,18 @@
         
         <div class="header-section">
             <div class="logo">
-                <img src="https://i.imgur.com/LxW98ge.png">
+                <img src="https://i.imgur.com/LxW98ge.png" alt="Logo">
             </div>
-            <h1 style="margin:0; color:var(--primary); font-weight: 800; letter-spacing: -1px;">DİJİTAL ARŞİV VE ŞECERE</h1>
+            <h1 style="margin:0 0 20px 0; color:var(--primary); font-weight: 800; letter-spacing: -1px; font-size: 2.2rem;">DİJİTAL ŞECERE ARŞİVİ</h1>
             
             <div class="hadis-box">
-                <i>Peygamber Efendimiz (s.a.v.) buyurdu ki:</i>
+                <span class="hadis-title">Peygamber Efendimiz (s.a.v.) Buyurdu ki</span>
                 <p class="hadis-text">"Ashabım, yıldızlar gibidir. Hangisine tabi olursanız hidayete erersiniz."</p>
             </div>
         </div>
 
         <div id="adminPanel" class="card">
-            <h3 id="panelTitle" style="color:var(--primary); margin-top:0;">🛠️ Veri Yönetimi (Ayris)</h3>
+            <h3 id="panelTitle" style="color:var(--primary); margin-top:0;">🛠️ Veri Düzenleme Merkezi</h3>
             <input id="docId" type="hidden">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
                 <input id="isim" placeholder="Ad Soyad">
@@ -81,26 +89,31 @@
                     <option value="Kadın">Kadın</option>
                 </select>
             </div>
-            <textarea id="bilgi" placeholder="Biyografi..." rows="3"></textarea>
-            <button onclick="saveToCloud()">💾 KAYDI TAMAMLA</button>
+            <textarea id="bilgi" placeholder="Detaylı Bilgiler..." rows="4"></textarea>
+            <button onclick="saveToCloud()">💾 BULUTA KAYDET</button>
             <button onclick="cancelEdit()" style="background:#475569; color:white;">İPTAL</button>
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('list', this)">📚 Arşiv</button>
-            <button class="tab-btn" onclick="switchTab('time', this)">📆 Çizelge</button>
-            <button class="tab-btn" onclick="switchTab('soy', this)">🌳 Şecere</button>
+            <button class="tab-btn" onclick="switchTab('list', this)">📚 ARŞİVİ GÖRÜNTÜLE</button>
+            <button class="tab-btn" onclick="switchTab('time', this)">📆 ZAMAN ÇİZELGESİ</button>
+            <button class="tab-btn" onclick="switchTab('soy', this)">🌳 SOY AĞACINI AÇ</button>
         </div>
 
-        <div id="list" class="tab-content active">Yükleniyor...</div>
+        <div id="list" class="tab-content">
+            <div style="text-align: center; color: #64748b; padding: 20px;">Arşiv yükleniyor...</div>
+        </div>
+        
         <div id="time" class="tab-content"></div>
+        
         <div id="soy" class="tab-content"></div>
+
     </div>
 
-    <button id="openLogin" onclick="showLogin()">Ayarlar</button>
+    <button id="openLogin" onclick="showLogin()">Yönetici</button>
 
     <script>
-        // Firebase Config Buraya
+        // Kendi Firebase bilgilerini buraya eklemeyi unutma
         const firebaseConfig = {
             apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss",
             authDomain: "tarihizatlar.firebaseapp.com",
@@ -123,9 +136,8 @@
                 isAdmin = true;
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('openLogin').style.display = 'none';
                 loadData();
-            } else { alert("Giriş başarısız."); }
+            } else { alert("Giriş yapılamadı."); }
         }
 
         async function saveToCloud() {
@@ -148,13 +160,14 @@
                 if(docId) { await db.collection("zatlar").doc(docId).update(data); }
                 else { await db.collection("zatlar").add(data); }
                 cancelEdit();
-                alert("Veri buluta işlendi.");
+                alert("Güncellendi.");
             } catch (e) { alert("Hata: " + e.message); }
         }
 
         function triggerEdit(id) {
             const item = allData.find(d => d.id === id);
             if(!item) return;
+            document.getElementById('adminPanel').style.display = 'block';
             document.getElementById('panelTitle').innerText = "📝 Kaydı Güncelle";
             document.getElementById('docId').value = id;
             document.getElementById('isim').value = item.isim || '';
@@ -171,7 +184,6 @@
         }
 
         function cancelEdit() {
-            document.getElementById('panelTitle').innerText = "🛠️ Veri Yönetimi";
             document.getElementById('docId').value = '';
             document.querySelectorAll('#adminPanel input, #adminPanel textarea').forEach(i => i.value = '');
         }
@@ -189,29 +201,32 @@
             const soyArea = document.getElementById('soy');
             listArea.innerHTML = ''; timeArea.innerHTML = ''; soyArea.innerHTML = '';
 
+            // Arşiv
             allData.sort((a,b) => b["zaman damgası"] - a["zaman damgası"]).forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'kisi-kart';
                 card.innerHTML = `
-                    <h2>${item.isim}</h2>
-                    <p style="color:#94a3b8; font-size:13px; margin-top:-5px;">${item.dogum} - ${item.vefat} | ${item.aile}</p>
+                    <h2 style="margin:0; color:var(--primary)">${item.isim}</h2>
+                    <p style="color:#94a3b8; font-size:13px;">${item.dogum} - ${item.vefat} | ${item.aile}</p>
                     <p>${item.bilgi}</p>
-                    ${isAdmin ? `<button onclick="triggerEdit('${item.id}')" style="background:#475569; font-size:12px; padding:6px 12px;">Düzenle</button>
-                                 <button onclick="deleteItem('${item.id}')" style="background:#7f1d1d; color:white; font-size:12px; padding:6px 12px; margin-left:5px;">Sil</button>` : ''}
+                    ${isAdmin ? `<button onclick="triggerEdit('${item.id}')" style="background:#475569; font-size:11px;">Düzenle</button>
+                                 <button onclick="deleteItem('${item.id}')" style="background:#7f1d1d; color:white; font-size:11px; margin-left:5px;">Sil</button>` : ''}
                 `;
                 listArea.appendChild(card);
             });
 
+            // Çizelge
             [...allData].sort((a,b) => parseInt(a.dogum) - parseInt(b.dogum)).forEach(item => {
-                timeArea.innerHTML += `<div style="padding:15px; border-left:3px solid var(--primary); margin:10px 0; background: rgba(56,189,248,0.03); border-radius: 0 10px 10px 0;">
-                    <b style="color:var(--primary)">H/M ${item.dogum}:</b> ${item.isim} <span style="color:#64748b; font-size:12px;">(${item.aile})</span>
+                timeArea.innerHTML += `<div style="padding:15px; border-left:3px solid var(--primary); margin:10px 0; background: rgba(56,189,248,0.03);">
+                    <b>H/M ${item.dogum}:</b> ${item.isim}
                 </div>`;
             });
 
+            // Soy Ağacı
             const gruplar = {};
             allData.forEach(i => { if(!gruplar[i.aile]) gruplar[i.aile] = []; gruplar[i.aile].push(i); });
             for(let aile in gruplar) {
-                let html = `<div class="card"><h2 style="color:var(--primary); margin:0 0 15px 0;">🌳 ${aile}</h2>`;
+                let html = `<div class="card"><h2 style="color:var(--primary); margin-top:0;">🌳 ${aile}</h2>`;
                 const kokler = gruplar[aile].filter(k => !k.baba && !k.anne);
                 kokler.forEach(ata => { html += buildTree(ata, gruplar[aile]); });
                 soyArea.innerHTML += html + `</div>`;
@@ -220,21 +235,23 @@
 
         function buildTree(kisi, havuz) {
             let html = `<div class="tree-node">
-                <span style="font-weight:700;">${kisi.isim}</span> 
-                ${kisi.es ? `<span style="color:#94a3b8; font-size:12px;"> (💍 Eşi: ${kisi.es})</span>` : ''}
-                ${kisi.kardes ? `<div style="color:#64748b; font-size:11px; margin-left:10px;">👥 Kardeşleri: ${kisi.kardes}</div>` : ''}`;
+                <b>${kisi.isim}</b> ${kisi.es ? `<span style="color:#94a3b8; font-size:12px;"> (💍 ${kisi.es})</span>` : ''}
+                ${kisi.kardes ? `<div style="color:#64748b; font-size:11px;">👥 Kardeşler: ${kisi.kardes}</div>` : ''}`;
             const cocuklar = havuz.filter(k => k.baba === kisi.isim || k.anne === kisi.isim).sort((a,b) => a.cinsiyet === 'Erkek' ? -1 : 1);
             cocuklar.forEach(c => { html += buildTree(c, havuz); });
             return html + `</div>`;
         }
 
-        function deleteItem(id) { if(confirm("Kayıt kalıcı olarak silinsin mi?")) db.collection("zatlar").doc(id).delete(); }
+        function deleteItem(id) { if(confirm("Kaydı sil?")) db.collection("zatlar").doc(id).delete(); }
+        
         function switchTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
         }
+
+        // Sayfa açıldığında veriyi hazırla ama içeriği gizli tut
         loadData();
     </script>
 </body>
