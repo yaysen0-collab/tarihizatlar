@@ -117,9 +117,12 @@
         }
 
         function loadData() {
-            db.collection("zatlar").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
-                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                render(data);
+    // orderBy kısmındaki ismi Firebase'deki gibi "zaman damgası" yapalım
+    db.collection("zatlar").onSnapshot((snapshot) => {
+        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        render(data);
+    });
+}
             });
         }
 
