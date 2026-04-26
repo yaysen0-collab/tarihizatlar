@@ -13,17 +13,20 @@
         .nav-btn:hover { background: #4e342e; }
         
         .container { max-width: 900px; margin: 20px auto; padding: 20px; }
-        .page { display: none; } /* Tüm sayfalar başlangıçta gizli */
-        .active { display: block !important; } /* Sadece aktif olan görünür */
+        .page { display: none; }
+        .active { display: block !important; }
 
-        /* Kartlar */
         .card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 30px; }
         .card { background: white; padding: 40px 10px; text-align: center; border-radius: 10px; cursor: pointer; border-bottom: 5px solid #5d4037; font-weight: bold; }
         
-        /* Listeler */
         .data-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; border: 1px solid #ccc; }
-        .btn-action { background: #5d4037; color: white; border: none; padding: 10px; width: 100%; cursor: pointer; font-weight: bold; }
+        .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        
+        input, textarea { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .row { display: flex; gap: 10px; }
+        .btn-action { background: #5d4037; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; border-radius: 5px; }
+        
+        h3 { border-bottom: 2px solid #5d4037; padding-bottom: 5px; color: #5d4037; }
     </style>
 </head>
 <body>
@@ -52,7 +55,7 @@
 
     <div id="arsiv" class="page">
         <h2>📚 Arşiv Kayıtları</h2>
-        <input type="text" id="aramaInput" placeholder="İsim yazıp ara..." onkeyup="aramaYap()">
+        <input type="text" id="aramaInput" placeholder="İsim veya Olay ara..." onkeyup="aramaYap()">
         <div id="arsivListesi"></div>
     </div>
 
@@ -68,21 +71,43 @@
 
     <div id="admin-panel" class="page">
         <h2>⚙️ Yönetici Paneli</h2>
-        <div style="background: #e7e5e4; padding: 20px; border-radius: 10px;">
-            <h3>Yeni Zat Ekle</h3>
-            <input id="in_ad" placeholder="İsim">
-            <input id="in_anne" placeholder="Anne">
-            <input id="in_baba" placeholder="Baba">
-            <input id="in_es" placeholder="Eşler/Bağlar">
-            <input id="in_yil" placeholder="Hicri Yıl">
-            <textarea id="in_bilgi" placeholder="Bilgi"></textarea>
-            <button class="btn-action" onclick="veriyiKaydet()">KAYDET</button>
+        
+        <div class="admin-section">
+            <h3>👤 Yeni Zat Ekle</h3>
+            <input id="in_ad" placeholder="Zat İsmi">
+            <div class="row">
+                <input id="in_anne" placeholder="Anne Adı">
+                <input id="in_baba" placeholder="Baba Adı">
+            </div>
+            <input id="in_es" placeholder="Eşler / Çocuklar / Bağlar">
+            
+            <p><strong>Doğum Tarihi:</strong></p>
+            <div class="row">
+                <input id="in_d_hicri" placeholder="Hicri">
+                <input id="in_d_miladi" placeholder="Miladi">
+            </div>
+            
+            <p><strong>Vefat Tarihi:</strong></p>
+            <div class="row">
+                <input id="in_v_hicri" placeholder="Hicri">
+                <input id="in_v_miladi" placeholder="Miladi">
+            </div>
+            
+            <textarea id="in_bilgi" placeholder="Biyografi / Bilgi" rows="3"></textarea>
+            <button class="btn-action" onclick="zatKaydet()">ZAT KAYDET</button>
+        </div>
+
+        <div class="admin-section">
+            <h3>📜 Yeni Olay Ekle</h3>
+            <input id="ol_ad" placeholder="Olayın Adı">
+            <input id="ol_tarih" placeholder="Olayın Tarihi (Örn: H. 2 / M. 624)">
+            <textarea id="ol_bilgi" placeholder="Olay Hakkında Bilgi" rows="3"></textarea>
+            <button class="btn-action" onclick="olayKaydet()" style="background:#8d6e63;">OLAYI KAYDET</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Firebase Bağlantısı
     const firebaseConfig = {
         apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss",
         authDomain: "tarihizatlar.firebaseapp.com",
@@ -94,82 +119,98 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    let veriDeposu = [];
+    let zatlar = [];
+    let olaylar = [];
 
-    // Verileri Firebase'den Canlı Çek
-    db.collection("zatlar").onSnapshot(s => {
-        veriDeposu = s.docs.map(d => d.data());
-        ekranaBas();
-    });
+    // Verileri Dinle
+    db.collection("zatlar").onSnapshot(s => { zatlar = s.docs.map(d => d.data()); ekranaBas(); });
+    db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => d.data()); ekranaBas(); });
 
-    // Sayfa Değiştirme Fonksiyonu
-    function sayfaDegistir(sayfaId) {
-        // Tüm sayfaları gizle
+    function sayfaDegistir(id) {
         const sayfalar = document.getElementsByClassName('page');
-        for (let s of sayfalar) {
-            s.classList.remove('active');
-        }
-        // Seçilen sayfayı göster
-        document.getElementById(sayfaId).classList.add('active');
+        for (let s of sayfalar) s.classList.remove('active');
+        document.getElementById(id).classList.add('active');
     }
 
-    // Verileri Ekrana Yazdır
     function ekranaBas() {
         const arsivDiv = document.getElementById('arsivListesi');
         const cizelgeDiv = document.getElementById('cizelgeListesi');
         const soyDiv = document.getElementById('soya_agaciListesi');
 
-        // Arşiv
-        arsivDiv.innerHTML = veriDeposu.map(z => `
-            <div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
-                <strong>${z.isim}</strong> <br>
-                <small>Yıl: ${z.hicri || '?'}</small>
+        // Arşiv (Zatlar ve Olaylar Beraber)
+        let arsivHTML = "";
+        zatlar.forEach(z => {
+            arsivHTML += `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
+                <strong>${z.isim} (Zat)</strong><br>
+                <small>Doğum: H.${z.d_hicri || '?'} / Vefat: H.${z.v_hicri || '?'}</small>
                 <p>${z.bilgi || ''}</p>
-            </div>
-        `).join('');
+            </div>`;
+        });
+        olaylar.forEach(o => {
+            arsivHTML += `<div class="data-box search-item" data-name="${o.ad.toLowerCase()}" style="border-left: 5px solid #8d6e63;">
+                <strong>${o.ad} (Olay)</strong><br>
+                <small>Tarih: ${o.tarih || '?'}</small>
+                <p>${o.bilgi || ''}</p>
+            </div>`;
+        });
+        arsivDiv.innerHTML = arsivHTML;
 
-        // Çizelge (Yıla göre sıralı)
-        const sirali = [...veriDeposu].sort((a,b) => (parseInt(a.hicri) || 0) - (parseInt(b.hicri) || 0));
-        cizelgeDiv.innerHTML = sirali.map(z => `<div class="data-box"><b>H ${z.hicri}:</b> ${z.isim}</div>`).join('');
+        // Çizelge
+        const tumu = [...zatlar.map(z=>({y:parseInt(z.d_hicri)||0, ad:z.isim})), ...olaylar.map(o=>({y:parseInt(o.tarih.replace(/\D/g,''))||0, ad:o.ad}))];
+        tumu.sort((a,b)=>a.y - b.y);
+        cizelgeDiv.innerHTML = tumu.map(t => `<div class="data-box"><b>H. ${t.y || '?'}:</b> ${t.ad}</div>`).join('');
 
-        // Soyağacı
-        soyDiv.innerHTML = veriDeposu.map(z => `
+        // Soyağacı (Bilinmeyene ? koyma)
+        soyDiv.innerHTML = zatlar.map(z => `
             <div class="data-box">
-                <strong>${z.isim}</strong> <br>
-                Baba: ${z.baba} | Anne: ${z.anne} <br>
-                Bağlar: ${z.es}
+                <strong>${z.isim || '?'}</strong> <br>
+                Baba: ${z.baba || '?'} | Anne: ${z.anne || '?'} <br>
+                Bağlar: ${z.es || '?'} <br>
+                <small>Ömür: H.${z.d_hicri || '?'} - H.${z.v_hicri || '?'}</small>
             </div>
         `).join('');
     }
 
-    // Arama Yapma
     function aramaYap() {
         const metin = document.getElementById('aramaInput').value.toLowerCase();
         const kartlar = document.getElementsByClassName('search-item');
-        for (let k of kartlar) {
-            k.style.display = k.getAttribute('data-name').includes(metin) ? 'block' : 'none';
-        }
+        for (let k of kartlar) k.style.display = k.getAttribute('data-name').includes(metin) ? 'block' : 'none';
     }
 
-    // Yönetici Girişi
     function yoneticiGiris() {
-        const sifre = prompt("Şifre?");
-        if(sifre === "130504") sayfaDegistir('admin-panel');
+        if(prompt("Şifre?") === "130504") sayfaDegistir('admin-panel');
         else alert("Yanlış!");
     }
 
-    // Firebase'e Kaydet
-    async function veriyiKaydet() {
-        const yeniZat = {
+    async function zatKaydet() {
+        const veri = {
             isim: document.getElementById('in_ad').value,
             anne: document.getElementById('in_anne').value,
             baba: document.getElementById('in_baba').value,
             es: document.getElementById('in_es').value,
-            hicri: document.getElementById('in_yil').value,
+            d_hicri: document.getElementById('in_d_hicri').value,
+            d_miladi: document.getElementById('in_d_miladi').value,
+            v_hicri: document.getElementById('in_v_hicri').value,
+            v_miladi: document.getElementById('in_v_miladi').value,
             bilgi: document.getElementById('in_bilgi').value
         };
-        await db.collection("zatlar").add(yeniZat);
-        alert("Kaydedildi!");
+        await db.collection("zatlar").add(veri);
+        alert("Zat Kaydedildi!");
+        temizle();
+    }
+
+    async function olayKaydet() {
+        const veri = {
+            ad: document.getElementById('ol_ad').value,
+            tarih: document.getElementById('ol_tarih').value,
+            bilgi: document.getElementById('ol_bilgi').value
+        };
+        await db.collection("olaylar").add(veri);
+        alert("Olay Kaydedildi!");
+        temizle();
+    }
+
+    function temizle() {
         document.querySelectorAll('input, textarea').forEach(i => i.value = "");
     }
 </script>
