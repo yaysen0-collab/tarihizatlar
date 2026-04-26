@@ -12,45 +12,59 @@
         body { font-family: var(--primary-font); background: var(--bg); color: var(--text); margin: 0; padding: 0; scroll-behavior: smooth; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-        header { background: white; border-bottom: 1px solid #e7e5e4; padding: 12px 0; position: sticky; top: 0; z-index: 1000; }
+        header { background: white; border-bottom: 1px solid #e7e5e4; padding: 12px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         nav { display: flex; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; padding: 0 20px; }
         .brand { display: flex; align-items: center; gap: 18px; cursor: pointer; }
-        .brand img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; }
-        .brand span { font-size: 1.8rem; font-weight: 800; color: var(--nostalgia-brown); text-transform: uppercase; }
+        .brand img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 1px solid #e7e5e4; }
+        .brand span { font-size: 1.8rem; font-weight: 800; color: var(--nostalgia-brown); letter-spacing: -1px; text-transform: uppercase; }
         
-        .nav-links button { background: none; border: none; font-weight: 600; color: #57534e; cursor: pointer; font-size: 13px; text-transform: uppercase; margin-left: 15px; }
+        .nav-links button { background: none; border: none; font-weight: 600; color: #57534e; cursor: pointer; font-size: 13px; text-transform: uppercase; margin-left: 15px; transition: 0.2s; }
         .nav-links button:hover { color: var(--nostalgia-brown); }
 
-        .tab-content { display: none; padding: 40px 0; }
-        .tab-content.active { display: block; }
+        /* Hero Alanı */
+        .hero { text-align: center; padding: 100px 20px; background: #fff; border-bottom: 1px solid #e7e5e4; }
+        .hadis-text { font-size: 28px; font-family: 'Playfair Display', serif; font-style: italic; color: #44403c; line-height: 1.6; max-width: 850px; margin: 0 auto; }
 
-        /* Admin Paneli Gelişmiş */
+        /* Ana Sayfa Kartları */
+        .grid-portal { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 35px; margin-top: -60px; padding-bottom: 60px; }
+        .portal-card { position: relative; height: 420px; border-radius: 24px; overflow: hidden; cursor: pointer; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); transition: 0.3s; }
+        .portal-card:hover { transform: translateY(-8px); }
+        .portal-card img { width: 100%; height: 100%; object-fit: cover; }
+        .card-overlay { position: absolute; bottom: 0; width: 100%; padding: 35px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); color: white; box-sizing: border-box; }
+        .card-overlay h3 { margin: 0; font-size: 1.6rem; }
+        .card-overlay p { margin: 10px 0 0; opacity: 0.8; }
+
+        /* Tab Kontrolleri */
+        .tab-content { display: none; padding: 40px 0; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Admin Paneli */
         .admin-section { display: none; background: white; padding: 35px; border-radius: 20px; border: 2px solid var(--nostalgia-brown); margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         .form-box { background: #fdfcfb; padding: 20px; border-radius: 12px; border: 1px solid #e7e5e4; }
-        input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #d6d3d1; font-family: inherit; box-sizing: border-box; }
-        .save-btn { background: var(--nostalgia-brown); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%; }
-        .logout-btn { background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 700; margin-top: 20px; }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #d6d3d1; font-family: inherit; box-sizing: border-box; }
+        .save-btn { background: var(--nostalgia-brown); color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%; transition: 0.3s; }
+        .logout-btn { background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 700; }
 
-        /* Arşiv & Zaman Çizelgesi */
-        .timeline-item { background: white; padding: 20px; border-radius: 12px; border-left: 5px solid var(--nostalgia-brown); margin-bottom: 15px; border: 1px solid #e7e5e4; }
-        .timeline-row { display: flex; gap: 20px; padding: 12px; border-bottom: 1px solid #eee; align-items: center; }
-        .year-label { font-weight: 800; color: var(--nostalgia-brown); min-width: 90px; }
-
-        /* Mesaj Kutusu */
-        .message-box { max-height: 400px; overflow-y: auto; background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0; }
-        .msg-card { background: white; padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--accent); font-size: 0.9rem; }
+        /* Liste ve Zaman Çizelgesi */
+        .timeline-item { background: white; padding: 25px; border-radius: 16px; border-left: 5px solid var(--nostalgia-brown); margin-bottom: 15px; border: 1px solid #e7e5e4; }
+        .timeline-row { display: flex; gap: 20px; padding: 15px; border-bottom: 1px solid #e7e5e4; align-items: center; }
+        .year-label { font-weight: 800; color: var(--nostalgia-brown); min-width: 90px; font-size: 1.1rem; }
 
         .archive-tabs { display: flex; gap: 15px; margin-bottom: 25px; border-bottom: 2px solid #eee; }
-        .archive-tabs button { padding: 10px; background: none; border: none; cursor: pointer; font-weight: 700; color: #94a3b8; }
+        .archive-tabs button { padding: 12px 20px; background: none; border: none; cursor: pointer; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
         .archive-tabs button.active { color: var(--nostalgia-brown); border-bottom: 3px solid var(--nostalgia-brown); }
+
+        .message-box { max-height: 400px; overflow-y: auto; background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0; }
+        footer { background: #1c1917; color: #a8a29e; padding: 50px; text-align: center; margin-top: 120px; }
     </style>
 </head>
 <body>
 
     <header>
         <nav>
-            <div class="brand" onclick="location.reload()">
+            <div class="brand" onclick="window.location.reload()">
                 <img src="https://i.imgur.com/mCaF9Dd.png" alt="ASP Logo">
                 <span>Asrı Saadet Portalı</span>
             </div>
@@ -60,23 +74,50 @@
                     <button onclick="switchTab('time')">Zaman Çizelgesi</button>
                     <button onclick="switchTab('soy')">Soyağacı</button>
                     <button onclick="loginAdmin()" id="adminBtn" style="color:var(--accent); font-weight:800;">Yönetici</button>
-                    <button onclick="logoutAdmin()" id="logoutNavBtn" style="display:none; color:#ef4444;">Çıkış</button>
+                    <button onclick="logoutAdmin()" id="logoutNavBtn" style="display:none; color:#ef4444; font-weight:800;">Çıkış</button>
                 </div>
             </div>
         </nav>
     </header>
 
     <div id="homeView">
-        <section style="text-align:center; padding:80px 20px; background:white;">
-            <p class="hadis-text" style="font-size:26px; font-family:'Playfair Display'; font-style:italic;">"Ashabım, yıldızlar gibidir..."</p>
+        <section class="hero">
+            <p class="hadis-text">"Ashabım, yıldızlar gibidir. Hangisine tabi olursanız hidayete erersiniz."</p>
+            <p style="color: var(--nostalgia-brown); margin-top: 25px; font-weight: 700;">— Peygamber Efendimiz (s.a.v.)</p>
         </section>
+
+        <div class="container">
+            <div class="grid-portal">
+                <div class="portal-card" onclick="switchTab('archive')">
+                    <img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg">
+                    <div class="card-overlay">
+                        <h3>Arşiv</h3>
+                        <p>Zatlar ve Olaylar veritabanını inceleyin.</p>
+                    </div>
+                </div>
+                <div class="portal-card" onclick="switchTab('time')">
+                    <img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg">
+                    <div class="card-overlay">
+                        <h3>Zaman Çizelgesi</h3>
+                        <p>Hicri akışa göre kronolojik tarih.</p>
+                    </div>
+                </div>
+                <div class="portal-card" onclick="switchTab('soy')">
+                    <img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg">
+                    <div class="card-overlay">
+                        <h3>Soyağacı</h3>
+                        <p>Kutlu nesillerin aile ve nesil bağları.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="container">
         <div id="adminPanel" class="admin-section">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2 style="color:var(--nostalgia-brown)">Yönetim Merkezi</h2>
-                <button class="logout-btn" onclick="logoutAdmin()">Panelden Çıkış Yap</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="color:var(--nostalgia-brown); margin:0;">Yönetim Merkezi</h2>
+                <button class="logout-btn" onclick="logoutAdmin()">Panelden Çıkış</button>
             </div>
             
             <div class="form-grid">
@@ -85,13 +126,13 @@
                     <input id="z_isim" placeholder="İsim">
                     <input id="z_anne" placeholder="Anne Adı">
                     <input id="z_baba" placeholder="Baba Adı">
-                    <input id="z_es" placeholder="Eşi / Eşleri">
+                    <input id="z_es" placeholder="Eşi / Eşleri / Çocukları">
                     <div style="display:flex; gap:10px;">
                         <input id="z_hicri" placeholder="Doğum (H)">
                         <input id="z_vefat" placeholder="Vefat (H)">
                     </div>
                     <textarea id="z_bilgi" placeholder="Biyografi..." rows="3"></textarea>
-                    <button class="save-btn" onclick="saveData('zatlar')">KAYDET</button>
+                    <button class="save-btn" onclick="saveData('zatlar')">SİSTEME KAYDET</button>
                 </div>
 
                 <div class="form-box">
@@ -99,7 +140,7 @@
                     <input id="o_ad" placeholder="Olay Adı">
                     <input id="o_hicri" placeholder="Yıl (Hicri)">
                     <textarea id="o_bilgi" placeholder="Olay Detayı..." rows="3"></textarea>
-                    <button class="save-btn" onclick="saveData('olaylar')">KAYDET</button>
+                    <button class="save-btn" onclick="saveData('olaylar')">OLAYI KAYDET</button>
                 </div>
             </div>
 
@@ -127,6 +168,8 @@
             <div id="soyContent"></div>
         </div>
     </div>
+
+    <footer><p>© 2026 Asrı Saadet Portalı • Tüm Hakları Saklıdır</p></footer>
 
     <script>
         const firebaseConfig = {
@@ -158,13 +201,17 @@
                     <div class="timeline-item">
                         <h3 style="margin:0; color:var(--nostalgia-brown)">${i.isim}</h3>
                         <p style="font-size:0.85rem; color:#64748b"><b>H ${i.hicri || '?' } - ${i.vefat || '?'}</b></p>
-                        <p style="font-size:0.9rem; color:#444">Anne: ${i.anne || '-'} | Baba: ${i.baba || '-'} | Eş: ${i.es || '-'}</p>
-                        <p style="margin-top:10px;">${i.bilgi}</p>
+                        <p style="font-size:0.9rem;">Anne: ${i.anne || '-'} | Baba: ${i.baba || '-'} | Eş: ${i.es || '-'}</p>
+                        <p style="margin-top:10px; color:#444;">${i.bilgi || ''}</p>
                     </div>
                 `).join('');
             } else {
                 container.innerHTML = olaylarData.map(i => `
-                    <div class="timeline-item"><h3>${i.isim}</h3><p>Hicri Yıl: ${i.hicri}</p><p>${i.bilgi}</p></div>
+                    <div class="timeline-item">
+                        <h3 style="margin:0; color:var(--nostalgia-brown)">${i.isim}</h3>
+                        <p style="font-size:0.85rem; color:#64748b"><b>Hicri Yıl: ${i.hicri || '?'}</b></p>
+                        <p style="margin-top:10px; color:#444;">${i.bilgi || ''}</p>
+                    </div>
                 `).join('');
             }
         }
@@ -179,7 +226,7 @@
             container.innerHTML = combined.map(i => `
                 <div class="timeline-row">
                     <div class="year-label">H ${i.yil}</div>
-                    <div><b>${i.ad}</b> <small style="color:#94a3b8">(${i.tip})</small></div>
+                    <div><b>${i.ad}</b> <small style="color:#94a3b8; margin-left:10px;">(${i.tip})</small></div>
                 </div>
             `).join('');
         }
@@ -188,11 +235,11 @@
             const container = document.getElementById('soyContent');
             container.innerHTML = zatlarData.map(i => `
                 <div class="timeline-item">
-                    <h3 style="color:var(--nostalgia-brown); margin-bottom:5px;">${i.isim}</h3>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.9rem;">
+                    <h3 style="color:var(--nostalgia-brown); margin-bottom:10px;">${i.isim}</h3>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; font-size:0.9rem;">
                         <div><b>Baba:</b> ${i.baba || 'Bilinmiyor'}</div>
                         <div><b>Anne:</b> ${i.anne || 'Bilinmiyor'}</div>
-                        <div style="grid-column: span 2;"><b>Eş / Çocuklar:</b> ${i.es || 'Bilinmiyor'}</div>
+                        <div style="grid-column: span 2;"><b>Eş / Soy / Çocuklar:</b> ${i.es || 'Bilinmiyor'}</div>
                     </div>
                 </div>
             `).join('');
@@ -200,15 +247,7 @@
 
         async function saveData(type) {
             if(type === 'zatlar') {
-                const d = {
-                    isim: document.getElementById('z_isim').value,
-                    anne: document.getElementById('z_anne').value,
-                    baba: document.getElementById('z_baba').value,
-                    es: document.getElementById('z_es').value,
-                    hicri: document.getElementById('z_hicri').value,
-                    vefat: document.getElementById('z_vefat').value,
-                    bilgi: document.getElementById('z_bilgi').value
-                };
+                const d = { isim: document.getElementById('z_isim').value, anne: document.getElementById('z_anne').value, baba: document.getElementById('z_baba').value, es: document.getElementById('z_es').value, hicri: document.getElementById('z_hicri').value, vefat: document.getElementById('z_vefat').value, bilgi: document.getElementById('z_bilgi').value };
                 await db.collection("zatlar").add(d);
             } else {
                 const d = { isim: document.getElementById('o_ad').value, hicri: document.getElementById('o_hicri').value, bilgi: document.getElementById('o_bilgi').value };
@@ -235,7 +274,7 @@
 
         async function loadMessages() {
             const snap = await db.collection("mesajlar").get();
-            document.getElementById('inbox').innerHTML = snap.docs.map(d => `<div class="msg-card"><b>${d.data().name}:</b> ${d.data().text}</div>`).join('') || "Mesaj yok.";
+            document.getElementById('inbox').innerHTML = snap.docs.map(d => `<div style="background:white; padding:10px; border-radius:8px; margin-bottom:10px; border-left:4px solid var(--accent);"><b>${d.data().name}:</b> ${d.data().text}</div>`).join('') || "Mesaj yok.";
         }
 
         function toggleArchive(type) {
@@ -249,6 +288,7 @@
             document.getElementById('homeView').style.display = 'none';
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
         }
 
         initData();
