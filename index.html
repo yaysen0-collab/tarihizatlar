@@ -3,78 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TARİHİ ZATLAR - ŞECERE VE ARŞİV</title>
+    <title>ASR-I SAADET ARŞİVİ</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        :root { --primary: #38bdf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        :root { --primary: #38bdf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --font: 'Inter', system-ui, -apple-system, sans-serif; }
+        
+        body { font-family: var(--font); background: var(--bg); color: var(--text); margin: 0; padding: 20px; line-height: 1.6; }
         .container { max-width: 1000px; margin: 0 auto; width: 100%; }
-        .card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #334155; margin-bottom: 20px; }
-        input, textarea, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
-        button { padding: 12px 25px; border: none; border-radius: 12px; background: var(--primary); color: #0f172a; font-weight: bold; cursor: pointer; margin-right: 5px; }
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; }
-        .tab-btn { background: #334155; color: #cbd5e1; padding: 10px 20px; border-radius: 10px; cursor: pointer; border: none; }
-        .tab-btn.active { background: var(--primary); color: #0f172a; font-weight: bold; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .kisi-kart { background: var(--card); border: 1px solid #334155; padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative; }
-        .timeline-item { border-left: 3px solid var(--primary); padding-left: 20px; margin-bottom: 15px; position: relative; }
-        .timeline-item::before { content: ''; position: absolute; left: -8px; top: 8px; width: 13px; height: 13px; background: var(--primary); border-radius: 50%; }
-        .badge { font-size: 11px; padding: 3px 8px; border-radius: 5px; background: #334155; color: var(--primary); margin-right: 5px; }
-        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); display:none; justify-content:center; align-items:center; z-index:9999; }
+        
+        /* Logo ve Başlık Alanı */
+        .header-section { text-align: center; margin-bottom: 40px; }
+        .logo { width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); border: 2px solid #fff; }
+        .logo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        
+        /* Hadis Kutusu */
+        .hadis-box { background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); padding: 20px; border-radius: 12px; margin: 20px 0; text-align: center; position: relative; }
+        .hadis-box i { color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 10px; font-style: normal; }
+        .hadis-text { font-style: italic; color: #cbd5e1; font-size: 15px; max-width: 600px; margin: 0 auto; }
+
+        .card { background: var(--card); border-radius: 16px; padding: 25px; border: 1px solid #334155; margin-bottom: 20px; }
+        input, textarea, select { font-family: var(--font); width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
+        button { font-family: var(--font); padding: 12px 20px; border: none; border-radius: 8px; background: var(--primary); color: #0f172a; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        
+        .tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        .tab-btn { background: transparent; color: #94a3b8; padding: 10px 20px; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; }
+        .tab-btn.active { background: rgba(56, 189, 248, 0.1); color: var(--primary); }
+
+        .kisi-kart { background: var(--card); border: 1px solid #334155; padding: 20px; border-radius: 12px; margin-bottom: 15px; }
+        .tree-node { margin-left: 20px; border-left: 1px solid #334155; padding-left: 15px; margin-top: 10px; }
+        
+        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15,23,42,0.97); display:none; justify-content:center; align-items:center; z-index: 1000; }
         #adminPanel { display: none; }
-        #openLogin { position: fixed; bottom: 10px; right: 10px; opacity: 0.2; background: none; color: white; border: none; cursor: pointer; }
+        #openLogin { position: fixed; bottom: 15px; left: 15px; opacity: 0.2; background: none; color: white; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="loginScreen">
-        <div class="card" style="width: 320px; text-align: center;">
-            <h2 style="color:var(--primary)">Yönetici Girişi</h2>
+        <div class="card" style="width: 300px; text-align: center;">
+            <h2 style="color:var(--primary)">Yönetici Paneli</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifre">
             <button onclick="checkLogin()" style="width:100%">Giriş Yap</button>
-            <p onclick="closeLogin()" style="cursor:pointer; font-size:12px; margin-top:15px; color:#94a3b8;">Vazgeç</p>
+            <p onclick="closeLogin()" style="cursor:pointer; font-size:12px; margin-top:15px; color:#94a3b8;">Kapat</p>
         </div>
     </div>
 
     <div class="container">
-        <h1 style="text-align:center; color: var(--primary);">TARİHİ ZATLAR VE ŞECERE</h1>
+        
+        <div class="header-section">
+            <div class="logo">
+                <img src="https://i.imgur.com/LxW98ge.png">
+            </div>
+            <h1 style="margin:0; color:var(--primary); font-weight: 800; letter-spacing: -1px;">DİJİTAL ARŞİV VE ŞECERE</h1>
+            
+            <div class="hadis-box">
+                <i>Peygamber Efendimiz (s.a.v.) buyurdu ki:</i>
+                <p class="hadis-text">"Ashabım, yıldızlar gibidir. Hangisine tabi olursanız hidayete erersiniz."</p>
+            </div>
+        </div>
 
         <div id="adminPanel" class="card">
-            <h3 id="panelTitle" style="color:var(--primary); margin-top:0;">🛠️ Yeni Kayıt Ekle</h3>
-            <input id="docId" type="hidden"> <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <input id="isim" placeholder="İsim (Örn: I. Osman)">
-                <input id="aile" placeholder="Aile / Soy (Örn: Osmanlılar)">
-                <input id="dogum" placeholder="Doğum (H/M Yılı)">
-                <input id="vefat" placeholder="Vefat (H/M Yılı)">
-                <input id="baba" placeholder="Baba Adı (Bağlantı İçin)">
-                <input id="es" placeholder="Eş Adı">
+            <h3 id="panelTitle" style="color:var(--primary); margin-top:0;">🛠️ Veri Yönetimi (Ayris)</h3>
+            <input id="docId" type="hidden">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                <input id="isim" placeholder="Ad Soyad">
+                <input id="aile" placeholder="Aile / Soyadı">
+                <input id="dogum" placeholder="Doğum (H/M)">
+                <input id="vefat" placeholder="Vefat (H/M)">
+                <input id="baba" placeholder="Babası">
+                <input id="anne" placeholder="Annesi">
+                <input id="es" placeholder="Eşi">
+                <input id="kardes" placeholder="Kardeşleri">
                 <select id="cinsiyet">
                     <option value="Erkek">Erkek</option>
                     <option value="Kadın">Kadın</option>
                 </select>
             </div>
-            <textarea id="bilgi" placeholder="Detaylı Bilgi ve Notlar..." rows="3"></textarea>
-            <button id="saveBtn" onclick="saveToCloud()">💾 KAYDET</button>
-            <button onclick="cancelEdit()" style="background:#475569; color:white;">TEMİZLE / İPTAL</button>
+            <textarea id="bilgi" placeholder="Biyografi..." rows="3"></textarea>
+            <button onclick="saveToCloud()">💾 KAYDI TAMAMLA</button>
+            <button onclick="cancelEdit()" style="background:#475569; color:white;">İPTAL</button>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('list', this)">📚 Arşiv</button>
-            <button class="tab-btn" onclick="switchTab('time', this)">📆 Zaman Çizelgesi</button>
-            <button class="tab-btn" onclick="switchTab('soy', this)">🌳 Şecere / Soy</button>
+            <button class="tab-btn" onclick="switchTab('time', this)">📆 Çizelge</button>
+            <button class="tab-btn" onclick="switchTab('soy', this)">🌳 Şecere</button>
         </div>
 
-        <div id="list" class="tab-content active"><div id="listArea">Yükleniyor...</div></div>
-        <div id="time" class="tab-content"><div id="timeArea"></div></div>
-        <div id="soy" class="tab-content"><div id="soyArea"></div></div>
+        <div id="list" class="tab-content active">Yükleniyor...</div>
+        <div id="time" class="tab-content"></div>
+        <div id="soy" class="tab-content"></div>
     </div>
 
-    <button id="openLogin" onclick="showLogin()">Giriş</button>
+    <button id="openLogin" onclick="showLogin()">Ayarlar</button>
 
     <script>
+        // Firebase Config Buraya
         const firebaseConfig = {
             apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss",
             authDomain: "tarihizatlar.firebaseapp.com",
@@ -86,6 +112,7 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        let allData = [];
         let isAdmin = false;
 
         function showLogin() { document.getElementById('loginScreen').style.display = 'flex'; }
@@ -98,121 +125,110 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('openLogin').style.display = 'none';
                 loadData();
-            } else { alert("Hatalı!"); }
+            } else { alert("Giriş başarısız."); }
         }
 
         async function saveToCloud() {
             const data = {
                 isim: document.getElementById('isim').value,
                 aile: document.getElementById('aile').value || "Bilinmiyor",
-                dogum: document.getElementById('dogum').value,
-                vefat: document.getElementById('vefat').value,
-                baba: document.getElementById('baba').value,
-                es: document.getElementById('es').value,
+                dogum: document.getElementById('dogum').value || "",
+                vefat: document.getElementById('vefat').value || "",
+                baba: document.getElementById('baba').value || "",
+                anne: document.getElementById('anne').value || "",
+                es: document.getElementById('es').value || "",
+                kardes: document.getElementById('kardes').value || "",
                 cinsiyet: document.getElementById('cinsiyet').value,
-                bilgi: document.getElementById('bilgi').value,
+                bilgi: document.getElementById('bilgi').value || "",
                 "zaman damgası": Date.now()
             };
 
             const docId = document.getElementById('docId').value;
-            if(docId) {
-                await db.collection("zatlar").doc(docId).update(data);
-                alert("Güncellendi!");
-            } else {
-                await db.collection("zatlar").add(data);
-                alert("Kaydedildi!");
-            }
-            cancelEdit();
+            try {
+                if(docId) { await db.collection("zatlar").doc(docId).update(data); }
+                else { await db.collection("zatlar").add(data); }
+                cancelEdit();
+                alert("Veri buluta işlendi.");
+            } catch (e) { alert("Hata: " + e.message); }
         }
 
-        function editItem(id, data) {
-            document.getElementById('panelTitle').innerText = "📝 Kaydı Düzenle";
+        function triggerEdit(id) {
+            const item = allData.find(d => d.id === id);
+            if(!item) return;
+            document.getElementById('panelTitle').innerText = "📝 Kaydı Güncelle";
             document.getElementById('docId').value = id;
-            document.getElementById('isim').value = data.isim;
-            document.getElementById('aile').value = data.aile;
-            document.getElementById('dogum').value = data.dogum;
-            document.getElementById('vefat').value = data.vefat;
-            document.getElementById('baba').value = data.baba || '';
-            document.getElementById('es').value = data.es || '';
-            document.getElementById('cinsiyet').value = data.cinsiyet;
-            document.getElementById('bilgi').value = data.bilgi;
-            window.scrollTo(0,0);
+            document.getElementById('isim').value = item.isim || '';
+            document.getElementById('aile').value = item.aile || '';
+            document.getElementById('dogum').value = item.dogum || '';
+            document.getElementById('vefat').value = item.vefat || '';
+            document.getElementById('baba').value = item.baba || '';
+            document.getElementById('anne').value = item.anne || '';
+            document.getElementById('es').value = item.es || '';
+            document.getElementById('kardes').value = item.kardes || '';
+            document.getElementById('cinsiyet').value = item.cinsiyet || 'Erkek';
+            document.getElementById('bilgi').value = item.bilgi || '';
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
         function cancelEdit() {
-            document.getElementById('panelTitle').innerText = "🛠️ Yeni Kayıt Ekle";
+            document.getElementById('panelTitle').innerText = "🛠️ Veri Yönetimi";
             document.getElementById('docId').value = '';
-            document.querySelectorAll('input, textarea').forEach(i => i.value = '');
+            document.querySelectorAll('#adminPanel input, #adminPanel textarea').forEach(i => i.value = '');
         }
 
         function loadData() {
             db.collection("zatlar").onSnapshot((snapshot) => {
-                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                render(data);
+                allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                render();
             });
         }
 
-        function render(data) {
-            const listArea = document.getElementById('listArea');
-            const timeArea = document.getElementById('timeArea');
-            const soyArea = document.getElementById('soyArea');
+        function render() {
+            const listArea = document.getElementById('list');
+            const timeArea = document.getElementById('time');
+            const soyArea = document.getElementById('soy');
             listArea.innerHTML = ''; timeArea.innerHTML = ''; soyArea.innerHTML = '';
 
-            // --- 1. ARŞİV VE DÜZENLEME ---
-            data.sort((a,b) => b["zaman damgası"] - a["zaman damgası"]).forEach(item => {
+            allData.sort((a,b) => b["zaman damgası"] - a["zaman damgası"]).forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'kisi-kart';
                 card.innerHTML = `
-                    <h2 style="margin:0; color:var(--primary)">${item.isim}</h2>
-                    <p style="font-size:14px; color:#94a3b8;">H/M: ${item.dogum} - ${item.vefat} | ${item.aile}</p>
-                    <p style="white-space:pre-wrap;">${item.bilgi}</p>
-                    ${isAdmin ? `<button onclick='editItem("${item.id}", ${JSON.stringify(item)})'>Düzenle</button>
-                                 <button style="background:#ef4444; color:white;" onclick="deleteItem('${item.id}')">Sil</button>` : ''}
+                    <h2>${item.isim}</h2>
+                    <p style="color:#94a3b8; font-size:13px; margin-top:-5px;">${item.dogum} - ${item.vefat} | ${item.aile}</p>
+                    <p>${item.bilgi}</p>
+                    ${isAdmin ? `<button onclick="triggerEdit('${item.id}')" style="background:#475569; font-size:12px; padding:6px 12px;">Düzenle</button>
+                                 <button onclick="deleteItem('${item.id}')" style="background:#7f1d1d; color:white; font-size:12px; padding:6px 12px; margin-left:5px;">Sil</button>` : ''}
                 `;
                 listArea.appendChild(card);
             });
 
-            // --- 2. ZAMAN ÇİZELGESİ ---
-            [...data].sort((a,b) => parseInt(a.dogum) - parseInt(b.dogum)).forEach(item => {
-                timeArea.innerHTML += `<div class="timeline-item"><b>H/M ${item.dogum}</b>: ${item.isim} (${item.vefat ? 'Vefat: H/M '+item.vefat : 'Devam Ediyor'})</div>`;
+            [...allData].sort((a,b) => parseInt(a.dogum) - parseInt(b.dogum)).forEach(item => {
+                timeArea.innerHTML += `<div style="padding:15px; border-left:3px solid var(--primary); margin:10px 0; background: rgba(56,189,248,0.03); border-radius: 0 10px 10px 0;">
+                    <b style="color:var(--primary)">H/M ${item.dogum}:</b> ${item.isim} <span style="color:#64748b; font-size:12px;">(${item.aile})</span>
+                </div>`;
             });
 
-            // --- 3. AKILLI ŞECERE ---
-            const aileler = {};
-            data.forEach(i => { if(!aileler[i.aile]) aileler[i.aile] = []; aileler[i.aile].push(i); });
-
-            for(let aileAdi in aileler) {
-                let soyHTML = `<div class="card"><h2 style="color:var(--primary); border-bottom:1px solid #334155;">🌳 ${aileAdi}</h2>`;
-                
-                const kisiler = aileler[aileAdi];
-                const babalar = kisiler.filter(k => !k.baba); // Ana kökler
-
-                babalar.forEach(ata => {
-                    soyHTML += buildTree(ata, kisiler);
-                });
-                
-                soyHTML += `</div>`;
-                soyArea.innerHTML += soyHTML;
+            const gruplar = {};
+            allData.forEach(i => { if(!gruplar[i.aile]) gruplar[i.aile] = []; gruplar[i.aile].push(i); });
+            for(let aile in gruplar) {
+                let html = `<div class="card"><h2 style="color:var(--primary); margin:0 0 15px 0;">🌳 ${aile}</h2>`;
+                const kokler = gruplar[aile].filter(k => !k.baba && !k.anne);
+                kokler.forEach(ata => { html += buildTree(ata, gruplar[aile]); });
+                soyArea.innerHTML += html + `</div>`;
             }
         }
 
         function buildTree(kisi, havuz) {
-            let html = `<div style="margin-left:20px; padding:10px; border-left:1px dashed var(--primary);">
-                <b style="color:white;">● ${kisi.isim}</b> <span class="badge">1. Derece</span>
-                ${kisi.es ? `<br><span style="color:#94a3b8; font-size:12px; margin-left:15px;">💍 Eşi: ${kisi.es} (Kayın Hısımlığı)</span>` : ''}`;
-            
-            const cocuklar = havuz.filter(k => k.baba === kisi.isim);
-            cocuklar.sort((a,b) => (a.cinsiyet === 'Erkek' ? -1 : 1)); // Önce erkekler (oğullar), sonra kızlar
-
-            cocuklar.forEach(cocuk => {
-                html += buildTree(cocuk, havuz);
-            });
-
-            html += `</div>`;
-            return html;
+            let html = `<div class="tree-node">
+                <span style="font-weight:700;">${kisi.isim}</span> 
+                ${kisi.es ? `<span style="color:#94a3b8; font-size:12px;"> (💍 Eşi: ${kisi.es})</span>` : ''}
+                ${kisi.kardes ? `<div style="color:#64748b; font-size:11px; margin-left:10px;">👥 Kardeşleri: ${kisi.kardes}</div>` : ''}`;
+            const cocuklar = havuz.filter(k => k.baba === kisi.isim || k.anne === kisi.isim).sort((a,b) => a.cinsiyet === 'Erkek' ? -1 : 1);
+            cocuklar.forEach(c => { html += buildTree(c, havuz); });
+            return html + `</div>`;
         }
 
-        function deleteItem(id) { if(confirm("Kalıcı olarak silinecek?")) db.collection("zatlar").doc(id).delete(); }
+        function deleteItem(id) { if(confirm("Kayıt kalıcı olarak silinsin mi?")) db.collection("zatlar").doc(id).delete(); }
         function switchTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
