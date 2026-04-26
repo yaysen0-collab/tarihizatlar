@@ -13,28 +13,25 @@
         .container { max-width: 1000px; margin: 0 auto; width: 100%; }
         .card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #334155; margin-bottom: 20px; }
         
-        /* Giriş Paneli */
-        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.95); display:none; justify-content:center; align-items:center; z-index:1000; }
-        .login-box { background: var(--card); padding: 30px; border-radius: 20px; border: 2px solid var(--primary); text-align: center; }
+        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.98); display:none; justify-content:center; align-items:center; z-index:1000; }
+        .login-box { background: var(--card); padding: 30px; border-radius: 20px; border: 2px solid var(--primary); text-align: center; width: 300px; }
 
         input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
-        button { padding: 12px 25px; border: none; border-radius: 12px; background: var(--primary); color: #0f172a; font-weight: bold; cursor: pointer; }
+        button { padding: 12px 25px; border: none; border-radius: 12px; background: var(--primary); color: #0f172a; font-weight: bold; cursor: pointer; transition: 0.3s; }
 
-        /* Sekmeler */
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
-        .tab-btn { background: #334155; color: #cbd5e1; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
+        .tab-btn { background: #334155; color: #cbd5e1; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; border: none; }
         .tab-btn.active { background: var(--primary); color: #0f172a; font-weight: bold; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Kartlar ve Listeler */
         .kisi-kart { background: var(--card); border: 1px solid #334155; padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative; }
         .age-badge { position: absolute; top: 20px; right: 20px; background: var(--primary); color: #0f172a; padding: 4px 10px; border-radius: 8px; font-weight: bold; font-size: 14px; }
-        .soy-grup { border-left: 3px solid var(--primary); padding-left: 15px; margin-bottom: 20px; }
-        .soy-aile-adi { color: var(--primary); font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; display: block; }
+        .soy-grup { border-left: 3px solid var(--primary); padding-left: 15px; margin-bottom: 25px; background: rgba(56, 189, 248, 0.05); padding: 15px; border-radius: 0 15px 15px 0; }
+        .soy-aile-adi { color: var(--primary); font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; display: block; }
         
         #adminPanel { display: none; }
-        #openLogin { position: fixed; bottom: 10px; right: 10px; opacity: 0.3; background: none; color: white; border: none; font-size: 10px; cursor: pointer; }
+        #openLogin { position: fixed; bottom: 10px; right: 10px; opacity: 0.2; background: none; color: white; border: none; font-size: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -45,30 +42,30 @@
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifre">
             <button onclick="checkLogin()">Giriş Yap</button>
-            <button onclick="closeLogin()" style="background:#475569; margin-top:10px;">İptal</button>
+            <button onclick="closeLogin()" style="background:#475569; margin-top:10px; color:white;">İptal</button>
         </div>
     </div>
 
     <div class="container">
-        <h1 style="text-align:center; color: var(--primary);">TARİHİ ZATLAR</h1>
+        <h1 style="text-align:center; color: var(--primary); letter-spacing: 2px;">TARİHİ ZATLAR</h1>
 
         <div id="adminPanel" class="card">
             <h3 style="margin-top:0; color:var(--primary)">🛠️ Yönetici Kayıt Paneli</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <input id="isim" placeholder="İsim">
-                <input id="aile" placeholder="Aile (Örn: Osmanlılar)">
-                <input id="dogum" placeholder="Doğum (Sadece Sayı, Örn: 1432)">
-                <input id="vefat" placeholder="Vefat (Sadece Sayı, Örn: 1481)">
+                <input id="aile" placeholder="Aile (Örn: Beni Ümeyye)">
+                <input id="dogum" placeholder="Doğum (Sayı, Örn: 661)">
+                <input id="vefat" placeholder="Vefat (Sayı, Örn: 680)">
             </div>
-            <textarea id="bilgi" placeholder="Bilgiler..." rows="3"></textarea>
-            <button onclick="saveToCloud()">💾 KAYDET</button>
-            <button onclick="location.reload()" style="background:#475569">ÇIKIŞ</button>
+            <textarea id="bilgi" placeholder="Biyografi..." rows="3"></textarea>
+            <button onclick="saveToCloud()">💾 BULUTA KAYDET</button>
+            <button onclick="location.reload()" style="background:#475569; color:white;">GÜVENLİ ÇIKIŞ</button>
         </div>
 
         <div class="tabs">
-            <div class="tab-btn active" onclick="switchTab('list', this)">📚 Arşiv</div>
-            <div class="tab-btn" onclick="switchTab('time', this)">📆 Zaman Çizelgesi</div>
-            <div class="tab-btn" onclick="switchTab('soy', this)">🌳 Soy Ağacı</div>
+            <button class="tab-btn active" onclick="switchTab('list', this)">📚 Arşiv</button>
+            <button class="tab-btn" onclick="switchTab('time', this)">📆 Zaman Çizelgesi</button>
+            <button class="tab-btn" onclick="switchTab('soy', this)">🌳 Soy Ağacı</button>
         </div>
 
         <div id="list" class="tab-content active"><div id="listArea">Yükleniyor...</div></div>
@@ -76,31 +73,33 @@
         <div id="soy" class="tab-content"><div id="soyArea"></div></div>
     </div>
 
-    <button id="openLogin" onclick="showLogin()">Yönetici Girişi</button>
+    <button id="openLogin" onclick="showLogin()">Giriş</button>
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss" , 
-            authDomain: "tarihizatlar.firebaseapp.com" , 
-            projectId: "tarihizatlar" , 
-            storageBucket: "tarihizatlar.firebasestorage.app" ,
-            messagingSenderId: "930648787998" , 
-            appId: "1:930648787998:web:db163d0f3811786610b20f" , 
-        };
-
+           apiKey : "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss" , 
+  authDomain : "tarihizatlar.firebaseapp.com" , 
+  projeId : "tarihizatlar" , 
+  depolama kovası : "tarihizatlar.firebasestorage.app" , 
+  messagingSenderId : "930648787998" , 
+  appId : "1:930648787998:web:db163d0f3811786610b20f" , 
+  ölçümId : "G-N2DE9B17T0" 
+};
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         let isAdmin = false;
 
         function showLogin() { document.getElementById('loginScreen').style.display = 'flex'; }
         function closeLogin() { document.getElementById('loginScreen').style.display = 'none'; }
+        
         function checkLogin() {
+            // Kullanıcı adı "ayris", Şifre "130504" olarak ayarlandı
             if(document.getElementById('username').value === "ayris" && document.getElementById('password').value === "130504") {
                 isAdmin = true;
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('openLogin').style.display = 'none';
-                alert("Hoş geldin Ayris İyi Çalışmalar!");
+                alert("Hoş geldin Ayris! Editör modu aktif.");
                 loadData();
             } else { alert("Hatalı Giriş!"); }
         }
@@ -109,20 +108,28 @@
             const isim = document.getElementById('isim').value;
             if(!isim) return;
             await db.collection("zatlar").add({
-                isim: isim, aile: document.getElementById('aile').value || "Bilinmiyor",
-                dogum: document.getElementById('dogum').value, vefat: document.getElementById('vefat').value,
-                bilgi: document.getElementById('bilgi').value, timestamp: Date.now()
+                isim: isim, 
+                aile: document.getElementById('aile').value || "Bilinmiyor",
+                dogum: document.getElementById('dogum').value, 
+                vefat: document.getElementById('vefat').value,
+                bilgi: document.getElementById('bilgi').value, 
+                "zaman damgası": Date.now() // Firebase ile uyumlu isim
             });
             document.querySelectorAll('input, textarea').forEach(i => i.value = '');
         }
 
         function loadData() {
-    // orderBy kısmındaki ismi Firebase'deki gibi "zaman damgası" yapalım
-    db.collection("zatlar").onSnapshot((snapshot) => {
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        render(data);
-    });
-}
+            // "zaman damgası" ismiyle sıralama yapıyoruz
+            db.collection("zatlar").orderBy("zaman damgası", "desc").onSnapshot((snapshot) => {
+                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                render(data);
+            }, (error) => {
+                console.log("Hata:", error);
+                // Eğer sıralama hatası verirse sıralamasız getir
+                db.collection("zatlar").onSnapshot((snapshot) => {
+                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    render(data);
+                });
             });
         }
 
@@ -132,24 +139,62 @@
             const soyArea = document.getElementById('soyArea');
             listArea.innerHTML = ''; timeArea.innerHTML = ''; soyArea.innerHTML = '';
 
-            // Yaş Hesaplama ve Arşiv
             data.forEach(item => {
+                // Yaş Hesaplama
                 let yasText = "";
                 if(item.dogum && item.vefat) {
-                    const yas = parseInt(item.vefat) - parseInt(item.dogum);
-                    yasText = !isNaN(yas) ? yas + " Yaşında" : "";
+                    const dYil = parseInt(item.dogum.split('/').pop());
+                    const vYil = parseInt(item.vefat.split('/').pop());
+                    const yas = vYil - dYil;
+                    if(!isNaN(yas)) yasText = yas + " Yaşında";
                 }
 
+                // Arşiv Kartı
                 const card = document.createElement('div');
                 card.className = 'kisi-kart';
                 card.innerHTML = `
                     ${yasText ? `<span class="age-badge">${yasText}</span>` : ''}
                     <h2 style="margin:0; color:var(--primary)">${item.isim}</h2>
                     <p style="color:#94a3b8; font-size:14px;">${item.dogum} - ${item.vefat} | ${item.aile}</p>
-                    <p>${item.bilgi}</p>
-                    ${isAdmin ? `<button style="background:#ef4444; border:none; color:white; padding:5px; border-radius:5px; cursor:pointer;" onclick="deleteItem('${item.id}')">Kaydı Sil</button>` : ''}
+                    <p style="white-space:pre-wrap;">${item.bilgi}</p>
+                    ${isAdmin ? `<button style="background:#ef4444; border:none; color:white; padding:5px 10px; border-radius:5px; cursor:pointer;" onclick="deleteItem('${item.id}')">Kalıcı Olarak Sil</button>` : ''}
                 `;
                 listArea.appendChild(card);
             });
 
-            // Zaman Çizelgesi (Y
+            // Zaman Çizelgesi
+            [...data].sort((a,b) => parseInt(a.dogum) - parseInt(b.dogum)).forEach(item => {
+                const tItem = document.createElement('div');
+                tItem.className = 'kisi-kart';
+                tItem.innerHTML = `<b>${item.dogum}</b>: ${item.isim} (${item.aile})`;
+                timeArea.appendChild(tItem);
+            });
+
+            // Soy Ağacı Gruplama
+            const aileler = {};
+            data.forEach(item => {
+                if(!aileler[item.aile]) aileler[item.aile] = [];
+                aileler[item.aile].push(item.isim);
+            });
+
+            for(let aile in aileler) {
+                const sGrup = document.createElement('div');
+                sGrup.className = 'soy-grup';
+                sGrup.innerHTML = `<span class="soy-aile-adi">🌳 ${aile}</span>` + aileler[aile].join(" • ");
+                soyArea.appendChild(sGrup);
+            }
+        }
+
+        function deleteItem(id) { if(confirm("Bu veriyi buluttan kalıcı olarak silmek istediğine emin misin?")) db.collection("zatlar").doc(id).delete(); }
+        
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
