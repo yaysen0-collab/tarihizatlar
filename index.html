@@ -24,8 +24,8 @@
 
         /* Arama Barı */
         .search-box { position: relative; margin-left: 15px; }
-        .search-box input { padding: 8px 15px; border-radius: 20px; border: 1px solid #d6d3d1; outline: none; font-size: 13px; width: 150px; transition: 0.3s; }
-        .search-box input:focus { width: 220px; border-color: var(--nostalgia-brown); }
+        .search-box input { padding: 10px 18px; border-radius: 20px; border: 1px solid #d6d3d1; outline: none; font-size: 13px; width: 180px; transition: 0.3s; background: #f5f5f4; }
+        .search-box input:focus { width: 250px; border-color: var(--nostalgia-brown); background: #fff; }
 
         /* Hero & Kartlar */
         .hero { text-align: center; padding: 100px 20px; background: #fff; border-bottom: 1px solid #e7e5e4; }
@@ -36,12 +36,12 @@
         .portal-card img { width: 100%; height: 100%; object-fit: cover; }
         .card-overlay { position: absolute; bottom: 0; width: 100%; padding: 35px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); color: white; box-sizing: border-box; }
 
-        /* Admin Login Modal */
+        /* Login Modal */
         .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
-        .login-content { background: white; width: 320px; margin: 15% auto; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .login-content { background: white; width: 320px; margin: 15% auto; padding: 30px; border-radius: 20px; text-align: center; }
         
         /* Admin Paneli */
-        .admin-section { display: none; background: white; padding: 35px; border-radius: 20px; border: 2px solid var(--nostalgia-brown); margin-top: 25px; }
+        .admin-section { display: none; background: white; padding: 35px; border-radius: 20px; border: 2px solid var(--nostalgia-brown); margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         .form-box { background: #fdfcfb; padding: 20px; border-radius: 12px; border: 1px solid #e7e5e4; }
         input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #d6d3d1; font-family: inherit; box-sizing: border-box; }
@@ -50,9 +50,9 @@
         /* İçerik */
         .tab-content { display: none; padding: 40px 0; }
         .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
-        .timeline-item { background: white; padding: 25px; border-radius: 16px; border-left: 5px solid var(--nostalgia-brown); margin-bottom: 15px; border: 1px solid #e7e5e4; }
+        .timeline-item { background: white; padding: 25px; border-radius: 16px; border-left: 5px solid var(--nostalgia-brown); margin-bottom: 20px; border: 1px solid #e7e5e4; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .timeline-row { display: flex; gap: 20px; padding: 15px; border-bottom: 1px solid #e7e5e4; align-items: center; }
-        .year-label { font-weight: 800; color: var(--nostalgia-brown); min-width: 90px; }
+        .year-label { font-weight: 800; color: var(--nostalgia-brown); min-width: 100px; font-size: 1.1rem; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         footer { background: #1c1917; color: #a8a29e; padding: 50px; text-align: center; margin-top: 120px; }
@@ -84,7 +84,7 @@
     <div id="loginModal" class="modal">
         <div class="login-content">
             <h3 style="color:var(--nostalgia-brown)">Yönetici Girişi</h3>
-            <input type="password" id="passInput" placeholder="Şifre Girin" onkeydown="if(event.key==='Enter') attemptLogin()">
+            <input type="password" id="passInput" placeholder="Şifre" onkeydown="if(event.key==='Enter') attemptLogin()">
             <button class="save-btn" onclick="attemptLogin()">Giriş Yap</button>
             <button onclick="hideLogin()" style="background:none; border:none; color:#94a3b8; margin-top:15px; cursor:pointer;">İptal</button>
         </div>
@@ -97,9 +97,9 @@
         </section>
         <div class="container">
             <div class="grid-portal">
-                <div class="portal-card" onclick="switchTab('archive')"><img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg"><div class="card-overlay"><h3>Arşiv</h3><p>Zatlar ve Olaylar.</p></div></div>
-                <div class="portal-card" onclick="switchTab('time')"><img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg"><div class="card-overlay"><h3>Zaman Çizelgesi</h3><p>Kronolojik Akış.</p></div></div>
-                <div class="portal-card" onclick="switchTab('soy')"><img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg"><div class="card-overlay"><h3>Soyağacı</h3><p>Nesil Bağları.</p></div></div>
+                <div class="portal-card" onclick="switchTab('archive')"><img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg"><div class="card-overlay"><h3>Arşiv</h3><p>Tüm kayıtları detaylıca inceleyin.</p></div></div>
+                <div class="portal-card" onclick="switchTab('time')"><img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg"><div class="card-overlay"><h3>Zaman Çizelgesi</h3><p>Hicri akışa göre sıralı tarih.</p></div></div>
+                <div class="portal-card" onclick="switchTab('soy')"><img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg"><div class="card-overlay"><h3>Soyağacı</h3><p>Nesil ve aile bağları.</p></div></div>
             </div>
         </div>
     </div>
@@ -122,25 +122,28 @@
                         <input id="z_vefat" placeholder="Vefat (H)">
                     </div>
                     <textarea id="z_bilgi" placeholder="Biyografi..." rows="3"></textarea>
-                    <button class="save-btn" onclick="saveData('zatlar')">KAYDET</button>
+                    <button class="save-btn" onclick="saveData('zatlar')">SİSTEME KAYDET</button>
                 </div>
                 <div class="form-box">
                     <h3>📜 Olay Kaydı</h3>
                     <input id="o_ad" placeholder="Olay Adı">
                     <input id="o_hicri" placeholder="Yıl (Hicri)">
                     <textarea id="o_bilgi" placeholder="Olay Detayı..." rows="3"></textarea>
-                    <button class="save-btn" onclick="saveData('olaylar')">KAYDET</button>
+                    <button class="save-btn" onclick="saveData('olaylar')">OLAYI KAYDET</button>
                 </div>
             </div>
         </div>
 
         <div id="archive" class="tab-content">
+            <h2 style="color:var(--nostalgia-brown)">📚 Tüm Arşiv Kayıtları</h2>
             <div id="archiveContent"></div>
         </div>
+
         <div id="time" class="tab-content">
             <h2 style="color:var(--nostalgia-brown)">⏳ Kronolojik Akış</h2>
             <div id="timelineContent"></div>
         </div>
+
         <div id="soy" class="tab-content">
             <h2 style="color:var(--nostalgia-brown)">🌳 Soyağacı ve Bağlar</h2>
             <div id="soyContent"></div>
@@ -173,12 +176,16 @@
 
         function renderArchive() {
             const container = document.getElementById('archiveContent');
-            const all = [...zatlarData.map(z=>({...z, type:'zat'})), ...olaylarData.map(o=>({...o, type:'olay'}))];
-            container.innerHTML = all.map(i => `
-                <div class="timeline-item archive-card" data-name="${i.isim || i.ad}">
-                    <h3 style="margin:0; color:var(--nostalgia-brown)">${i.isim || i.ad}</h3>
-                    <p style="font-size:0.85rem; color:#64748b"><b>H ${i.hicri || '?'}</b></p>
-                    <p>${i.bilgi || ''}</p>
+            const combined = [
+                ...zatlarData.map(z => ({...z, tip: 'Zat'})),
+                ...olaylarData.map(o => ({...o, tip: 'Olay'}))
+            ];
+            container.innerHTML = combined.map(i => `
+                <div class="timeline-item archive-card" data-name="${(i.isim || i.ad || '').toLowerCase()}">
+                    <h3 style="margin:0; color:var(--nostalgia-brown)">${i.isim || i.ad} <small style="font-size:0.8rem; color:var(--accent)">(${i.tip})</small></h3>
+                    <p style="font-size:0.85rem; color:#64748b; margin: 5px 0;"><b>Hicri: ${i.hicri || '?'}</b> ${i.vefat ? '- '+i.vefat : ''}</p>
+                    ${i.tip === 'Zat' ? `<p style="font-size:0.9rem; color:#444"><b>Aile/Bağ:</b> ${i.baba || '-'} - ${i.anne || '-'} | ${i.es || '-'}</p>` : ''}
+                    <p style="margin-top:10px;">${i.bilgi || ''}</p>
                 </div>
             `).join('');
         }
@@ -193,7 +200,7 @@
             container.innerHTML = combined.map(i => `
                 <div class="timeline-row">
                     <div class="year-label">H ${i.yil}</div>
-                    <div><b>${i.ad}</b> <small style="color:#94a3b8">(${i.tip})</small></div>
+                    <div><b>${i.ad}</b> <small style="color:#94a3b8; margin-left:10px;">(${i.tip})</small></div>
                 </div>
             `).join('');
         }
@@ -202,17 +209,21 @@
             const container = document.getElementById('soyContent');
             container.innerHTML = zatlarData.map(i => `
                 <div class="timeline-item">
-                    <h3>${i.isim}</h3>
-                    <p><b>Baba:</b> ${i.baba || '-'} | <b>Anne:</b> ${i.anne || '-'}</p>
-                    <p><b>Eş/Kardeş/Çocuk:</b> ${i.es || '-'}</p>
+                    <h3 style="color:var(--nostalgia-brown); margin-bottom:10px;">${i.isim}</h3>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.9rem;">
+                        <div><b>Baba:</b> ${i.baba || '-'}</div>
+                        <div><b>Anne:</b> ${i.anne || '-'}</div>
+                        <div style="grid-column: span 2;"><b>Eş/Kardeş/Çocuk:</b> ${i.es || '-'}</div>
+                    </div>
                 </div>
             `).join('');
         }
 
         function filterArchive() {
             const val = document.getElementById('globalSearch').value.toLowerCase();
+            if(document.getElementById('archive').style.display !== 'block') switchTab('archive');
             document.querySelectorAll('.archive-card').forEach(card => {
-                const name = card.getAttribute('data-name').toLowerCase();
+                const name = card.getAttribute('data-name');
                 card.style.display = name.includes(val) ? 'block' : 'none';
             });
         }
@@ -221,8 +232,7 @@
         function hideLogin() { document.getElementById('loginModal').style.display = 'none'; }
         
         function attemptLogin() {
-            const pass = document.getElementById('passInput').value;
-            if(pass === "130504") {
+            if(document.getElementById('passInput').value === "130504") {
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('adminBtn').style.display = 'none';
                 document.getElementById('logoutNavBtn').style.display = 'inline-block';
@@ -252,7 +262,7 @@
                 bilgi: document.getElementById('o_bilgi').value
             };
             await db.collection(type).add(d);
-            alert("Kaydedildi!");
+            alert("Sisteme Başarıyla Kaydedildi!");
             document.querySelectorAll('.admin-section input, .admin-section textarea').forEach(e => e.value = "");
         }
 
