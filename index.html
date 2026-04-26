@@ -7,95 +7,82 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        body { font-family: sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; }
+        header { background: #5d4037; color: white; padding: 20px; text-align: center; }
+        .nav-btn { background: #8d6e63; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .nav-btn:hover { background: #4e342e; }
         
-        /* Üst Menü */
-        header { background: #5d4037; color: white; padding: 15px 0; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .nav-links button { background: none; border: 1px solid white; color: white; padding: 8px 15px; margin: 5px; cursor: pointer; border-radius: 5px; }
-        .nav-links button:hover { background: white; color: #5d4037; }
+        .container { max-width: 900px; margin: 20px auto; padding: 20px; }
+        .page { display: none; } /* Tüm sayfalar başlangıçta gizli */
+        .active { display: block !important; } /* Sadece aktif olan görünür */
 
-        /* Ana Sayfa Kartlar */
-        .main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 50px; }
-        .card { background: white; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); background: #efebe9; }
-        .card h2 { color: #5d4037; }
-
-        /* İçerik Alanları */
-        .page { display: none; margin-top: 30px; }
-        .active { display: block; }
-        .box { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #5d4037; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-
-        /* Yönetici Paneli */
-        .admin-box { background: #fff; padding: 20px; border: 2px dashed #5d4037; border-radius: 10px; margin-top: 20px; }
-        input, textarea { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .btn-add { background: #5d4037; color: white; border: none; padding: 10px 20px; cursor: pointer; width: 100%; border-radius: 5px; font-weight: bold; }
+        /* Kartlar */
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 30px; }
+        .card { background: white; padding: 40px 10px; text-align: center; border-radius: 10px; cursor: pointer; border-bottom: 5px solid #5d4037; font-weight: bold; }
         
-        .login-btn { color: #8d6e63; font-size: 12px; border: none; background: none; cursor: pointer; margin-top: 50px; }
+        /* Listeler */
+        .data-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; border: 1px solid #ccc; }
+        .btn-action { background: #5d4037; color: white; border: none; padding: 10px; width: 100%; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>ASRI SAADET PORTALI</h1>
-    <div class="nav-links">
-        <button onclick="showPage('home')">Ana Sayfa</button>
-        <button onclick="showPage('archive')">Arşiv</button>
-        <button onclick="showPage('time')">Zaman Çizelgesi</button>
-        <button onclick="showPage('soy')">Soyağacı</button>
+    <div>
+        <button class="nav-btn" onclick="sayfaDegistir('ana-sayfa')">Ana Sayfa</button>
+        <button class="nav-btn" onclick="sayfaDegistir('arsiv')">Arşiv</button>
+        <button class="nav-btn" onclick="sayfaDegistir('cizelge')">Çizelge</button>
+        <button class="nav-btn" onclick="sayfaDegistir('soya_agaci')">Soyağacı</button>
     </div>
 </header>
 
 <div class="container">
-    <div id="home" class="page active">
-        <div class="main-grid">
-            <div class="card" onclick="showPage('archive')"><h2>📚 Arşiv</h2></div>
-            <div class="card" onclick="showPage('time')"><h2>⏳ Zaman Çizelgesi</h2></div>
-            <div class="card" onclick="showPage('soy')"><h2>🌳 Soyağacı</h2></div>
+    <div id="ana-sayfa" class="page active">
+        <div class="card-grid">
+            <div class="card" onclick="sayfaDegistir('arsiv')">📚<br>ARŞİV</div>
+            <div class="card" onclick="sayfaDegistir('cizelge')">⏳<br>ÇİZELGE</div>
+            <div class="card" onclick="sayfaDegistir('soya_agaci')">🌳<br>SOYAĞACI</div>
         </div>
-        <center><button class="login-btn" onclick="askAdmin()">[ Yönetici Girişi ]</button></center>
+        <div style="text-align: center; margin-top: 40px;">
+            <button onclick="yoneticiGiris()" style="background: none; border: none; color: #999; cursor: pointer;">[ Yönetici Paneli ]</button>
+        </div>
     </div>
 
-    <div id="archive" class="page">
-        <h2>📚 Tüm Kayıtlar</h2>
-        <input type="text" id="search" placeholder="İsim ara..." onkeyup="filterArchive()">
-        <div id="archiveList"></div>
+    <div id="arsiv" class="page">
+        <h2>📚 Arşiv Kayıtları</h2>
+        <input type="text" id="aramaInput" placeholder="İsim yazıp ara..." onkeyup="aramaYap()">
+        <div id="arsivListesi"></div>
     </div>
 
-    <div id="time" class="page">
-        <h2>⏳ Kronolojik Akış</h2>
-        <div id="timeList"></div>
+    <div id="cizelge" class="page">
+        <h2>⏳ Zaman Çizelgesi</h2>
+        <div id="cizelgeListesi"></div>
     </div>
 
-    <div id="soy" class="page">
-        <h2>🌳 Soyağacı ve Bağlar</h2>
-        <div id="soyList"></div>
+    <div id="soya_agaci" class="page">
+        <h2>🌳 Soyağacı</h2>
+        <div id="soya_agaciListesi"></div>
     </div>
 
-    <div id="adminPanel" class="page">
+    <div id="admin-panel" class="page">
         <h2>⚙️ Yönetici Paneli</h2>
-        <div class="admin-box">
+        <div style="background: #e7e5e4; padding: 20px; border-radius: 10px;">
             <h3>Yeni Zat Ekle</h3>
-            <input id="z_ad" placeholder="Zat İsmi">
-            <input id="z_anne" placeholder="Anne Adı">
-            <input id="z_baba" placeholder="Baba Adı">
-            <input id="z_es" placeholder="Eşleri / Kardeşleri">
-            <input id="z_yil" placeholder="Hicri Yıl">
-            <textarea id="z_bilgi" placeholder="Kısa Bilgi/Biyografi"></textarea>
-            <button class="btn-add" onclick="saveData('zatlar')">KAYDET</button>
-        </div>
-        <div class="admin-box" style="margin-top:20px;">
-            <h3>Yeni Olay Ekle</h3>
-            <input id="o_ad" placeholder="Olay Adı">
-            <input id="o_yil" placeholder="Yıl (Hicri)">
-            <textarea id="o_bilgi" placeholder="Olay Detayı"></textarea>
-            <button class="btn-add" onclick="saveData('olaylar')">OLAYI KAYDET</button>
+            <input id="in_ad" placeholder="İsim">
+            <input id="in_anne" placeholder="Anne">
+            <input id="in_baba" placeholder="Baba">
+            <input id="in_es" placeholder="Eşler/Bağlar">
+            <input id="in_yil" placeholder="Hicri Yıl">
+            <textarea id="in_bilgi" placeholder="Bilgi"></textarea>
+            <button class="btn-action" onclick="veriyiKaydet()">KAYDET</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Firebase Yapılandırması
+    // Firebase Bağlantısı
     const firebaseConfig = {
         apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss",
         authDomain: "tarihizatlar.firebaseapp.com",
@@ -107,70 +94,85 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    let zatlar = [], olaylar = [];
+    let veriDeposu = [];
 
-    // Veri Çekme
-    db.collection("zatlar").onSnapshot(s => { zatlar = s.docs.map(d => d.data()); renderAll(); });
-    db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => d.data()); renderAll(); });
+    // Verileri Firebase'den Canlı Çek
+    db.collection("zatlar").onSnapshot(s => {
+        veriDeposu = s.docs.map(d => d.data());
+        ekranaBas();
+    });
 
-    function renderAll() {
-        const arch = document.getElementById('archiveList');
-        const timeline = document.getElementById('timeList');
-        const soy = document.getElementById('soyList');
+    // Sayfa Değiştirme Fonksiyonu
+    function sayfaDegistir(sayfaId) {
+        // Tüm sayfaları gizle
+        const sayfalar = document.getElementsByClassName('page');
+        for (let s of sayfalar) {
+            s.classList.remove('active');
+        }
+        // Seçilen sayfayı göster
+        document.getElementById(sayfaId).classList.add('active');
+    }
 
-        const hepsi = [...zatlar.map(z=>({...z, t:'Zat'})), ...olaylar.map(o=>({...o, t:'Olay'}))];
+    // Verileri Ekrana Yazdır
+    function ekranaBas() {
+        const arsivDiv = document.getElementById('arsivListesi');
+        const cizelgeDiv = document.getElementById('cizelgeListesi');
+        const soyDiv = document.getElementById('soya_agaciListesi');
 
-        // Arşiv Render
-        arch.innerHTML = hepsi.map(i => `
-            <div class="box item" data-name="${(i.isim || i.ad || '').toLowerCase()}">
-                <strong>${i.isim || i.ad}</strong> (${i.t}) <br>
-                <small>Yıl: ${i.hicri || i.yil || '?'}</small>
-                <p>${i.bilgi || ''}</p>
-            </div>`).join('');
+        // Arşiv
+        arsivDiv.innerHTML = veriDeposu.map(z => `
+            <div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
+                <strong>${z.isim}</strong> <br>
+                <small>Yıl: ${z.hicri || '?'}</small>
+                <p>${z.bilgi || ''}</p>
+            </div>
+        `).join('');
 
-        // Zaman Çizelgesi Render
-        const sirali = hepsi.sort((a,b) => (parseInt(a.hicri || a.yil) || 0) - (parseInt(b.hicri || b.yil) || 0));
-        timeline.innerHTML = sirali.map(i => `<div class="box"><b>H ${i.hicri || i.yil || '0'}:</b> ${i.isim || i.ad}</div>`).join('');
+        // Çizelge (Yıla göre sıralı)
+        const sirali = [...veriDeposu].sort((a,b) => (parseInt(a.hicri) || 0) - (parseInt(b.hicri) || 0));
+        cizelgeDiv.innerHTML = sirali.map(z => `<div class="data-box"><b>H ${z.hicri}:</b> ${z.isim}</div>`).join('');
 
-        // Soyağacı Render
-        soy.innerHTML = zatlar.map(z => `
-            <div class="box">
-                <strong>${z.isim}</strong><br>
+        // Soyağacı
+        soyDiv.innerHTML = veriDeposu.map(z => `
+            <div class="data-box">
+                <strong>${z.isim}</strong> <br>
                 Baba: ${z.baba} | Anne: ${z.anne} <br>
                 Bağlar: ${z.es}
-            </div>`).join('');
+            </div>
+        `).join('');
     }
 
-    function showPage(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        window.scrollTo(0,0);
+    // Arama Yapma
+    function aramaYap() {
+        const metin = document.getElementById('aramaInput').value.toLowerCase();
+        const kartlar = document.getElementsByClassName('search-item');
+        for (let k of kartlar) {
+            k.style.display = k.getAttribute('data-name').includes(metin) ? 'block' : 'none';
+        }
     }
 
-    function filterArchive() {
-        const ara = document.getElementById('search').value.toLowerCase();
-        document.querySelectorAll('.item').forEach(el => {
-            el.style.display = el.getAttribute('data-name').includes(ara) ? 'block' : 'none';
-        });
+    // Yönetici Girişi
+    function yoneticiGiris() {
+        const sifre = prompt("Şifre?");
+        if(sifre === "130504") sayfaDegistir('admin-panel');
+        else alert("Yanlış!");
     }
 
-    function askAdmin() {
-        const pw = prompt("Şifre giriniz:");
-        if(pw === "130504") showPage('adminPanel');
-        else alert("Yetkisiz Giriş!");
-    }
-
-    async function saveData(path) {
-        let obj = path === 'zatlar' ? {
-            isim: document.getElementById('z_ad').value,
-            anne: document.getElementById('z_anne').value,
-            baba: document.getElementById('z_baba').value,
-            es: document.getElementById('z_es').value,
-            hicri: document.getElementById('z_yil').value,
-            bilgi: document.getElementById('z_bilgi').value
-        } : {
-            ad: document.getElementById('o_ad').value,
-            yil: document.getElementById('o_yil').value,
-            bilgi: document.getElementById('o_bilgi').value
+    // Firebase'e Kaydet
+    async function veriyiKaydet() {
+        const yeniZat = {
+            isim: document.getElementById('in_ad').value,
+            anne: document.getElementById('in_anne').value,
+            baba: document.getElementById('in_baba').value,
+            es: document.getElementById('in_es').value,
+            hicri: document.getElementById('in_yil').value,
+            bilgi: document.getElementById('in_bilgi').value
         };
-        await db.collection(
+        await db.collection("zatlar").add(yeniZat);
+        alert("Kaydedildi!");
+        document.querySelectorAll('input, textarea').forEach(i => i.value = "");
+    }
+</script>
+
+</body>
+</html>
