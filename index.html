@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TARİHİ ZATLAR</title>
     <style>
-        /* MODERN ARKA PLAN VE GENEL TASARIM */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f172a; /* Modern koyu lacivert/siyah tema */
+            background: #0f172a;
             color: #f1f5f9;
             margin: 0;
             padding: 20px;
@@ -18,36 +17,38 @@
         }
 
         .main-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            color: #38bdf8; /* Parlak mavi */
+            color: #38bdf8;
             text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
             margin-bottom: 30px;
-            letter-spacing: 5px;
+            letter-spacing: 3px;
         }
 
         .container {
             max-width: 1200px;
             width: 100%;
             display: grid;
-            grid-template-columns: 350px 1fr;
+            grid-template-columns: 380px 1fr;
             gap: 25px;
         }
 
         .card {
-            background: #1e293b; /* Kart rengi */
-            border-radius: 24px;
-            padding: 30px;
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             border: 1px solid #334155;
+            height: fit-content;
         }
 
-        /* FORM ELEMANLARI */
-        input, select, textarea {
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 5px; margin-left: 5px; }
+
+        input, textarea {
             width: 100%;
-            padding: 14px;
-            margin-top: 12px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             border: 1px solid #334155;
             background: #0f172a;
             color: white;
@@ -55,9 +56,11 @@
             box-sizing: border-box;
         }
 
+        textarea { min-height: 120px; resize: vertical; }
+
         button {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
             padding: 15px;
             border: none;
             border-radius: 12px;
@@ -66,71 +69,62 @@
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background: #0284c7;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
-        }
-
-        /* SEKME (TAB) TASARIMI */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-
-        .tab-btn {
-            background: #334155;
-            color: #cbd5e1;
-            border-radius: 12px;
-            padding: 12px 20px;
-            cursor: pointer;
-            font-weight: 600;
-            white-space: nowrap;
             transition: 0.3s;
         }
 
-        .tab-btn.active {
-            background: #38bdf8;
-            color: #0f172a;
-        }
+        button:hover { background: #0284c7; transform: translateY(-2px); }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* İSİMLER LİSTESİ - TIKLAYINCA AÇILAN YAPI */
         .kisi-ozet {
-            background: #334155;
-            margin-bottom: 10px;
-            border-radius: 12px;
+            background: #1e293b;
+            margin-bottom: 12px;
+            border-radius: 15px;
             overflow: hidden;
-            border: 1px solid #475569;
+            border: 1px solid #334155;
         }
 
         .kisi-baslik {
-            padding: 15px;
+            padding: 18px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: bold;
-            color: #38bdf8;
         }
 
-        .kisi-baslik:hover { background: #475569; }
+        .name-area { display: flex; flex-direction: column; }
+        .name-main { font-weight: bold; color: #38bdf8; font-size: 17px; }
+        .name-sub { font-size: 12px; color: #94a3b8; }
 
         .kisi-detay {
-            padding: 0 15px 15px 15px;
-            display: none; /* Varsayılan olarak gizli */
-            border-top: 1px solid #1e293b;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #e2e8f0;
+            padding: 20px;
+            display: none;
+            background: #0f172a;
+            border-top: 1px solid #334155;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-label { color: #38bdf8; font-weight: bold; display: block; font-size: 12px; }
+        .bio-text { line-height: 1.6; color: #cbd5e1; white-space: pre-wrap; }
+
+        .age-badge {
+            background: #0ea5e9;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            padding: 5px 10px;
+            font-size: 11px;
+            width: auto;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -140,93 +134,98 @@
 
     <div class="container">
         <div class="card">
-            <h3 style="margin-top:0; color:#38bdf8;">Yeni Kayıt</h3>
-            <select id="tur">
-                <option value="kisi">👤 Kişi</option>
-                <option value="olay">📜 Olay</option>
-            </select>
-            <input id="isim" placeholder="İsim / Olay adı">
-            <input id="dogum" placeholder="Miladi Tarih">
-            <input id="dogumHicri" placeholder="Hicri Tarih">
-            <input id="vefat" placeholder="Miladi Vefat">
-            <input id="vefatHicri" placeholder="Hicri Vefat">
-            <input id="aile" placeholder="Aile / Hanedan">
-            <textarea id="bilgi" placeholder="Detaylı bilgi yazın..."></textarea>
-            <button onclick="kaydet()">💾 SİSTEME KAYDET</button>
+            <h3 style="margin:0 0 20px 0; color:#38bdf8; text-align:center;">Yeni Kayıt Ekle</h3>
+            <div class="input-group"><label>Kişi / Olay Adı</label><input id="isim"></div>
+            <div class="input-group"><label>Doğum (H / M)</label><input id="dogum"></div>
+            <div class="input-group"><label>Vefat (H / M)</label><input id="vefat"></div>
+            <div class="input-group"><label>Aile / Unvan</label><input id="aile"></div>
+            <div class="input-group"><label>Detaylar</label><textarea id="bilgi"></textarea></div>
+            <button onclick="kaydet()">💾 LİSTEYE EKLE</button>
         </div>
 
         <div class="card">
-            <div class="tabs">
-                <div class="tab-btn active" onclick="tabAc('kayitlar')">📚 Kayıtlı Kişiler</div>
-                <div class="tab-btn" onclick="tabAc('zaman')">📆 Zaman Çizelgesi</div>
-                <div class="tab-btn" onclick="tabAc('soy')">🌳 Soy Ağacı</div>
-            </div>
-
-            <div id="kayitlar" class="tab-content active">
-                <div id="listeAlani">
-                    </div>
-            </div>
-
-            <div id="zaman" class="tab-content">
-                <p>Zaman çizelgesi çok yakında eklenecek...</p>
-            </div>
-
-            <div id="soy" class="tab-content">
-                <p>Soy ağacı modülü hazırlanıyor...</p>
-            </div>
+            <h3 style="margin-top:0;">📜 Kayıtlı Arşiv</h3>
+            <div id="listeAlani"></div>
         </div>
     </div>
 
     <script>
-        // Sekme Değiştirme Fonksiyonu
-        function tabAc(id) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
-        }
+        // Sayfa yüklendiğinde eski verileri getir
+        window.onload = function() {
+            verileriYukle();
+        };
 
-        // Kayıt ve Listeleme Fonksiyonu
         function kaydet() {
-            const isim = document.getElementById('isim').value;
-            const bilgi = document.getElementById('bilgi').value;
-            const aile = document.getElementById('aile').value;
+            const yeniVeri = {
+                id: Date.now(),
+                isim: document.getElementById('isim').value,
+                dogum: document.getElementById('dogum').value,
+                vefat: document.getElementById('vefat').value,
+                aile: document.getElementById('aile').value,
+                bilgi: document.getElementById('bilgi').value
+            };
 
-            if(!isim) { alert("Lütfen bir isim girin!"); return; }
+            if(!yeniVeri.isim) return;
 
-            const listeAlani = document.getElementById('listeAlani');
+            // Mevcut verileri al, yenisini ekle ve kaydet
+            let arsiv = JSON.parse(localStorage.getItem('tarihArsivi')) || [];
+            arsiv.push(yeniVeri);
+            localStorage.setItem('tarihArsivi', JSON.stringify(arsiv));
 
-            // Yeni bir kişi kartı oluşturma
-            const yeniKayit = document.createElement('div');
-            yeniKayit.className = 'kisi-ozet';
-            yeniKayit.innerHTML = `
-                <div class="kisi-baslik" onclick="detayAc(this)">
-                    <span>${isim} (${aile})</span>
-                    <span>▼</span>
-                </div>
-                <div class="kisi-detay">
-                    ${bilgi}
-                </div>
-            `;
-
-            listeAlani.prepend(yeniKayit); // En üste ekle
-            
-            // Formu temizle
-            document.querySelectorAll('input, textarea').forEach(inpt => inpt.value = '');
+            verileriYukle();
+            document.querySelectorAll('input, textarea').forEach(i => i.value = '');
         }
 
-        // Tıklayınca Detay Açma Fonksiyonu
+        function verileriYukle() {
+            const listeAlani = document.getElementById('listeAlani');
+            listeAlani.innerHTML = '';
+            let arsiv = JSON.parse(localStorage.getItem('tarihArsivi')) || [];
+
+            arsiv.reverse().forEach(veri => {
+                let yas = "Bilinmiyor";
+                try {
+                    const dYil = parseInt(veri.dogum.split('/')[1]);
+                    const vYil = parseInt(veri.vefat.split('/')[1]);
+                    if(dYil && vYil) yas = (vYil - dYil) + " Yıl";
+                } catch(e) {}
+
+                const div = document.createElement('div');
+                div.className = 'kisi-ozet';
+                div.innerHTML = `
+                    <div class="kisi-baslik" onclick="detayAc(this)">
+                        <div class="name-area">
+                            <span class="name-main">${veri.isim}</span>
+                            <span class="name-sub">${veri.aile}</span>
+                        </div>
+                        <div>
+                            <span class="age-badge">${yas}</span>
+                            <span style="margin-left:10px;">▼</span>
+                        </div>
+                    </div>
+                    <div class="kisi-detay">
+                        <div class="info-grid">
+                            <div><span class="info-label">Doğum</span><span>${veri.dogum}</span></div>
+                            <div><span class="info-label">Vefat</span><span>${veri.vefat}</span></div>
+                        </div>
+                        <div class="bio-text">${veri.bilgi}</div>
+                        <button class="delete-btn" onclick="sil(${veri.id})">Kayıdı Sil</button>
+                    </div>
+                `;
+                listeAlani.appendChild(div);
+            });
+        }
+
+        function sil(id) {
+            let arsiv = JSON.parse(localStorage.getItem('tarihArsivi')) || [];
+            arsiv = arsiv.filter(item => item.id !== id);
+            localStorage.setItem('tarihArsivi', JSON.stringify(arsiv));
+            verileriYukle();
+        }
+
         function detayAc(eleman) {
             const detay = eleman.nextElementSibling;
-            if (detay.style.display === "block") {
-                detay.style.display = "none";
-                eleman.querySelector('span:last-child').innerText = "▼";
-            } else {
-                detay.style.display = "block";
-                eleman.querySelector('span:last-child').innerText = "▲";
-            }
+            detay.style.display = detay.style.display === "block" ? "none" : "block";
         }
     </script>
-
 </body>
 </html>
