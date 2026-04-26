@@ -35,7 +35,7 @@
         .card-overlay { position: absolute; bottom: 0; width: 100%; padding: 35px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); color: white; box-sizing: border-box; }
 
         .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); }
-        .login-content { background: white; width: 340px; margin: 15% auto; padding: 35px; border-radius: 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .login-content { background: white; width: 340px; margin: 15% auto; padding: 35px; border-radius: 24px; text-align: center; }
         
         .admin-section { display: none; background: white; padding: 35px; border-radius: 20px; border: 2px solid var(--nostalgia-brown); margin-top: 25px; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
@@ -91,9 +91,9 @@
         </section>
         <div class="container">
             <div class="grid-portal">
-                <div class="portal-card" onclick="switchTab('archive')"><img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg"><div class="card-overlay"><h3>Arşiv</h3><p>Tüm kayıtları inceleyin.</p></div></div>
-                <div class="portal-card" onclick="switchTab('time')"><img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg"><div class="card-overlay"><h3>Zaman Çizelgesi</h3><p>Kronolojik Akış.</p></div></div>
-                <div class="portal-card" onclick="switchTab('soy')"><img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg"><div class="card-overlay"><h3>Soyağacı</h3><p>Nesil Bağları.</p></div></div>
+                <div class="portal-card" onclick="switchTab('archive')"><img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg"><div class="card-overlay"><h3>Arşiv</h3><p>Tüm detaylı bilgileri görüntüleyin.</p></div></div>
+                <div class="portal-card" onclick="switchTab('time')"><img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg"><div class="card-overlay"><h3>Zaman Çizelgesi</h3><p>Kronolojik Hicri akış.</p></div></div>
+                <div class="portal-card" onclick="switchTab('soy')"><img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg"><div class="card-overlay"><h3>Soyağacı</h3><p>Bağlar ve Nesiller.</p></div></div>
             </div>
         </div>
     </div>
@@ -146,9 +146,10 @@
             const all = [...zatlarData.map(z=>({...z, tip:'Zat'})), ...olaylarData.map(o=>({...o, tip:'Olay'}))];
             container.innerHTML = all.map(i => `
                 <div class="timeline-item archive-card" data-name="${(i.isim || i.ad || '').toLowerCase()}">
-                    <h3>${i.isim || i.ad} <small>(${i.tip})</small></h3>
-                    <p><b>Hicri: ${i.hicri || '?'}</b> ${i.vefat ? ' - Vefat: '+i.vefat : ''}</p>
-                    <p>${i.bilgi || ''}</p>
+                    <h3 style="margin:0; color:var(--nostalgia-brown)">${i.isim || i.ad} <small style="color:var(--accent)">(${i.tip})</small></h3>
+                    <p style="font-size:0.85rem; color:#64748b; margin-top:5px;"><b>Hicri Yıl: ${i.hicri || '?'}</b> ${i.vefat ? ' | Vefat: '+i.vefat : ''}</p>
+                    ${i.tip === 'Zat' ? `<p style="font-size:0.9rem; color:#444"><b>Anne:</b> ${i.anne || '-'} | <b>Baba:</b> ${i.baba || '-'} | <b>Bağlar:</b> ${i.es || '-'}</p>` : ''}
+                    <p style="margin-top:10px; line-height:1.5;">${i.bilgi || ''}</p>
                 </div>`).join('');
         }
 
@@ -158,19 +159,21 @@
                 ...zatlarData.map(z => ({yil: parseInt(z.hicri) || 0, ad: z.isim, tip: 'Zat'})),
                 ...olaylarData.map(o => ({yil: parseInt(o.hicri) || 0, ad: o.isim, tip: 'Olay'}))
             ].sort((a,b) => a.yil - b.yil);
-            container.innerHTML = sorted.map(i => `<div class="timeline-row"><div class="year-label">H ${i.yil}</div><div><b>${i.ad}</b> <small>(${i.tip})</small></div></div>`).join('');
+            container.innerHTML = sorted.map(i => `<div class="timeline-row"><div class="year-label">H ${i.yil}</div><div><b>${i.ad}</b> <small style="color:#94a3b8">(${i.tip})</small></div></div>`).join('');
         }
 
         function renderSoy() {
             const container = document.getElementById('soyContent');
-            container.innerHTML = zatlarData.map(i => `<div class="timeline-item"><h3>${i.isim}</h3><p><b>Baba:</b> ${i.baba || '-'} | <b>Anne:</b> ${i.anne || '-'}</p><p><b>Bağlar:</b> ${i.es || '-'}</p></div>`).join('');
+            container.innerHTML = zatlarData.map(i => `<div class="timeline-item"><h3>${i.isim}</h3><p><b>Baba:</b> ${i.baba || '-'} | <b>Anne:</b> ${i.anne || '-'}</p><p><b>Eşleri/Kardeşleri/Çocukları:</b> ${i.es || '-'}</p></div>`).join('');
         }
 
         function switchTab(id) {
             document.getElementById('homeView').style.display = 'none';
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             const target = document.getElementById(id);
-            if(target) target.classList.add('active');
+            if(target) {
+                target.classList.add('active');
+            }
             window.scrollTo(0,0);
         }
 
@@ -188,7 +191,7 @@
                 document.getElementById('adminBtn').style.display = 'none';
                 document.getElementById('logoutNavBtn').style.display = 'inline-block';
                 hideLogin();
-            } else { alert("Hatalı!"); }
+            } else { alert("Şifre Hatalı!"); }
         }
         function logoutAdmin() {
             document.getElementById('adminPanel').style.display = 'none';
