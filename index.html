@@ -13,14 +13,23 @@
         .container { max-width: 900px; margin: 20px auto; padding: 20px; }
         .page { display: none; }
         .active { display: block !important; }
+        
+        /* Ana Sayfa Kutuları */
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .card { background: white; padding: 40px 10px; text-align: center; border-radius: 10px; cursor: pointer; border-bottom: 5px solid #5d4037; font-weight: bold; }
+        
+        /* Veri Kutuları */
         .data-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; position: relative; border-left: 5px solid #5d4037; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        
         input, textarea { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
         .row { display: flex; gap: 10px; }
-        .btn-action { background: #5d4037; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; border-radius: 5px; }
-        .edit-btns { position: absolute; top: 10px; right: 10px; }
-        .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; font-size: 11px; margin-left: 5px; }
-        .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; font-size: 11px; }
+        .btn-action { background: #5d4037; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px; margin-top: 5px; }
+        
+        /* Düzenleme ve Silme */
+        .admin-controls { margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
+        .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
+        .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
     </style>
 </head>
 <body>
@@ -28,43 +37,51 @@
 <header>
     <h1>ASRI SAADET PORTALI</h1>
     <div>
-        <button class="nav-btn" onclick="sayfaDegistir('ana-sayfa')">Ana Sayfa</button>
+        <button class="nav-btn" onclick="sayfaDegistir('home')">Ana Sayfa</button>
         <button class="nav-btn" onclick="sayfaDegistir('arsiv')">Arşiv</button>
         <button class="nav-btn" onclick="sayfaDegistir('cizelge')">Çizelge</button>
-        <button class="nav-btn" onclick="sayfaDegistir('soya_agaci')">Soyağacı</button>
+        <button class="nav-btn" onclick="sayfaDegistir('soy')">Soyağacı</button>
     </div>
 </header>
 
 <div class="container">
-    <div id="ana-sayfa" class="page active">
-        <div style="text-align:center; padding: 50px;">
-            <h2>Hoş Geldiniz</h2>
-            <p>Lütfen bir bölüm seçiniz.</p>
-            <button onclick="yoneticiGiris()" style="background: none; border: none; color: #999; cursor: pointer; margin-top: 100px;">[ Yönetici Paneli ]</button>
+    <div id="home" class="page active">
+        <div class="card-grid">
+            <div class="card" onclick="sayfaDegistir('arsiv')">📚<br>ARŞİV</div>
+            <div class="card" onclick="sayfaDegistir('cizelge')">⏳<br>ÇİZELGE</div>
+            <div class="card" onclick="sayfaDegistir('soy')">🌳<br>SOYAĞACI</div>
+        </div>
+        <div style="text-align: center; margin-top: 50px;">
+            <button onclick="yoneticiGiris()" style="background: none; border: none; color: #999; cursor: pointer;">[ Yönetici Paneli ]</button>
         </div>
     </div>
 
     <div id="arsiv" class="page">
         <h2>📚 Kayıtlar</h2>
-        <input type="text" id="aramaInput" placeholder="İsim ara..." onkeyup="aramaYap()">
-        <div id="arsivListesi"></div>
+        <input type="text" id="ara" placeholder="Ara..." onkeyup="aramaYap()">
+        <div id="arsivList"></div>
     </div>
 
-    <div id="cizelge" class="page"><h2>⏳ Çizelge</h2><div id="cizelgeListesi"></div></div>
-    <div id="soya_agaci" class="page"><h2>🌳 Soyağacı</h2><div id="soya_agaciListesi"></div></div>
+    <div id="cizelge" class="page"><h2>⏳ Çizelge</h2><div id="cizelgeList"></div></div>
 
-    <div id="admin-panel" class="page">
-        <h2 id="form-baslik">⚙️ Kayıt Yönetimi</h2>
-        <input type="hidden" id="edit-id">
+    <div id="soy" class="page"><h2>🌳 Soyağacı</h2><div id="soyList"></div></div>
+
+    <div id="admin" class="page">
+        <h2 id="form-baslik">⚙️ Kayıt Ekle / Düzenle</h2>
         <div class="admin-section">
+            <input type="hidden" id="edit-id">
             <input id="in_ad" placeholder="İsim">
             <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
-            <input id="in_es" placeholder="Eşler / Bağlar">
+            <input id="in_es" placeholder="Bağlar / Eşler">
             <div class="row"><input id="in_d_hicri" placeholder="Doğum Hicri"><input id="in_v_hicri" placeholder="Vefat Hicri"></div>
-            <textarea id="in_bilgi" placeholder="Bilgi" rows="4"></textarea>
-            <button class="btn-action" id="save-btn" onclick="zatKaydet()">KAYDET / GÜNCELLE</button>
-            <button class="btn-action" id="cancel-btn" onclick="formSifirla()" style="background:#999; display:none;">İPTAL</button>
+            <textarea id="in_bilgi" placeholder="Bilgi" rows="3"></textarea>
+            <button class="btn-action" id="main-btn" onclick="kaydet()">KAYDET</button>
+            <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
         </div>
+
+        <hr>
+        <h3>📋 Mevcut Kayıtlar (Düzenle / Sil)</h3>
+        <div id="adminList"></div>
     </div>
 </div>
 
@@ -80,64 +97,72 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    let zatlar = [];
-    let isAdmin = false;
+    let veriler = [];
 
-    // Veri Çekme
+    // Verileri Çek
     db.collection("zatlar").onSnapshot(s => {
-        zatlar = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        veriler = s.docs.map(d => ({ id: d.id, ...d.data() }));
         ekranaBas();
     });
 
     function sayfaDegistir(id) {
-        const sayfalar = document.getElementsByClassName('page');
-        for (let s of sayfalar) s.classList.remove('active');
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
     }
 
     function ekranaBas() {
-        const arsivDiv = document.getElementById('arsivListesi');
-        const soyDiv = document.getElementById('soya_agaciListesi');
-        const cizelgeDiv = document.getElementById('cizelgeListesi');
+        const arsiv = document.getElementById('arsivList');
+        const cizelge = document.getElementById('cizelgeList');
+        const soy = document.getElementById('soyList');
+        const adminL = document.getElementById('adminList');
 
-        arsivDiv.innerHTML = zatlar.map(z => `
-            <div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
-                <strong>${z.isim}</strong>
-                <div class="edit-btns" style="display: ${isAdmin ? 'block' : 'none'}">
-                    <button class="edit-btn" onclick="veriyiDuzenle('${z.id}')">Düzenle</button>
-                    <button class="del-btn" onclick="veriyiSil('${z.id}')">Sil</button>
-                </div>
-                <p><small>H. ${z.d_hicri || '?'} - H. ${z.v_hicri || '?'}</small></p>
+        // Arşiv ve Admin Listesi
+        let html = "";
+        let adminHtml = "";
+        veriler.forEach(z => {
+            let kart = `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
+                <strong>${z.isim}</strong><br>
+                <small>H. ${z.d_hicri || '?'} - H. ${z.v_hicri || '?'}</small>
                 <p>${z.bilgi || ''}</p>
-            </div>`).join('');
+            </div>`;
+            html += kart;
 
-        soyDiv.innerHTML = zatlar.map(z => `
+            adminHtml += `<div class="data-box">
+                <strong>${z.isim}</strong>
+                <div class="admin-controls">
+                    <button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button>
+                    <button class="del-btn" onclick="sil('${z.id}')">Sil</button>
+                </div>
+            </div>`;
+        });
+        arsiv.innerHTML = html;
+        adminL.innerHTML = adminHtml;
+
+        // Çizelge
+        const sirali = [...veriler].sort((a,b) => (parseInt(a.d_hicri) || 0) - (parseInt(b.d_hicri) || 0));
+        cizelge.innerHTML = sirali.map(z => `<div class="data-box"><b>H. ${z.d_hicri || '?'}:</b> ${z.isim}</div>`).join('');
+
+        // Soyağacı
+        soy.innerHTML = veriler.map(z => `
             <div class="data-box">
-                <strong>${z.isim || '?'}</strong><br>
+                <strong>${z.isim}</strong><br>
                 Baba: ${z.baba || '?'} | Anne: ${z.anne || '?'}<br>
                 Bağlar: ${z.es || '?'}
             </div>`).join('');
-
-        const sirali = [...zatlar].sort((a,b) => (parseInt(a.d_hicri) || 0) - (parseInt(b.d_hicri) || 0));
-        cizelgeDiv.innerHTML = sirali.map(z => `<div class="data-box"><b>H. ${z.d_hicri || '?'}:</b> ${z.isim}</div>`).join('');
     }
 
-    async function zatKaydet() {
-        const isimGiris = document.getElementById('in_ad').value.trim();
+    async function kaydet() {
+        const ad = document.getElementById('in_ad').value.trim();
         const id = document.getElementById('edit-id').value;
+        if(!ad) return;
 
-        if(!isimGiris) { alert("Lütfen bir isim giriniz!"); return; }
-
-        // Mükerrer Kayıt Kontrolü
-        if (!id) {
-            const varMi = zatlar.find(z => z.isim.toLowerCase() === isimGiris.toLowerCase());
-            if (varMi) {
-                if (!confirm("Bu isim zaten kayıtlı! Yine de eklemek istiyor musunuz?")) return;
-            }
+        // Mükerrer Kontrolü
+        if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) {
+            if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return;
         }
 
-        const veri = {
-            isim: isimGiris,
+        const obj = {
+            isim: ad,
             anne: document.getElementById('in_anne').value || "?",
             baba: document.getElementById('in_baba').value || "?",
             es: document.getElementById('in_es').value || "?",
@@ -146,25 +171,18 @@
             bilgi: document.getElementById('in_bilgi').value || ""
         };
 
-        if(id) {
-            await db.collection("zatlar").doc(id).update(veri);
-            alert("Güncellendi!");
-        } else {
-            await db.collection("zatlar").add(veri);
-            alert("Eklendi!");
-        }
-        formSifirla();
-        sayfaDegistir('arsiv');
+        if(id) await db.collection("zatlar").doc(id).update(obj);
+        else await db.collection("zatlar").add(obj);
+
+        temizle();
     }
 
-    async function veriyiSil(id) {
-        if(confirm("Bu kaydı kalıcı olarak silmek istiyor musunuz?")) {
-            await db.collection("zatlar").doc(id).delete();
-        }
+    async function sil(id) {
+        if(confirm("Silinsin mi?")) await db.collection("zatlar").doc(id).delete();
     }
 
-    function veriyiDuzenle(id) {
-        const z = zatlar.find(item => item.id === id);
+    function duzenle(id) {
+        const z = veriler.find(v => v.id === id);
         document.getElementById('edit-id').value = id;
         document.getElementById('in_ad').value = z.isim;
         document.getElementById('in_anne').value = z.anne;
@@ -174,27 +192,25 @@
         document.getElementById('in_v_hicri').value = z.v_hicri;
         document.getElementById('in_bilgi').value = z.bilgi;
         document.getElementById('form-baslik').innerText = "⚙️ Kaydı Düzenle";
+        document.getElementById('main-btn').innerText = "GÜNCELLE";
         document.getElementById('cancel-btn').style.display = "block";
-        sayfaDegistir('admin-panel');
+        window.scrollTo(0,0);
     }
 
-    function formSifirla() {
+    function temizle() {
         document.getElementById('edit-id').value = "";
         document.querySelectorAll('input, textarea').forEach(i => i.value = "");
-        document.getElementById('form-baslik').innerText = "⚙️ Kayıt Yönetimi";
+        document.getElementById('form-baslik').innerText = "⚙️ Kayıt Ekle / Düzenle";
+        document.getElementById('main-btn').innerText = "KAYDET";
         document.getElementById('cancel-btn').style.display = "none";
     }
 
     function yoneticiGiris() {
-        if(prompt("Şifre?") === "130504") {
-            isAdmin = true;
-            ekranaBas();
-            sayfaDegistir('admin-panel');
-        } else { alert("Hatalı!"); }
+        if(prompt("Şifre?") === "130504") sayfaDegistir('admin');
     }
 
     function aramaYap() {
-        const m = document.getElementById('aramaInput').value.toLowerCase();
+        const m = document.getElementById('ara').value.toLowerCase();
         document.querySelectorAll('.search-item').forEach(k => k.style.display = k.getAttribute('data-name').includes(m) ? 'block' : 'none');
     }
 </script>
