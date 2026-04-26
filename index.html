@@ -8,126 +8,120 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
     <style>
-        :root { --primary: #0ea5e9; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --accent: #f59e0b; }
+        :root { --primary: #0ea5e9; --bg: #f8fafc; --text: #1e293b; --accent: #f59e0b; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; scroll-behavior: smooth; }
         
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-
-        /* Navbar & Header */
-        header { background: white; border-bottom: 1px solid #e2e8f0; padding: 15px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo-area img { height: 60px; cursor: pointer; }
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links button { background: none; border: none; font-weight: 600; color: #64748b; cursor: pointer; transition: 0.3s; font-size: 14px; text-transform: uppercase; }
+        /* Navbar Düzeni */
+        header { background: white; border-bottom: 1px solid #e2e8f0; padding: 10px 0; position: sticky; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+        .brand { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .brand img { height: 50px; }
+        .brand span { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+        
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .nav-links button { background: none; border: none; font-weight: 600; color: #64748b; cursor: pointer; font-size: 13px; text-transform: uppercase; transition: 0.3s; }
         .nav-links button:hover { color: var(--primary); }
-
-        /* Search Bar */
-        .search-container { background: white; padding: 40px 20px; text-align: center; border-bottom: 1px solid #e2e8f0; }
-        .search-box { max-width: 600px; margin: 0 auto; display: flex; gap: 10px; }
-        .search-box input { flex: 1; padding: 15px 20px; border-radius: 30px; border: 2px solid #e2e8f0; font-size: 16px; outline: none; transition: 0.3s; }
-        .search-box input:focus { border-color: var(--primary); }
-
-        /* Hero & Hadis */
-        .hadis-section { text-align: center; padding: 60px 20px; background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('https://www.transparenttextures.com/patterns/cubes.png'); }
-        .hadis-text { font-size: 24px; font-style: italic; color: #334155; max-width: 800px; margin: 0 auto; line-height: 1.6; font-weight: 300; }
-
-        /* Grid System (İnsan ve Hayat Tarzı) */
-        .grid-portal { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-top: 40px; }
-        .portal-card { position: relative; height: 450px; border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .portal-card:hover { transform: translateY(-10px); }
-        .portal-card img { width: 100%; height: 100%; object-fit: cover; }
-        .card-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 20px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; }
-        .card-tag { position: absolute; top: 20px; left: 20px; background: var(--accent); color: white; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-
-        /* Modal (Hakkımızda) */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
-        .modal-content { background: white; margin: 5% auto; padding: 40px; border-radius: 20px; max-width: 700px; max-height: 80vh; overflow-y: auto; }
-
-        /* Footer */
-        footer { background: #1e293b; color: #94a3b8; padding: 40px 0; margin-top: 60px; text-align: center; }
         
-        /* Admin & Tabs */
-        #adminPanel { display: none; margin-bottom: 30px; }
-        .tab-content { display: none; padding: 40px 0; min-height: 400px; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Navbar Arama Alanı */
+        .nav-search { position: relative; }
+        .nav-search input { padding: 8px 15px; border-radius: 20px; border: 1px solid #e2e8f0; outline: none; font-size: 14px; width: 180px; transition: 0.3s; }
+        .nav-search input:focus { width: 250px; border-color: var(--primary); }
+        #searchDropdown { position: absolute; top: 40px; right: 0; width: 300px; background: white; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 400px; overflow-y: auto; display: none; }
 
-        /* Kişi Kartları */
-        .kisi-kart { background: white; border: 1px solid #e2e8f0; padding: 25px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid var(--primary); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* Hero & Hadis */
+        .hero { text-align: center; padding: 80px 20px; background: white; border-bottom: 1px solid #f1f5f9; }
+        .hadis-box { max-width: 800px; margin: 0 auto; }
+        .hadis-text { font-size: 26px; font-style: italic; color: #334155; line-height: 1.6; font-weight: 300; }
+
+        /* Kartlar */
+        .grid-portal { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: -50px; }
+        .portal-card { position: relative; height: 400px; border-radius: 24px; overflow: hidden; cursor: pointer; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .portal-card img { width: 100%; height: 100%; object-fit: cover; }
+        .card-overlay { position: absolute; bottom: 0; width: 100%; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: white; box-sizing: border-box; }
+
+        /* Panel & Mesajlar */
+        .admin-section { display: none; background: white; padding: 30px; border-radius: 20px; border: 2px solid var(--primary); margin-top: 20px; }
+        .message-item { background: #f1f5f9; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--accent); }
+
+        .tab-content { display: none; padding: 40px 0; }
+        .tab-content.active { display: block; }
+
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.8); backdrop-filter: blur(8px); }
+        .modal-content { background: white; margin: 5% auto; padding: 40px; border-radius: 24px; max-width: 600px; position: relative; }
+        
+        footer { background: #1e293b; color: #94a3b8; padding: 40px; text-align: center; margin-top: 100px; }
     </style>
 </head>
 <body>
 
     <header>
         <nav>
-            <div class="logo-area" onclick="location.reload()">
+            <div class="brand" onclick="location.reload()">
                 <img src="https://i.imgur.com/LxW98ge.png" alt="Logo">
+                <span>Asr-ı Saadet Portalı</span>
             </div>
-            <div class="nav-links">
-                <button onclick="switchTab('list')">Arşiv</button>
-                <button onclick="switchTab('time')">Zaman Çizelgesi</button>
-                <button onclick="switchTab('soy')">Soyağacı</button>
-                <button onclick="openModal()">Hakkımızda</button>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <button onclick="switchTab('list')">Arşiv</button>
+                    <button onclick="switchTab('time')">Zaman Çizelgesi</button>
+                    <button onclick="switchTab('soy')">Soyağacı</button>
+                    <button onclick="openModal()">Hakkımızda</button>
+                    <button onclick="loginAdmin()" style="color:var(--accent)">Yönetici</button>
+                </div>
+                <div class="nav-search">
+                    <input type="text" id="navSearchInput" placeholder="Hızlı ara..." onkeyup="navSearch()">
+                    <div id="searchDropdown"></div>
+                </div>
             </div>
         </nav>
     </header>
 
-    <div class="search-container" id="searchArea">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Aradığınız ismi yazın (Örn: Hz. Ali)..." onkeyup="smartSearch()">
+    <div id="homeView">
+        <section class="hero">
+            <div class="hadis-box">
+                <p class="hadis-text">"Ashabım, yıldızlar gibidir. Hangisine tabi olursanız hidayete erersiniz."</p>
+                <p style="color: var(--primary); margin-top: 20px; font-weight: 700;">— Peygamber Efendimiz (s.a.v.)</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="grid-portal">
+                <div class="portal-card" onclick="switchTab('list')">
+                    <img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg">
+                    <div class="card-overlay"><h3>Arşiv</h3><p>Ashab-ı Kiram kayıtlarını inceleyin.</p></div>
+                </div>
+                <div class="portal-card" onclick="switchTab('time')">
+                    <img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg">
+                    <div class="card-overlay"><h3>Zaman Çizelgesi</h3><p>Tarihin akışına tanıklık edin.</p></div>
+                </div>
+                <div class="portal-card" onclick="switchTab('soy')">
+                    <img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg">
+                    <div class="card-overlay"><h3>Soyağacı</h3><p>Kutlu nesillerin şeceresi.</p></div>
+                </div>
+            </div>
         </div>
-        <div id="searchResults" style="margin-top: 20px; max-width: 600px; margin-left: auto; margin-right: auto;"></div>
     </div>
 
     <div class="container">
-        
-        <div id="homeView">
-            <div class="hadis-section">
-                <p class="hadis-text">"Ashabım, yıldızlar gibidir. Hangisine tabi olursanız hidayete erersiniz."</p>
-                <p style="color: var(--primary); margin-top: 15px; font-weight: 600;">Peygamber Efendimiz (s.a.v.)</p>
-            </div>
-
-            <div class="grid-portal">
-                <div class="portal-card" onclick="switchTab('list')">
-                    <span class="card-tag">TARİHİ BELGELER</span>
-                    <img src="https://images.pexels.com/photos/5528206/pexels-photo-5528206.jpeg" alt="Arşiv">
-                    <div class="card-overlay">
-                        <h3>Geçmişin İzleri: Arşiv</h3>
-                        <p>Yüz binlerce Ashabı Kiram ve tarihi belgeler arasında keşfe çıkın.</p>
-                    </div>
+        <div id="adminPanel" class="admin-section">
+            <h2 style="color:var(--primary)">Yönetim Merkezi</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <h3>Yeni Kayıt Ekle</h3>
+                    <input id="isim" placeholder="İsim">
+                    <input id="aile" placeholder="Aile">
+                    <input id="dogum" placeholder="Doğum Yılı">
+                    <select id="cinsiyet"><option value="Erkek">Erkek</option><option value="Kadın">Kadın</option></select>
+                    <textarea id="bilgi" placeholder="Biyografi" rows="4" style="width:100%; margin-top:10px;"></textarea>
+                    <button onclick="saveZat()" style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:8px; margin-top:10px; cursor:pointer;">Sisteme Ekle</button>
                 </div>
-                <div class="portal-card" onclick="switchTab('time')">
-                    <span class="card-tag">KRONOLOJİ</span>
-                    <img src="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg" alt="Zaman">
-                    <div class="card-overlay">
-                        <h3>Tarihin Akışı</h3>
-                        <p>Olayları ve kişileri Hicri/Miladi zaman çizelgesi üzerinde inceleyin.</p>
-                    </div>
-                </div>
-                <div class="portal-card" onclick="switchTab('soy')">
-                    <span class="card-tag">AİLE BAĞLARI</span>
-                    <img src="https://images.pexels.com/photos/37186494/pexels-photo-37186494.jpeg" alt="Soyağacı">
-                    <div class="card-overlay">
-                        <h3>Kutlu Nesiller</h3>
-                        <p>Hanedanların ve ailelerin birbirine bağlanan köklü şecereleri.</p>
-                    </div>
+                <div>
+                    <h3>Gelen Mesajlar</h3>
+                    <div id="inbox">Mesajlar yükleniyor...</div>
                 </div>
             </div>
-        </div>
-
-        <div id="adminPanel" class="card" style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; margin-top: 20px;">
-            <h3 style="color: var(--primary)">🛠️ Veri Girişi</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-                <input id="isim" placeholder="Ad Soyad">
-                <input id="aile" placeholder="Aile / Hanedan">
-                <input id="dogum" placeholder="Doğum Yılı">
-                <input id="baba" placeholder="Baba Adı">
-                <input id="anne" placeholder="Anne Adı">
-                <input id="es" placeholder="Eş Adı">
-                <select id="cinsiyet"><option value="Erkek">Erkek</option><option value="Kadın">Kadın</option></select>
-            </div>
-            <textarea id="bilgi" placeholder="Biyografi..." rows="3" style="width:100%; margin-top:10px;"></textarea>
-            <button onclick="saveToCloud()" style="margin-top:10px; background: var(--primary); color: white; padding: 10px 20px; border-radius: 10px; border:none; cursor:pointer;">KAYDET</button>
         </div>
 
         <div id="list" class="tab-content"></div>
@@ -137,32 +131,21 @@
 
     <div id="aboutModal" class="modal">
         <div class="modal-content">
-            <h2 style="color: var(--primary)">Hakkımızda</h2>
-            <p style="line-height: 1.8; color: #475569;">
-                Tarih, geçmişi anlamanın ve geleceği şekillendirmenin en güçlü yollarından biridir. Biz de bu düşünceyle, tarihe ilgi duyan herkese güvenilir, anlaşılır ve dikkat çekici içerikler sunmak amacıyla bu platformu oluşturduk.<br><br>
-                Sitemizde; önemli tarihi olaylar, medeniyetler, hükümdarlar, savaşlar ve sayısı yüz binlerce olan Ashabı Kiram yer almaktadır. Amacımız, tarihi yalnızca bilgi olarak sunmak değil; aynı zamanda okuyucuların geçmişi daha iyi anlamasına ve olaylar arasında bağlantı kurmasına yardımcı olmaktır.<br><br>
-                İçeriklerimizi hazırlarken doğruluk, tarafsızlık ve kaynak güvenilirliğini ön planda tutuyoruz. Tarihi bilgileri sade ve anlaşılır bir dille sunarak her yaştan ziyaretçinin kolayca faydalanabileceği bir ortam oluşturmayı hedefliyoruz.
-            </p>
-            <hr style="margin: 30px 0; opacity: 0.2;">
-            <h3>Bize Ulaşın</h3>
-            <p>Sorularınız ve önerileriniz için aşağıdaki formu kullanabilirsiniz.</p>
-            <form action="mailto:ayris0@icloud.com" method="post" enctype="text/plain" style="display: flex; flex-direction: column; gap: 10px;">
-                <input type="text" name="name" placeholder="Adınız" required style="border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px;">
-                <textarea name="message" placeholder="Mesajınız" rows="4" required style="border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px;"></textarea>
-                <button type="submit" style="background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer;">MESAJI GÖNDER</button>
-            </form>
-            <button onclick="closeModal()" style="margin-top: 20px; background: none; border: none; color: #94a3b8; cursor: pointer;">Kapat</button>
+            <h2 style="color:var(--primary)">Hakkımızda</h2>
+            <p style="color:#64748b; line-height:1.6;">Tarih, geçmişi anlamanın en güçlü yollarından biridir. Biz de bu düşünceyle, tarihe ilgi duyan herkese güvenilir içerikler sunmak amacıyla bu platformu oluşturduk...</p>
+            <hr style="margin:25px 0; opacity:0.1;">
+            <h3>Yöneticiye Mesaj Gönder</h3>
+            <input type="text" id="msgName" placeholder="Adınız" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+            <textarea id="msgBody" placeholder="Mesajınız..." rows="3" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;"></textarea>
+            <button onclick="sendMessage()" style="width:100%; background:var(--primary); color:white; border:none; padding:12px; border-radius:8px; margin-top:10px; cursor:pointer;">Gönder</button>
+            <button onclick="closeModal()" style="display:block; margin:20px auto 0; background:none; border:none; color:#94a3b8; cursor:pointer;">Kapat</button>
         </div>
     </div>
 
     <footer>
-        <div class="container">
-            <p>© Telif Hakkı 2026, Tüm Hakları Saklıdır</p>
-            <small style="opacity: 0.5;">ayris0@icloud.com</small>
-        </div>
+        <p>© Telif Hakkı 2026, Tüm Hakları Saklıdır</p>
+        <p style="font-size:12px; opacity:0.6;">İletişim: ayris0@icloud.com</p>
     </footer>
-
-    <button onclick="showAdmin()" style="position: fixed; bottom: 20px; right: 20px; opacity: 0.1; background: none; border: none; cursor: pointer;">⚙️</button>
 
     <script>
         const firebaseConfig = {
@@ -171,28 +154,24 @@
             projectId: "tarihizatlar",
             storageBucket: "tarihizatlar.firebasestorage.app",
             messagingSenderId: "930648787998",
-            appId: "1:930648787998:web:db163d0f3811786610b20f",
-            measurementId: "G-N2DE9B17T0"
+            appId: "1:930648787998:web:db163d0f3811786610b20f"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         let allData = [];
 
-        // Akıllı Arama (Fuzzy Search)
-        function smartSearch() {
-            const input = document.getElementById('searchInput').value;
-            const resultsDiv = document.getElementById('searchResults');
+        function navSearch() {
+            const val = document.getElementById('navSearchInput').value;
+            const drop = document.getElementById('searchDropdown');
+            if(val.length < 2) { drop.style.display = 'none'; return; }
             
-            if(input.length < 2) { resultsDiv.innerHTML = ''; return; }
-
-            const options = { keys: ['isim', 'aile', 'bilgi'], threshold: 0.4 };
-            const fuse = new Fuse(allData, options);
-            const results = fuse.search(input);
-
-            resultsDiv.innerHTML = results.map(r => `
-                <div class="kisi-kart" style="text-align: left; cursor:pointer;" onclick="switchTab('list')">
-                    <b>${r.item.isim}</b> <small>(${r.item.aile})</small>
+            const fuse = new Fuse(allData, { keys: ['isim', 'aile'], threshold: 0.3 });
+            const res = fuse.search(val);
+            
+            drop.style.display = 'block';
+            drop.innerHTML = res.map(r => `
+                <div style="padding:15px; border-bottom:1px solid #eee; cursor:pointer;" onclick="switchTab('list')">
+                    <b>${r.item.isim}</b><br><small style="color:#64748b">${r.item.aile}</small>
                 </div>
             `).join('');
         }
@@ -201,53 +180,58 @@
             document.getElementById('homeView').style.display = 'none';
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            window.scrollTo({top: 400, behavior: 'smooth'});
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function loginAdmin() {
+            let p = prompt("Yönetici Şifresi:");
+            if(p === "130504") {
+                document.getElementById('adminPanel').style.display = 'block';
+                loadMessages();
+            }
+        }
+
+        async function sendMessage() {
+            const name = document.getElementById('msgName').value;
+            const text = document.getElementById('msgBody').value;
+            if(!text) return;
+            await db.collection("mesajlar").add({ name, text, date: new Date().toLocaleString() });
+            alert("Mesajınız yöneticiye iletildi.");
+            closeModal();
+        }
+
+        async function loadMessages() {
+            const snap = await db.collection("mesajlar").orderBy("date", "desc").get();
+            const inbox = document.getElementById('inbox');
+            inbox.innerHTML = snap.docs.map(doc => `
+                <div class="message-item">
+                    <b>${doc.data().name || 'Anonim'}:</b> ${doc.data().text}
+                    <div style="font-size:10px; margin-top:5px; color:#64748b">${doc.data().date}</div>
+                </div>
+            `).join('') || "Henüz mesaj yok.";
+        }
+
+        async function saveZat() {
+            const data = {
+                isim: document.getElementById('isim').value,
+                aile: document.getElementById('aile').value,
+                dogum: document.getElementById('dogum').value,
+                cinsiyet: document.getElementById('cinsiyet').value,
+                bilgi: document.getElementById('bilgi').value,
+                ts: Date.now()
+            };
+            await db.collection("zatlar").add(data);
+            alert("Kayıt eklendi.");
+            location.reload();
         }
 
         function openModal() { document.getElementById('aboutModal').style.display = 'block'; }
         function closeModal() { document.getElementById('aboutModal').style.display = 'none'; }
-        function showAdmin() { 
-            let pass = prompt("Yönetici Şifresi:");
-            if(pass === "130504") document.getElementById('adminPanel').style.display = 'block';
-        }
 
-        async function saveToCloud() {
-            const data = {
-                isim: document.getElementById('isim').value,
-                aile: document.getElementById('aile').value || "Bilinmiyor",
-                dogum: document.getElementById('dogum').value,
-                baba: document.getElementById('baba').value,
-                anne: document.getElementById('anne').value,
-                es: document.getElementById('es').value,
-                cinsiyet: document.getElementById('cinsiyet').value,
-                bilgi: document.getElementById('bilgi').value,
-                timestamp: Date.now()
-            };
-            await db.collection("zatlar").add(data);
-            alert("Kaydedildi!");
-            location.reload();
-        }
-
-        function loadData() {
-            db.collection("zatlar").onSnapshot(snap => {
-                allData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                render();
-            });
-        }
-
-        function render() {
-            const list = document.getElementById('list');
-            list.innerHTML = allData.map(i => `
-                <div class="kisi-kart">
-                    <h3>${i.isim}</h3>
-                    <p style="color:#64748b">${i.dogum || 'Bilinmiyor'} | ${i.aile}</p>
-                    <p>${i.bilgi}</p>
-                </div>
-            `).join('');
-            // Diğer tablar (zaman, soy) önceki mantıkla aynı render edilebilir.
-        }
-
-        loadData();
+        db.collection("zatlar").onSnapshot(s => {
+            allData = s.docs.map(d => d.data());
+            // Render logic (Arşiv, Zaman, Soy) buraya eklenebilir.
+        });
     </script>
 </body>
 </html>
