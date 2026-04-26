@@ -208,3 +208,12 @@
                 localStorage.setItem('tarihArsivi', JSON.stringify(arsiv));
                 verileriYukle();
             }
+        }
+
+        function detayAc(el) {
+            const d = el.nextElementSibling;
+            d.style.display = d.style.display === "block" ? "none" : "block";
+        }
+    </script>
+</body>
+</html>
