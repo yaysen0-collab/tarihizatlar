@@ -68,27 +68,17 @@
 
     <div id="admin" class="page">
         <h2 id="form-baslik">⚙️ Kayıt Ekle / Düzenle</h2>
+        <div class="admin-section">
+            <input type="hidden" id="edit-id">
+            <input id="in_ad" placeholder="İsim">
+            <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
+            <input id="in_es" placeholder="Bağlar / Eşler">
+            <div class="row"><input id="in_d_hicri" placeholder="Doğum Hicri"><input id="in_v_hicri" placeholder="Vefat Hicri"></div>
+            <textarea id="in_bilgi" placeholder="Bilgi" rows="3"></textarea>
+            <button class="btn-action" id="main-btn" onclick="kaydet()">KAYDET</button>
+            <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
+        </div>
 
-<div class="admin-section" style="border-top: 2px solid #8d6e63;">
-    <h3>📜 Yeni Olay Ekle</h3>
-    <input id="ol_ad" placeholder="Olayın Adı">
-    <input id="ol_tarih" placeholder="Olayın Tarihi">
-    <textarea id="ol_bilgi" placeholder="Olay Hakkında Bilgi" rows="3"></textarea>
-    <button class="btn-action" onclick="olayKaydet()" style="background:#8d6e63;">OLAYI KAYDET</button>
-</div>
-
-<div class="admin-section">
-    <input type="hidden" id="edit-id">
-    <input id="in_ad" placeholder="İsim">
-    
-    <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
-    <input id="in_es" placeholder="Bağlar / Eşler">
-    <div class="row"><input id="in_d_hicri" placeholder="Doğum Hicri"><input id="in_v_hicri" placeholder="Vefat Hicri"></div>
-    <textarea id="in_bilgi" placeholder="Bilgi" rows="3"></textarea>
-    
-    <button class="btn-action" id="main-btn" onclick="kaydet()">KAYDET</button>
-    <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
-</div>        
         <hr>
         <h3>📋 Mevcut Kayıtlar (Düzenle / Sil)</h3>
         <div id="adminList"></div>
@@ -162,55 +152,14 @@
     }
 
     async function kaydet() {
-    const ad = document.getElementById('in_ad').value.trim();
-    const id = document.getElementById('edit-id').value;
-    if(!ad) return;
+        const ad = document.getElementById('in_ad').value.trim();
+        const id = document.getElementById('edit-id').value;
+        if(!ad) return;
 
-    if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) {
-        if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return;
-    }
-
-    const obj = {
-        isim: ad,
-        anne: document.getElementById('in_anne').value || "?",
-        baba: document.getElementById('in_baba').value || "?",
-        es: document.getElementById('in_es').value || "?",
-        d_hicri: document.getElementById('in_d_hicri').value || "?",
-        v_hicri: document.getElementById('in_v_hicri').value || "?",
-        bilgi: document.getElementById('in_bilgi').value || ""
-    };
-
-    if(id) await db.collection("zatlar").doc(id).update(obj);
-    else await db.collection("zatlar").add(obj);
-
-    temizle();
-} 
-    
-async function olayKaydet() {
-    const ad = document.getElementById('ol_ad').value.trim();
-    const tarih = document.getElementById('ol_tarih').value.trim();
-    const bilgi = document.getElementById('ol_bilgi').value.trim();
-
-    if(!ad) { 
-        alert("Lütfen bir olay adı giriniz!"); 
-        return; 
-    }
-
-    const olayObj = {
-        ad: ad,
-        tarih: tarih || "?",
-        bilgi: bilgi || ""
-    };
-
-    try {
-        await db.collection("olaylar").add(olayObj);
-        document.getElementById('ol_ad').value = "";
-        document.getElementById('ol_tarih').value = "";
-        document.getElementById('ol_bilgi').value = "";
-    } catch (hata) {
-        console.error("Hata:", hata);
-    }
-}
+        // Mükerrer Kontrolü
+        if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) {
+            if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return;
+        }
 
         const obj = {
             isim: ad,
