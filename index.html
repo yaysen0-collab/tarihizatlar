@@ -30,9 +30,41 @@
         .admin-controls { margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
         .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
+        <style>
+
+  /* Senin eski CSS kodların */
+
+  #timeline {
+    border-left: 3px solid #444;
+    padding-left: 20px;
+    margin: 20px;
+  }
+
+  .timeline-item {
+    margin-bottom: 20px;
+  }
+
+  .timeline-year {
+    font-weight: bold;
+    color: #b22222;
+  }
+
+  .timeline-text {
+    margin-left: 10px;
+  }
+
+</style>
     </style>
 </head>
 <body>
+
+  <!-- Sayfanın mevcut içeriği -->
+
+  <!-- ZAMAN ÇİZELGESİ -->
+  <div id="timeline"></div>
+
+  <script src="script.js"></script>
+</body>
 
 <header>
     <h1>ASRI SAADET PORTALI</h1>
@@ -86,6 +118,36 @@
 </div>
 
 <script>
+
+
+  // eski kodların
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const events = [
+      {
+        year: 60,
+        text: "Örnek kişi doğdu"
+      }
+    ];
+
+    const timeline = document.getElementById("timeline");
+
+    events.forEach(event => {
+      const item = document.createElement("div");
+      item.className = "timeline-item";
+
+      item.innerHTML = `
+        <div class="timeline-year">Hicri ${event.year}</div>
+        <div class="timeline-text">${event.text}</div>
+      `;
+
+      timeline.appendChild(item);
+    });
+
+  });
+
+</script>
     const firebaseConfig = {
         apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss",
         authDomain: "tarihizatlar.firebaseapp.com",
