@@ -8,7 +8,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         body { font-family: sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; }
-        header { background: #5d4037; color: white; padding: 20px; text-align: center; }
+        /* Üst menüye ID vermek için küçük bir dokunuş yaptık */
+        #main-header { background: #5d4037; color: white; padding: 20px; text-align: center; }
         .nav-btn { background: #8d6e63; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .container { max-width: 900px; margin: 20px auto; padding: 20px; }
         .page { display: none; }
@@ -27,7 +28,6 @@
         .admin-dashboard { background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.15); border-top: 8px solid #5d4037; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
         
-        /* Soyağacı Klasör Stili */
         details.soy-klasor { background: white; border-radius: 8px; margin-bottom: 12px; border: 1px solid #d7ccc8; }
         summary.soy-baslik { cursor: pointer; padding: 15px; font-weight: bold; color: #5d4037; list-style: none; display: flex; align-items: center; }
         summary.soy-baslik::before { content: "📂"; margin-right: 10px; font-size: 1.2rem; }
@@ -37,7 +37,7 @@
 </head>
 <body>
 
-<header>
+<header id="main-header">
     <h1>ASRI SAADET PORTALI</h1>
     <div>
         <button class="nav-btn" onclick="sayfaDegistir('home')">Ana Sayfa</button>
@@ -72,7 +72,7 @@
         <div class="admin-dashboard">
             <div class="admin-header">
                 <h2 style="margin: 0; color: #5d4037;">⚙️ Yönetici Kontrol Merkezi</h2>
-                <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap</button>
+                <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap / Siteye Dön</button>
             </div>
             <div class="admin-section">
                 <h3>📜 Yeni Olay Ekle</h3>
@@ -126,9 +126,20 @@
     db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
     db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
 
+    // --- SİHİRLİ DOKUNUŞ BURADA ---
     function sayfaDegistir(id) {
         let p = document.getElementById(id);
         if (!p) { id = 'home'; p = document.getElementById('home'); }
+        
+        const mainHeader = document.getElementById('main-header');
+        
+        // Eğer yönetici paneline geçiliyorsa üst menüyü tamamen gizle
+        if(id === 'admin') {
+            mainHeader.style.display = 'none';
+        } else {
+            mainHeader.style.display = 'block';
+        }
+
         document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
         p.classList.add('active');
         localStorage.setItem('aktifSayfa', id); 
@@ -138,6 +149,7 @@
         const son = localStorage.getItem('aktifSayfa');
         if(son) sayfaDegistir(son);
     };
+    // -------------------------------
 
     function ekranaBas() {
         const arsiv = document.getElementById('arsivList');
@@ -156,14 +168,12 @@
         });
         arsiv.innerHTML = aHtml; adminL.innerHTML = admHtml;
 
-        // ÇİZELGE (Sadece Miladi Sıralama)
         const bil = []; const bilmz = [];
         veriler.forEach(z => { const m = parseInt(z.d_miladi); if(!isNaN(m)) bil.push({s:m, ad:z.isim, t:'Zat'}); else bilmz.push({ad:z.isim, t:'Zat'}); });
         olaylar.forEach(o => { const m = parseInt(o.miladi); if(!isNaN(m)) bil.push({s:m, ad:o.ad, t:'Olay'}); else bilmz.push({ad:o.ad, t:'Olay'}); });
         bil.sort((a,b)=>a.s-b.s);
         cizelge.innerHTML = [...bil, ...bilmz].map(i => `<div class="data-box"><b>M. ${i.s || '?'}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
 
-        // SOYAĞACI (Klasör / İç İçe Kutu Mantığı)
         const gruplar = {};
         veriler.forEach(z => {
             const baba = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler";
@@ -215,17 +225,4 @@
         document.getElementById('in_d_hicri').value = z.d_hicri || ""; document.getElementById('in_d_miladi').value = z.d_miladi || "";
         document.getElementById('in_v_hicri').value = z.v_hicri || ""; document.getElementById('in_v_miladi').value = z.v_miladi || "";
         document.getElementById('in_bilgi').value = z.bilgi; document.getElementById('form-baslik').innerText = "⚙️ Kaydı Düzenle";
-        document.getElementById('main-btn').innerText = "GÜNCELLE"; document.getElementById('cancel-btn').style.display = "block";
-        window.scrollTo(0,0);
-    }
-
-    function temizle() { document.getElementById('edit-id').value = ""; document.querySelectorAll('#admin input, #admin textarea').forEach(i => i.value = ""); document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; document.getElementById('main-btn').innerText = "KAYDET"; document.getElementById('cancel-btn').style.display = "none"; }
-    function temizleOlay() { document.getElementById('ol_ad').value = ""; document.getElementById('ol_hicri').value = ""; document.getElementById('ol_miladi').value = ""; document.getElementById('ol_bilgi').value = ""; }
-
-    function yoneticiGiris() { if (localStorage.getItem('adminGiris') === 'basarili') { sayfaDegistir('admin'); } else { if(prompt("Şifre?") === "130504") { localStorage.setItem('adminGiris', 'basarili'); sayfaDegistir('admin'); } else { alert("Yanlış!"); } } }
-    function cikisYap() { localStorage.removeItem('adminGiris'); sayfaDegistir('home'); }
-
-    function aramaYap() { const m = document.getElementById('ara').value.toLowerCase(); document.querySelectorAll('.search-item').forEach(k => k.style.display = k.getAttribute('data-name').includes(m) ? 'block' : 'none'); }
-</script>
-</body>
-</html>
+        document.getElementById('main-btn').innerText = "GÜNCELLE"; document
