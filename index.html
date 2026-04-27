@@ -67,7 +67,22 @@
     <div id="soy" class="page"><h2>🌳 Soyağacı</h2><div id="soyList"></div></div>
 
     <div id="admin" class="page">
-        <h2 id="form-baslik">⚙️ Kayıt Ekle / Düzenle</h2>
+        <h2>⚙️ Yönetim Paneli</h2>
+
+        <div class="admin-section" style="border-left-color: #8d6e63;">
+            <h3>📜 Yeni Olay Ekle</h3>
+            <input id="ol_ad" placeholder="Olay İsmi">
+            <div class="row">
+                <input id="ol_hicri" placeholder="Olay Tarihi (Hicri)">
+                <input id="ol_miladi" placeholder="Olay Tarihi (Miladi)">
+            </div>
+            <textarea id="ol_bilgi" placeholder="Olay Hakkında Bilgi" rows="2"></textarea>
+            <button class="btn-action" onclick="olayKaydet()" style="background: #8d6e63;">OLAYI KAYDET</button>
+        </div>
+
+        <hr>
+
+        <h2 id="form-baslik">⚙️ Zat Ekle / Düzenle</h2>
         <div class="admin-section">
             <input type="hidden" id="edit-id">
             <input id="in_ad" placeholder="İsim">
@@ -98,10 +113,16 @@
     const db = firebase.firestore();
 
     let veriler = [];
+    let olaylar = [];
 
     // Verileri Çek
     db.collection("zatlar").onSnapshot(s => {
         veriler = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        ekranaBas();
+    });
+
+    db.collection("olaylar").onSnapshot(s => {
+        olaylar = s.docs.map(d => ({ id: d.id, ...d.data() }));
         ekranaBas();
     });
 
@@ -116,31 +137,52 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
 
-        // Arşiv ve Admin Listesi
         let html = "";
         let adminHtml = "";
+
+        // Önce Zatları Basalım
         veriler.forEach(z => {
-            let kart = `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
+            html += `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
                 <strong>${z.isim}</strong><br>
                 <small>H. ${z.d_hicri || '?'} - H. ${z.v_hicri || '?'}</small>
                 <p>${z.bilgi || ''}</p>
             </div>`;
-            html += kart;
 
             adminHtml += `<div class="data-box">
-                <strong>${z.isim}</strong>
+                <strong>${z.isim} (Zat)</strong>
                 <div class="admin-controls">
                     <button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button>
-                    <button class="del-btn" onclick="sil('${z.id}')">Sil</button>
+                    <button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button>
                 </div>
             </div>`;
         });
+
+        // Olayları Arşive ve Admin Listesine Basalım
+        olaylar.forEach(o => {
+            html += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${o.ad.toLowerCase()}">
+                <strong>${o.ad} (Olay)</strong><br>
+                <small>H. ${o.hicri || '?'} / M. ${o.miladi || '?'}</small>
+                <p>${o.bilgi || ''}</p>
+            </div>`;
+
+            adminHtml += `<div class="data-box" style="border-left-color: #8d6e63;">
+                <strong>${o.ad} (Olay)</strong>
+                <div class="admin-controls">
+                    <button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button>
+                </div>
+            </div>`;
+        });
+
         arsiv.innerHTML = html;
         adminL.innerHTML = adminHtml;
 
-        // Çizelge
-        const sirali = [...veriler].sort((a,b) => (parseInt(a.d_hicri) || 0) - (parseInt(b.d_hicri) || 0));
-        cizelge.innerHTML = sirali.map(z => `<div class="data-box"><b>H. ${z.d_hicri || '?'}:</b> ${z.isim}</div>`).join('');
+        // Çizelge (Zat Doğumları ve Olaylar Bir Arada)
+        const birlesik = [
+            ...veriler.map(z => ({t: parseInt(z.d_hicri) || 0, ad: z.isim, tip: 'Zat'})),
+            ...olaylar.map(o => ({t: parseInt(o.hicri) || 0, ad: o.ad, tip: 'Olay'}))
+        ].sort((a,b) => a.t - b.t);
+
+        cizelge.innerHTML = birlesik.map(item => `<div class="data-box"><b>H. ${item.t || '?'}:</b> ${item.ad} <small>(${item.tip})</small></div>`).join('');
 
         // Soyağacı
         soy.innerHTML = veriler.map(z => `
@@ -156,7 +198,6 @@
         const id = document.getElementById('edit-id').value;
         if(!ad) return;
 
-        // Mükerrer Kontrolü
         if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) {
             if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return;
         }
@@ -177,8 +218,28 @@
         temizle();
     }
 
-    async function sil(id) {
-        if(confirm("Silinsin mi?")) await db.collection("zatlar").doc(id).delete();
+    async function olayKaydet() {
+        const ad = document.getElementById('ol_ad').value.trim();
+        if(!ad) return;
+
+        const obj = {
+            ad: ad,
+            hicri: document.getElementById('ol_hicri').value || "?",
+            miladi: document.getElementById('ol_miladi').value || "?",
+            bilgi: document.getElementById('ol_bilgi').value || ""
+        };
+
+        await db.collection("olaylar").add(obj);
+        
+        // Olay kutularını temizle
+        document.getElementById('ol_ad').value = "";
+        document.getElementById('ol_hicri').value = "";
+        document.getElementById('ol_miladi').value = "";
+        document.getElementById('ol_bilgi').value = "";
+    }
+
+    async function sil(id, koleksiyon) {
+        if(confirm("Silinsin mi?")) await db.collection(koleksiyon).doc(id).delete();
     }
 
     function duzenle(id) {
@@ -200,7 +261,7 @@
     function temizle() {
         document.getElementById('edit-id').value = "";
         document.querySelectorAll('input, textarea').forEach(i => i.value = "");
-        document.getElementById('form-baslik').innerText = "⚙️ Kayıt Ekle / Düzenle";
+        document.getElementById('form-baslik').innerText = "⚙️ Zat Ekle / Düzenle";
         document.getElementById('main-btn').innerText = "KAYDET";
         document.getElementById('cancel-btn').style.display = "none";
     }
