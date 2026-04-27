@@ -8,8 +8,10 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         body { font-family: sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; }
-        /* Üst menüye ID vermek için küçük bir dokunuş yaptık */
+        
+        /* ANA MENÜ (GİZLENECEK KISIM) */
         #main-header { background: #5d4037; color: white; padding: 20px; text-align: center; }
+        
         .nav-btn { background: #8d6e63; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .container { max-width: 900px; margin: 20px auto; padding: 20px; }
         .page { display: none; }
@@ -25,9 +27,11 @@
         .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
         .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
         
+        /* YÖNETİCİ PANELİ ÖZEL TASARIMI */
         .admin-dashboard { background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.15); border-top: 8px solid #5d4037; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
         
+        /* SOYAĞACI KLASÖR STİLİ */
         details.soy-klasor { background: white; border-radius: 8px; margin-bottom: 12px; border: 1px solid #d7ccc8; }
         summary.soy-baslik { cursor: pointer; padding: 15px; font-weight: bold; color: #5d4037; list-style: none; display: flex; align-items: center; }
         summary.soy-baslik::before { content: "📂"; margin-right: 10px; font-size: 1.2rem; }
@@ -74,41 +78,54 @@
                 <h2 style="margin: 0; color: #5d4037;">⚙️ Yönetici Kontrol Merkezi</h2>
                 <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap / Siteye Dön</button>
             </div>
-            <div class="admin-section">
+
+            <div class="admin-section" style="border-left-color: #8d6e63;">
                 <h3>📜 Yeni Olay Ekle</h3>
                 <input id="ol_ad" placeholder="Olay İsmi">
                 <div class="row">
-                    <input id="ol_hicri" placeholder="Hicri"><input id="ol_miladi" placeholder="Miladi">
+                    <input id="ol_hicri" placeholder="Olay Tarihi (Hicri)">
+                    <input id="ol_miladi" placeholder="Olay Tarihi (Miladi)">
                 </div>
-                <textarea id="ol_bilgi" placeholder="Bilgi" rows="2"></textarea>
+                <textarea id="ol_bilgi" placeholder="Olay Hakkında Bilgi" rows="2"></textarea>
                 <button class="btn-action" onclick="olayKaydet()" style="background: #8d6e63;">OLAYI KAYDET</button>
             </div>
-            <hr>
-            <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
+            
+            <hr style="border: 1px solid #eee; margin: 30px 0;">
+            
+            <h2 id="form-baslik" style="color: #5d4037;">👤 Zat Ekle / Düzenle</h2>
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
                 <input id="in_ad" placeholder="İsim">
-                <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
+                <div class="row">
+                    <input id="in_anne" placeholder="Anne">
+                    <input id="in_baba" placeholder="Baba">
+                </div>
                 <input id="in_es" placeholder="Eşi / Eşleri">
                 <input id="in_baglar" placeholder="Kardeş, Çocuk veya Diğer Bağlar">
                 <div class="row">
-                    <input id="in_d_hicri" placeholder="Doğum H."><input id="in_d_miladi" placeholder="Doğum M.">
+                    <input id="in_d_hicri" placeholder="Doğum Tarihi (Hicri)">
+                    <input id="in_d_miladi" placeholder="Doğum Tarihi (Miladi)">
                 </div>
                 <div class="row">
-                    <input id="in_v_hicri" placeholder="Vefat H."><input id="in_v_miladi" placeholder="Vefat M.">
+                    <input id="in_v_hicri" placeholder="Vefat Tarihi (Hicri)">
+                    <input id="in_v_miladi" placeholder="Vefat Tarihi (Miladi)">
                 </div>
                 <textarea id="in_bilgi" placeholder="Bilgi" rows="3"></textarea>
                 <button class="btn-action" id="main-btn" onclick="kaydet()">KAYDET</button>
                 <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
             </div>
-            <hr>
-            <h3>📋 Mevcut Kayıtlar</h3>
+            
+            <hr style="border: 1px solid #eee; margin: 30px 0;">
+            
+            <h3 style="color: #5d4037;">📋 Mevcut Kayıtlar</h3>
             <div id="adminList"></div>
+
         </div>
     </div>
 </div>
 
 <script>
+    // FİREBASE BAĞLANTISI
     const firebaseConfig = {
         apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss",
         authDomain: "tarihizatlar.firebaseapp.com",
@@ -123,57 +140,134 @@
     let veriler = [];
     let olaylar = [];
 
-    db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
-    db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
+    // VERİLERİ ÇEK
+    db.collection("zatlar").onSnapshot(s => {
+        veriler = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        ekranaBas();
+    });
 
-    // --- SİHİRLİ DOKUNUŞ BURADA ---
+    db.collection("olaylar").onSnapshot(s => {
+        olaylar = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        ekranaBas();
+    });
+
+    // SAYFA DEĞİŞTİRME VE İZOLE EKRAN MANTIĞI
     function sayfaDegistir(id) {
-        let p = document.getElementById(id);
-        if (!p) { id = 'home'; p = document.getElementById('home'); }
+        let secilenSayfa = document.getElementById(id);
         
-        const mainHeader = document.getElementById('main-header');
-        
-        // Eğer yönetici paneline geçiliyorsa üst menüyü tamamen gizle
-        if(id === 'admin') {
-            mainHeader.style.display = 'none';
-        } else {
-            mainHeader.style.display = 'block';
+        if (!secilenSayfa) {
+            id = 'home';
+            secilenSayfa = document.getElementById('home');
         }
 
+        const mainHeader = document.getElementById('main-header');
+        
+        if (mainHeader) {
+            if (id === 'admin') {
+                mainHeader.style.display = 'none'; // Yöneticiye geçince başlığı gizle
+            } else {
+                mainHeader.style.display = 'block'; // Diğer sayfalarda başlığı göster
+            }
+        }
+
+        // Tüm sayfaları gizle, sadece seçileni göster
         document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
-        p.classList.add('active');
+        secilenSayfa.classList.add('active');
+        
+        // Hangi sayfada olduğunu hafızaya kaydet
         localStorage.setItem('aktifSayfa', id); 
     }
 
+    // SAYFA YENİLENDİĞİNDE HAFIZADAN ÇAĞIRMA
     window.onload = function() {
-        const son = localStorage.getItem('aktifSayfa');
-        if(son) sayfaDegistir(son);
+        const sonSayfa = localStorage.getItem('aktifSayfa');
+        
+        if (sonSayfa === 'admin') {
+            // Eğer sayfa yenilendiğinde admin sayfasındaysa, giriş yapmış mı diye kontrol et
+            if (localStorage.getItem('adminGiris') === 'basarili') {
+                sayfaDegistir('admin');
+            } else {
+                sayfaDegistir('home'); // Şifresizse ana sayfaya at
+            }
+        } else if (sonSayfa) {
+            sayfaDegistir(sonSayfa);
+        }
     };
-    // -------------------------------
 
+    // EKRANA YAZDIRMA (ARŞİV, ÇİZELGE, SOYAĞACI)
     function ekranaBas() {
         const arsiv = document.getElementById('arsivList');
         const cizelge = document.getElementById('cizelgeList');
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
 
-        let aHtml = ""; let admHtml = "";
+        let aHtml = ""; 
+        let admHtml = "";
+
+        // Zatları Listele
         veriler.forEach(z => {
-            aHtml += `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}"><strong>${z.isim}</strong><br><small>H. ${z.d_hicri || '?'} (M. ${z.d_miladi || '?'})</small><p>${z.bilgi || ''}</p></div>`;
-            admHtml += `<div class="data-box"><strong>${z.isim} (Zat)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
+            const hicriGosterim = z.d_hicri || z.hicri || '?';
+            aHtml += `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
+                        <strong>${z.isim}</strong><br>
+                        <small>H. ${hicriGosterim} (M. ${z.d_miladi || '?'})</small>
+                        <p>${z.bilgi || ''}</p>
+                      </div>`;
+            
+            admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none;">
+                          <strong>${z.isim} (Zat)</strong>
+                          <div class="admin-controls">
+                              <button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button>
+                              <button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button>
+                          </div>
+                        </div>`;
         });
+
+        // Olayları Listele
         olaylar.forEach(o => {
-            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${o.ad.toLowerCase()}"><strong>${o.ad} (Olay)</strong><br><small>H. ${o.hicri || '?'} (M. ${o.miladi || '?'})</small><p>${o.bilgi || ''}</p></div>`;
-            admHtml += `<div class="data-box" style="border-left-color: #8d6e63;"><strong>${o.ad} (Olay)</strong><div class="admin-controls"><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
+            const hicriGosterim = o.hicri || o.yil || '?';
+            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${o.ad.toLowerCase()}">
+                        <strong>${o.ad} (Olay)</strong><br>
+                        <small>H. ${hicriGosterim} (M. ${o.miladi || '?'})</small>
+                        <p>${o.bilgi || ''}</p>
+                      </div>`;
+            
+            admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none; border-left-color: #8d6e63;">
+                          <strong>${o.ad} (Olay)</strong>
+                          <div class="admin-controls">
+                              <button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button>
+                          </div>
+                        </div>`;
         });
-        arsiv.innerHTML = aHtml; adminL.innerHTML = admHtml;
 
-        const bil = []; const bilmz = [];
-        veriler.forEach(z => { const m = parseInt(z.d_miladi); if(!isNaN(m)) bil.push({s:m, ad:z.isim, t:'Zat'}); else bilmz.push({ad:z.isim, t:'Zat'}); });
-        olaylar.forEach(o => { const m = parseInt(o.miladi); if(!isNaN(m)) bil.push({s:m, ad:o.ad, t:'Olay'}); else bilmz.push({ad:o.ad, t:'Olay'}); });
-        bil.sort((a,b)=>a.s-b.s);
-        cizelge.innerHTML = [...bil, ...bilmz].map(i => `<div class="data-box"><b>M. ${i.s || '?'}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
+        arsiv.innerHTML = aHtml; 
+        adminL.innerHTML = admHtml;
 
+        // Çizelge Mantığı
+        const bilinenler = []; 
+        const bilinmeyenler = [];
+
+        veriler.forEach(z => { 
+            const miladiYil = parseInt(z.d_miladi); 
+            if(!isNaN(miladiYil)) bilinenler.push({s: miladiYil, ad: z.isim, t: 'Zat'}); 
+            else bilinmeyenler.push({ad: z.isim, t: 'Zat'}); 
+        });
+
+        olaylar.forEach(o => { 
+            const miladiYil = parseInt(o.miladi); 
+            if(!isNaN(miladiYil)) bilinenler.push({s: miladiYil, ad: o.ad, t: 'Olay'}); 
+            else bilinmeyenler.push({ad: o.ad, t: 'Olay'}); 
+        });
+
+        bilinenler.sort((a,b) => a.s - b.s);
+        const sonListe = [...bilinenler, ...bilinmeyenler];
+
+        cizelge.innerHTML = sonListe.map(i => `
+            <div class="data-box">
+                <b>M. ${i.s || '?'}</b>: ${i.ad} <small>[${i.t}]</small>
+            </div>
+        `).join('');
+
+        // Soyağacı Mantığı (Klasör Sistemi)
         const gruplar = {};
         veriler.forEach(z => {
             const baba = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler";
@@ -200,29 +294,137 @@
         soy.innerHTML = soyHtml;
     }
 
+    // ZAT KAYDET
     async function kaydet() {
         const ad = document.getElementById('in_ad').value.trim();
         const id = document.getElementById('edit-id').value;
         if(!ad) return;
-        const obj = { isim: ad, anne: document.getElementById('in_anne').value || "?", baba: document.getElementById('in_baba').value || "?", es: document.getElementById('in_es').value || "?", baglar: document.getElementById('in_baglar').value || "?", d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?", v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?", bilgi: document.getElementById('in_bilgi').value || "" };
-        if(id) await db.collection("zatlar").doc(id).update(obj); else await db.collection("zatlar").add(obj);
+
+        // Mükerrer Kontrolü (Geri eklendi)
+        if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) {
+            if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return;
+        }
+
+        const obj = { 
+            isim: ad, 
+            anne: document.getElementById('in_anne').value || "?", 
+            baba: document.getElementById('in_baba').value || "?", 
+            es: document.getElementById('in_es').value || "?", 
+            baglar: document.getElementById('in_baglar').value || "?", 
+            d_hicri: document.getElementById('in_d_hicri').value || "?", 
+            d_miladi: document.getElementById('in_d_miladi').value || "?", 
+            v_hicri: document.getElementById('in_v_hicri').value || "?", 
+            v_miladi: document.getElementById('in_v_miladi').value || "?", 
+            bilgi: document.getElementById('in_bilgi').value || "" 
+        };
+
+        if(id) {
+            await db.collection("zatlar").doc(id).update(obj);
+        } else {
+            await db.collection("zatlar").add(obj);
+        }
         temizle();
     }
 
+    // OLAY KAYDET
     async function olayKaydet() {
-        const ad = document.getElementById('ol_ad').value.trim(); if(!ad) return;
-        const obj = { ad: ad, hicri: document.getElementById('ol_hicri').value || "?", miladi: document.getElementById('ol_miladi').value || "?", bilgi: document.getElementById('ol_bilgi').value || "" };
-        await db.collection("olaylar").add(obj); temizleOlay();
+        const ad = document.getElementById('ol_ad').value.trim(); 
+        if(!ad) return;
+
+        const obj = { 
+            ad: ad, 
+            hicri: document.getElementById('ol_hicri').value || "?", 
+            miladi: document.getElementById('ol_miladi').value || "?", 
+            bilgi: document.getElementById('ol_bilgi').value || "" 
+        };
+
+        await db.collection("olaylar").add(obj); 
+        temizleOlay();
     }
 
-    async function sil(id, kol) { if(confirm("Silinsin mi?")) await db.collection(kol).doc(id).delete(); }
+    // SİL
+    async function sil(id, koleksiyon) { 
+        if(confirm("Bu kaydı silmek istediğinize emin misiniz?")) {
+            await db.collection(koleksiyon).doc(id).delete(); 
+        }
+    }
 
+    // DÜZENLE
     function duzenle(id) {
         const z = veriler.find(v => v.id === id);
-        document.getElementById('edit-id').value = id; document.getElementById('in_ad').value = z.isim;
-        document.getElementById('in_anne').value = z.anne; document.getElementById('in_baba').value = z.baba;
-        document.getElementById('in_es').value = z.es || ""; document.getElementById('in_baglar').value = z.baglar || "";
-        document.getElementById('in_d_hicri').value = z.d_hicri || ""; document.getElementById('in_d_miladi').value = z.d_miladi || "";
-        document.getElementById('in_v_hicri').value = z.v_hicri || ""; document.getElementById('in_v_miladi').value = z.v_miladi || "";
-        document.getElementById('in_bilgi').value = z.bilgi; document.getElementById('form-baslik').innerText = "⚙️ Kaydı Düzenle";
-        document.getElementById('main-btn').innerText = "GÜNCELLE"; document
+        
+        document.getElementById('edit-id').value = id; 
+        document.getElementById('in_ad').value = z.isim;
+        document.getElementById('in_anne').value = z.anne; 
+        document.getElementById('in_baba').value = z.baba;
+        document.getElementById('in_es').value = z.es || ""; 
+        document.getElementById('in_baglar').value = z.baglar || "";
+        document.getElementById('in_d_hicri').value = z.d_hicri || z.hicri || ""; 
+        document.getElementById('in_d_miladi').value = z.d_miladi || "";
+        document.getElementById('in_v_hicri').value = z.v_hicri || ""; 
+        document.getElementById('in_v_miladi').value = z.v_miladi || "";
+        document.getElementById('in_bilgi').value = z.bilgi; 
+        
+        document.getElementById('form-baslik').innerText = "⚙️ Kaydı Düzenle";
+        document.getElementById('main-btn').innerText = "GÜNCELLE"; 
+        document.getElementById('cancel-btn').style.display = "block";
+        
+        window.scrollTo(0, 0);
+    }
+
+    // TEMİZLE (ZAT)
+    function temizle() { 
+        document.getElementById('edit-id').value = ""; 
+        document.getElementById('in_ad').value = "";
+        document.getElementById('in_anne').value = "";
+        document.getElementById('in_baba').value = "";
+        document.getElementById('in_es').value = "";
+        document.getElementById('in_baglar').value = "";
+        document.getElementById('in_d_hicri').value = "";
+        document.getElementById('in_d_miladi').value = "";
+        document.getElementById('in_v_hicri').value = "";
+        document.getElementById('in_v_miladi').value = "";
+        document.getElementById('in_bilgi').value = "";
+        
+        document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; 
+        document.getElementById('main-btn').innerText = "KAYDET"; 
+        document.getElementById('cancel-btn').style.display = "none"; 
+    }
+
+    // TEMİZLE (OLAY)
+    function temizleOlay() { 
+        document.getElementById('ol_ad').value = ""; 
+        document.getElementById('ol_hicri').value = ""; 
+        document.getElementById('ol_miladi').value = ""; 
+        document.getElementById('ol_bilgi').value = ""; 
+    }
+
+    // YÖNETİCİ GİRİŞ VE ÇIKIŞ
+    function yoneticiGiris() { 
+        if (localStorage.getItem('adminGiris') === 'basarili') { 
+            sayfaDegistir('admin'); 
+        } else { 
+            if(prompt("Şifre?") === "130504") { 
+                localStorage.setItem('adminGiris', 'basarili'); 
+                sayfaDegistir('admin'); 
+            } else { 
+                alert("Yanlış Şifre!"); 
+            } 
+        } 
+    }
+    
+    function cikisYap() { 
+        localStorage.removeItem('adminGiris'); 
+        sayfaDegistir('home'); 
+    }
+
+    // ARAMA FONKSİYONU
+    function aramaYap() { 
+        const m = document.getElementById('ara').value.toLowerCase(); 
+        document.querySelectorAll('.search-item').forEach(k => {
+            k.style.display = k.getAttribute('data-name').includes(m) ? 'block' : 'none';
+        }); 
+    }
+</script>
+</body>
+</html>
