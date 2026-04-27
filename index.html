@@ -33,7 +33,7 @@
 
         .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        .row { display: flex; gap: 10px; }
+        .row { display: flex; gap: 10px; align-items: center; }
         .btn-action { background: #5d4037; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px; margin-top: 5px; }
         .admin-controls { margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
@@ -115,12 +115,12 @@
                     <input id="in_anne" placeholder="Anne">
                     <input id="in_baba" placeholder="Baba">
                 </div>
-                <input id="in_es" placeholder="Eşi / Eşleri">
+                <input id="in_es" placeholder="Eşi / Eşleri (Birden fazlaysa virgülle ayırın)">
                 
-                <div class="row">
-                    <input id="in_baglar" placeholder="Kişinin İsmi (Diğer Bağlar)">
+                <div class="row" style="margin-top: 10px;">
+                    <input id="in_baglar_isim" placeholder="İsim Yaz (Örn: Ali)">
                     <select id="in_baglar_secenek" style="background: white;">
-                        <option value="">Bağlantı Türü Seçin...</option>
+                        <option value="">Bağlantı Türü...</option>
                         <option value="Çocuk">Çocuk</option>
                         <option value="Kardeş">Kardeş</option>
                         <option value="Dede">Dede</option>
@@ -135,8 +135,9 @@
                         <option value="Kayınpeder">Kayınpeder</option>
                         <option value="Damat">Damat</option>
                     </select>
+                    <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap;">➕ Ekle</button>
                 </div>
-
+                <textarea id="in_baglar_liste" placeholder="Eklenen Diğer Bağlar Burada Birikir (Buradan da silebilir veya düzeltebilirsiniz)" rows="2"></textarea>
                 <div class="row">
                     <input id="in_d_hicri" placeholder="Doğum Hicri">
                     <input id="in_d_miladi" placeholder="Doğum Miladi">
@@ -277,15 +278,38 @@
         soy.innerHTML = soyHtml;
     }
 
+    // ÇOKLU BAĞ EKLEME FONKSİYONU
+    function bagEkle() {
+        const isim = document.getElementById('in_baglar_isim').value.trim();
+        const tip = document.getElementById('in_baglar_secenek').value;
+        
+        if (!isim) {
+            alert("Lütfen eklenecek kişinin ismini yazın!");
+            return;
+        }
+
+        const formatliBag = tip ? isim + " (" + tip + ")" : isim;
+        const listeKutusu = document.getElementById('in_baglar_liste');
+
+        if (listeKutusu.value.trim() === "" || listeKutusu.value === "?") {
+            listeKutusu.value = formatliBag;
+        } else {
+            listeKutusu.value += ", " + formatliBag;
+        }
+
+        // Ekledikten sonra yazma yerlerini temizle ki yenisi yazılabilsin
+        document.getElementById('in_baglar_isim').value = "";
+        document.getElementById('in_baglar_secenek').value = "";
+    }
+
     async function kaydet() {
         const ad = document.getElementById('in_ad').value.trim();
         const id = document.getElementById('edit-id').value;
         if(!ad) return;
         if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) { if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return; }
         
-        const bagIsim = document.getElementById('in_baglar').value.trim();
-        const bagTip = document.getElementById('in_baglar_secenek').value;
-        const nihaiBag = bagIsim ? (bagTip ? bagIsim + " (" + bagTip + ")" : bagIsim) : "?";
+        // Nihai bağları, birikmiş olan liste kutusundan al
+        const nihaiBag = document.getElementById('in_baglar_liste').value.trim() || "?";
 
         const obj = { 
             isim: ad, 
@@ -318,55 +342,11 @@
         document.getElementById('in_anne').value = z.anne; 
         document.getElementById('in_baba').value = z.baba;
         document.getElementById('in_es').value = z.es || ""; 
-        document.getElementById('in_baglar').value = z.baglar && z.baglar !== "?" ? z.baglar : ""; 
+        
+        // Düzenlerken bağları direkt listeye aktar, inputları boşalt
+        document.getElementById('in_baglar_liste').value = z.baglar && z.baglar !== "?" ? z.baglar : ""; 
+        document.getElementById('in_baglar_isim').value = "";
         document.getElementById('in_baglar_secenek').value = "";
+        
         document.getElementById('in_d_hicri').value = z.d_hicri || z.hicri || ""; 
-        document.getElementById('in_d_miladi').value = z.d_miladi || "";
-        document.getElementById('in_v_hicri').value = z.v_hicri || ""; 
-        document.getElementById('in_v_miladi').value = z.v_miladi || "";
-        document.getElementById('in_bilgi').value = z.bilgi; 
-        document.getElementById('form-baslik').innerText = "⚙️ Kaydı Düzenle";
-        document.getElementById('main-btn').innerText = "GÜNCELLE"; 
-        document.getElementById('cancel-btn').style.display = "block";
-        window.scrollTo(0, 0);
-    }
-
-    function temizle() { 
-        document.getElementById('edit-id').value = ""; 
-        document.querySelectorAll('#admin input, #admin textarea, #admin select').forEach(i => i.value = ""); 
-        document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; 
-        document.getElementById('main-btn').innerText = "KAYDET"; 
-        document.getElementById('cancel-btn').style.display = "none"; 
-    }
-    
-    function temizleOlay() { 
-        document.getElementById('ol_ad').value = ""; 
-        document.getElementById('ol_hicri').value = ""; 
-        document.getElementById('ol_miladi').value = ""; 
-        document.getElementById('ol_bilgi').value = ""; 
-    }
-
-    function yoneticiGiris() { 
-        if (localStorage.getItem('adminGiris') === 'basarili') sayfaDegistir('admin'); 
-        else { 
-            if(prompt("Şifre?") === "130504") { 
-                localStorage.setItem('adminGiris', 'basarili'); 
-                sayfaDegistir('admin'); 
-            } else alert("Yanlış!"); 
-        } 
-    }
-    
-    function cikisYap() { 
-        localStorage.removeItem('adminGiris'); 
-        sayfaDegistir('home'); 
-    }
-    
-    function aramaYap() { 
-        const m = document.getElementById('ara').value.toLowerCase(); 
-        document.querySelectorAll('.search-item').forEach(k => { 
-            k.style.display = k.getAttribute('data-name').includes(m) ? 'block' : 'none'; 
-        }); 
-    }
-</script>
-</body>
-</html>
+        document.getElementById('in_d_miladi').value =
