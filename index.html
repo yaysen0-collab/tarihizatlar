@@ -88,7 +88,6 @@
     </div>
 
     <div id="cizelge" class="page"><h2>⏳ Zaman Çizelgesi</h2><div id="cizelgeList"></div></div>
-    
     <div id="soy" class="page"><h2>🌳 Soyağacı</h2><div id="soyList"></div></div>
 
     <div id="admin" class="page">
@@ -97,59 +96,30 @@
                 <h2 style="margin: 0; color: #5d4037;">⚙️ Yönetici Kontrol Merkezi</h2>
                 <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap</button>
             </div>
-
             <div class="admin-section" style="border-left-color: #8d6e63;">
                 <h3 id="olay-form-baslik">📜 Olay Ekle / Düzenle</h3>
                 <input type="hidden" id="edit-olay-id">
                 <input id="ol_ad" placeholder="Olay İsmi">
-                <div class="row">
-                    <input id="ol_hicri" placeholder="Hicri">
-                    <input id="ol_miladi" placeholder="Miladi">
-                </div>
+                <div class="row"><input id="ol_hicri" placeholder="Hicri"><input id="ol_miladi" placeholder="Miladi"></div>
                 <textarea id="ol_bilgi" placeholder="Hakkında Bilgi" rows="2"></textarea>
                 <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET</button>
                 <button class="btn-action" id="olay-cancel-btn" onclick="temizleOlay()" style="background:#999; display:none;">İPTAL</button>
             </div>
-            
             <hr style="border: 1px solid #eee; margin: 30px 0;">
-            
             <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
                 <input id="in_ad" placeholder="İsim">
-                <div class="row">
-                    <input id="in_anne" placeholder="Anne">
-                    <input id="in_baba" placeholder="Baba">
-                </div>
+                <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
                 <input id="in_es" placeholder="Eşi / Eşleri">
-                
-                <div class="row" style="margin-top: 10px;">
-                    <input id="in_baglar_isim" placeholder="İsim Yaz">
-                    <select id="in_baglar_secenek">
-                        <option value="">Bağlantı Türü...</option>
-                        <option value="Çocuk">Çocuk</option>
-                        <option value="Kardeş">Kardeş</option>
-                        <option value="Dede">Dede</option>
-                        <option value="Amca">Amca</option>
-                        <option value="Hala">Hala</option>
-                    </select>
-                    <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">➕ Ekle</button>
-                </div>
+                <div class="row" style="margin-top: 10px;"><input id="in_baglar_isim" placeholder="İsim Yaz"><select id="in_baglar_secenek"><option value="">Bağlantı Türü...</option><option value="Çocuk">Çocuk</option><option value="Kardeş">Kardeş</option><option value="Dede">Dede</option><option value="Amca">Amca</option><option value="Hala">Hala</option></select><button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">➕ Ekle</button></div>
                 <textarea id="in_baglar_liste" placeholder="Eklenen Bağlar" rows="2"></textarea>
-
-                <div class="row">
-                    <input id="in_d_hicri" placeholder="Doğum Hicri">
-                    <input id="in_d_miladi" placeholder="Doğum Miladi">
-                </div>
-                <div class="row">
-                    <input id="in_v_hicri" placeholder="Vefat Hicri">
-                    <input id="in_v_miladi" placeholder="Vefat Miladi">
-                </div>
+                <div class="row"><input id="in_d_hicri" placeholder="Doğum Hicri"><input id="in_d_miladi" placeholder="Doğum Miladi"></div>
+                <div class="row"><input id="in_v_hicri" placeholder="Vefat Hicri"><input id="in_v_miladi" placeholder="Vefat Miladi"></div>
                 <textarea id="in_bilgi" placeholder="Bilgi" rows="3"></textarea>
                 <button class="btn-action" id="main-btn" onclick="kaydet()">KAYDET</button>
                 <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
             </div>
-            
             <hr style="border: 1px solid #eee; margin: 30px 0;">
             <h3>📋 Mevcut Kayıtlar</h3>
             <div id="adminList"></div>
@@ -174,24 +144,12 @@
     let olaylar = [];
     let aktifFiltre = 'tumu';
 
-    // OTURUM TAKİBİ
     auth.onAuthStateChanged(user => {
-        if (user) {
-            console.log("Yönetici girişi aktif.");
-        } else {
-            if (localStorage.getItem('aktifSayfa') === 'admin') sayfaDegistir('home');
-        }
+        if (!user && localStorage.getItem('aktifSayfa') === 'admin') sayfaDegistir('home');
     });
 
-    db.collection("zatlar").onSnapshot(s => {
-        veriler = s.docs.map(d => ({ id: d.id, ...d.data() }));
-        ekranaBas();
-    });
-
-    db.collection("olaylar").onSnapshot(s => {
-        olaylar = s.docs.map(d => ({ id: d.id, ...d.data() }));
-        ekranaBas();
-    });
+    db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
+    db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
 
     function sayfaDegistir(id) {
         document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
@@ -203,18 +161,10 @@
     async function girisYap() {
         const email = document.getElementById('login-email').value;
         const pass = document.getElementById('login-pass').value;
-        try {
-            await auth.signInWithEmailAndPassword(email, pass);
-            sayfaDegistir('admin');
-        } catch (e) {
-            alert("Hatalı giriş: " + e.message);
-        }
+        try { await auth.signInWithEmailAndPassword(email, pass); sayfaDegistir('admin'); } catch (e) { alert("Hata: " + e.message); }
     }
 
-    function cikisYap() {
-        auth.signOut();
-        sayfaDegistir('home');
-    }
+    function cikisYap() { auth.signOut(); sayfaDegistir('home'); }
 
     function kelimeBaslariniBuyut(metin) {
         if (!metin || metin === "?") return metin;
@@ -237,31 +187,31 @@
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
             let yas = (!isNaN(dM) && !isNaN(vM)) ? ` <b>(Yaş: ${vM - dM})</b>` : "";
             
+            // YIL DÜZENLEME MANTIĞI
+            let dH = (z.d_hicri && z.d_hicri !== "?") ? "H. " + z.d_hicri : "";
+            let dMil = (z.d_miladi && z.d_miladi !== "?") ? " (M. " + z.d_miladi + ")" : "";
+            let vH = (z.v_hicri && z.v_hicri !== "?") ? "H. " + z.v_hicri : "";
+            let vMil = (z.v_miladi && z.v_miladi !== "?") ? " (M. " + z.v_miladi + ")" : "";
+            
+            let dogumSatiri = (dH || dMil) ? `D: ${dH}${dMil}` : "";
+            let vefatSatiri = (vH || vMil) ? ` | V: ${vH}${vMil}` : "";
+
             aHtml += `<div class="data-box search-item" data-search="${aramaMetni}" data-type="zat">
                         <strong>${z.isim}</strong>${yas}<br>
-                        <small>D: ${z.d_hicri} | V: ${z.v_hicri}</small><p>${z.bilgi}</p>
+                        <small>${dogumSatiri}${vefatSatiri}</small><p>${z.bilgi}</p>
                       </div>`;
-            admHtml += `<div class="data-box">
-                          <strong>${z.isim} (Zat)</strong>
-                          <div class="admin-controls">
-                              <button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button>
-                              <button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button>
-                          </div>
-                        </div>`;
+            admHtml += `<div class="data-box"><strong>${z.isim} (Zat)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
         });
 
         olaylar.forEach(o => {
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
+            let oH = (o.hicri && o.hicri !== "?") ? "H. " + o.hicri : "";
+            let oM = (o.miladi && o.miladi !== "?") ? " (M. " + o.miladi + ")" : "";
+
             aHtml += `<div class="data-box search-item" style="background:#fbf8f3;" data-search="${aramaMetniOlay}" data-type="olay">
-                        <strong>${o.ad} (Olay)</strong><br><small>H. ${o.hicri}</small><p>${o.bilgi}</p>
+                        <strong>${o.ad} (Olay)</strong><br><small>${oH}${oM}</small><p>${o.bilgi}</p>
                       </div>`;
-            admHtml += `<div class="data-box" style="background:#fbf8f3;">
-                          <strong>${o.ad} (Olay)</strong>
-                          <div class="admin-controls">
-                              <button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button>
-                              <button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button>
-                          </div>
-                        </div>`;
+            admHtml += `<div class="data-box" style="background:#fbf8f3;"><strong>${o.ad} (Olay)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
         });
 
         arsiv.innerHTML = aHtml; adminL.innerHTML = admHtml;
@@ -273,39 +223,22 @@
         cizelge.innerHTML = bil.map(i => `<div class="data-box"><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
 
         const gruplar = {};
-        veriler.forEach(z => {
-            const b = z.baba || "Soy Bilgisi Beklenenler";
-            if (!gruplar[b]) gruplar[b] = [];
-            gruplar[b].push(z);
-        });
-
-        soy.innerHTML = Object.keys(gruplar).map(b => `
-            <details class="soy-klasor"><summary class="soy-baslik">${b}</summary>
-            <div class="soy-icerik">${gruplar[b].map(k => `<div><strong>${k.isim}</strong><br><small>Anne: ${k.anne}</small></div>`).join('')}</div></details>
-        `).join('');
-        
+        veriler.forEach(z => { const b = z.baba || "Soy Bilgisi Beklenenler"; if (!gruplar[b]) gruplar[b] = []; gruplar[b].push(z); });
+        soy.innerHTML = Object.keys(gruplar).map(b => `<details class="soy-klasor"><summary class="soy-baslik">${b}</summary><div class="soy-icerik">${gruplar[b].map(k => `<div><strong>${k.isim}</strong><br><small>Anne: ${k.anne}</small></div>`).join('')}</div></details>`).join('');
         aramaYap();
     }
 
     async function kaydet() {
-        if (!auth.currentUser) return alert("Giriş yapmalısınız!");
+        if (!auth.currentUser) return;
         const ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
         const id = document.getElementById('edit-id').value;
-        const obj = { 
-            isim: ad, anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", 
-            baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?",
-            es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?",
-            baglar: document.getElementById('in_baglar_liste').value || "?",
-            d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?",
-            v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?",
-            bilgi: document.getElementById('in_bilgi').value || "" 
-        };
+        const obj = { isim: ad, anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?", es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?", baglar: document.getElementById('in_baglar_liste').value || "?", d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?", v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?", bilgi: document.getElementById('in_bilgi').value || "" };
         if(id) await db.collection("zatlar").doc(id).update(obj); else await db.collection("zatlar").add(obj);
         temizle();
     }
 
     async function olayKaydet() {
-        if (!auth.currentUser) return alert("Giriş yapmalısınız!");
+        if (!auth.currentUser) return;
         const ad = kelimeBaslariniBuyut(document.getElementById('ol_ad').value.trim());
         const id = document.getElementById('edit-olay-id').value;
         const obj = { ad: ad, hicri: document.getElementById('ol_hicri').value || "?", miladi: document.getElementById('ol_miladi').value || "?", bilgi: document.getElementById('ol_bilgi').value || "" };
@@ -330,6 +263,12 @@
         document.getElementById('in_ad').value = z.isim;
         document.getElementById('in_anne').value = z.anne;
         document.getElementById('in_baba').value = z.baba;
+        document.getElementById('in_es').value = z.es;
+        document.getElementById('in_baglar_liste').value = z.baglar;
+        document.getElementById('in_d_hicri').value = z.d_hicri;
+        document.getElementById('in_d_miladi').value = z.d_miladi;
+        document.getElementById('in_v_hicri').value = z.v_hicri;
+        document.getElementById('in_v_miladi').value = z.v_miladi;
         document.getElementById('in_bilgi').value = z.bilgi;
         document.getElementById('cancel-btn').style.display = "block";
         window.scrollTo(0,0);
@@ -339,6 +278,8 @@
         const o = olaylar.find(v => v.id === id);
         document.getElementById('edit-olay-id').value = id;
         document.getElementById('ol_ad').value = o.ad;
+        document.getElementById('ol_hicri').value = o.hicri;
+        document.getElementById('ol_miladi').value = o.miladi;
         document.getElementById('ol_bilgi').value = o.bilgi;
         document.getElementById('olay-cancel-btn').style.display = "block";
         window.scrollTo(0,0);
