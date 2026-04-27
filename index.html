@@ -80,7 +80,7 @@
 
     <div id="arsiv" class="page">
         <h2>📚 Kayıtlar</h2>
-        <input type="text" id="ara" placeholder="Ara..." onkeyup="aramaYap()">
+        <input type="text" id="ara" placeholder="İsim veya içerik ara (Örn: Bedir, Mekke, Amca)..." onkeyup="aramaYap()">
         <div id="arsivList"></div>
     </div>
 
@@ -217,7 +217,6 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
 
-        // ALFABETİK SIRALAMA: TÜRKÇE VE BÜYÜK/KÜÇÜK HARF DUYARLILIĞI DÜZELTİLDİ
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
         olaylar.sort((a, b) => (a.ad || "").toLocaleLowerCase('tr').localeCompare((b.ad || "").toLocaleLowerCase('tr'), 'tr'));
 
@@ -225,10 +224,11 @@
 
         veriler.forEach(z => {
             const hicriGosterim = z.d_hicri || z.hicri || '?';
-            // Arama için ismi küçük harfe çevirirken Türkçe uyumlu yap
-            const isimKucuk = (z.isim || "").toLocaleLowerCase('tr');
             
-            aHtml += `<div class="data-box search-item" data-name="${isimKucuk}">
+            // KAPSAMLI ARAMA MANTIĞI: İsim ve Bilgi birleştirilerek arama metnine dönüştürüldü
+            const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
+            
+            aHtml += `<div class="data-box search-item" data-search="${aramaMetni}">
                         <strong>${z.isim || 'İsimsiz Kayıt'}</strong><br>
                         <small>H. ${hicriGosterim} (M. ${z.d_miladi || '?'})</small>
                         <p>${z.bilgi || ''}</p>
@@ -245,9 +245,11 @@
 
         olaylar.forEach(o => {
             const hicriGosterim = o.hicri || o.yil || '?';
-            const adKucuk = (o.ad || "").toLocaleLowerCase('tr');
             
-            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${adKucuk}">
+            // KAPSAMLI ARAMA MANTIĞI: Olaylar için de isim ve bilgi birleştirildi
+            const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
+            
+            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-search="${aramaMetniOlay}">
                         <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong><br>
                         <small>H. ${hicriGosterim} (M. ${o.miladi || '?'})</small>
                         <p>${o.bilgi || ''}</p>
@@ -311,7 +313,6 @@
         const id = document.getElementById('edit-id').value;
         if(!ad) return;
         
-        // MÜKERRER KAYIT KONTROLÜ (Türkçe Büyük/Küçük Uyumlu)
         if(!id && veriler.find(v => (v.isim || "").toLocaleLowerCase('tr') === ad.toLocaleLowerCase('tr'))) { 
             if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return; 
         }
@@ -396,10 +397,10 @@
     }
     
     function aramaYap() { 
-        // Arama yaparken de Türkçe uyumlu küçük harf yap
+        // Arama artık data-search (isim + bilgi birleşimi) özelliğine bakıyor
         const m = document.getElementById('ara').value.toLocaleLowerCase('tr'); 
         document.querySelectorAll('.search-item').forEach(k => { 
-            k.style.display = k.getAttribute('data-name').includes(m) ? 'block' : 'none'; 
+            k.style.display = k.getAttribute('data-search').includes(m) ? 'block' : 'none'; 
         }); 
     }
 </script>
