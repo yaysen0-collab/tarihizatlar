@@ -40,7 +40,7 @@
         .canli-uyari { color: #c62828; font-size: 0.85em; font-weight: bold; margin: -2px 0 8px 5px; display: none; }
         
         /* ALT BİLGİ (FOOTER) - Tasarım */
-        #main-footer { border-top: 10px solid #5d4037; margin-top: 50px; padding: 40px 20px; }
+        #main-footer { border-top: 10px solid #5d4037; margin-top: 50px; padding: 40px 20px 20px 20px; }
         .footer-container { max-width: 900px; margin: 0 auto; display: flex; gap: 20px; justify-content: flex-start; }
         .footer-col { flex: 1; text-align: left; }
         .footer-col h4 { color: #5d4037; margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; border-bottom: 2px solid #d7ccc8; padding-bottom: 5px; font-family: 'Georgia', serif; }
@@ -48,6 +48,11 @@
         .footer-col ul li { margin-bottom: 8px; }
         .footer-col ul li a { text-decoration: none; color: #333; cursor: pointer; transition: 0.2s; font-size: 0.95rem; }
         .footer-col ul li a:hover { color: #8d6e63; font-weight: bold; }
+        
+        /* TELİF VE SOSYAL MEDYA KISMI */
+        .footer-bottom { max-width: 900px; margin: 40px auto 0 auto; padding-top: 20px; border-top: 1px solid #d7ccc8; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #8d6e63; }
+        .footer-bottom a { color: #8d6e63; text-decoration: none; margin-left: 15px; transition: 0.2s; }
+        .footer-bottom a:hover { color: #5d4037; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -73,10 +78,7 @@
             <div class="card" onclick="sayfaDegistir('cizelge')">⏳<br>ÇİZELGE</div>
             <div class="card" onclick="sayfaDegistir('soy')">🌳<br>SOYAĞACI</div>
         </div>
-        <div style="text-align: center; margin-top: 50px;">
-            <button onclick="sayfaDegistir('login')" style="background: none; border: none; color: #999; cursor: pointer;">[ Yönetici Paneli ]</button>
         </div>
-    </div>
 
     <div id="login" class="page">
         <div class="admin-dashboard" style="max-width: 400px; margin: auto;">
@@ -187,7 +189,23 @@
             </ul>
         </div>
         
+        <div class="footer-col">
+            <h4>YÖNETİM</h4>
+            <ul>
+                <li><a onclick="sayfaDegistir('login')">Yönetici Girişi</a></li>
+                <li><a>Sürüm Notları / Güncellemeler</a></li>
+            </ul>
         </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div>&copy; 2026 Asrı Saadet Portalı. Tüm hakları saklıdır.</div>
+        <div>
+            <a href="#">X (Twitter)</a>
+            <a href="#">WhatsApp</a>
+            <a href="#">E-posta</a>
+        </div>
+    </div>
 </footer>
 
 <script>
