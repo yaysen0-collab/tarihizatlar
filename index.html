@@ -19,17 +19,15 @@
         .data-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; position: relative; border-left: 5px solid #5d4037; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         
         /* HADİS-İ ŞERİF KUTUSU TASARIMI */
-        .quote-box {
-            background: white;
-            padding: 35px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 30px;
-            border-left: 10px solid #8d6e63;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-        }
+        .quote-box { background: white; padding: 35px; border-radius: 15px; text-align: center; margin-bottom: 30px; border-left: 10px solid #8d6e63; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
         .quote-box p { font-size: 1.4rem; color: #5d4037; margin: 0 0 15px 0; line-height: 1.6; font-style: italic; font-family: 'Georgia', serif; }
         .quote-box span { font-weight: bold; color: #8d6e63; font-size: 1.1rem; }
+
+        /* FİLTRE BUTONLARI TASARIMI */
+        .filter-container { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
+        .filter-btn { background: #d7ccc8; color: #5d4037; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .filter-btn:hover { background: #bcaaa4; }
+        .filter-btn.active-filter { background: #5d4037; color: white; }
 
         .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; font-size: 15px; }
@@ -80,6 +78,13 @@
 
     <div id="arsiv" class="page">
         <h2>📚 Kayıtlar</h2>
+        
+        <div class="filter-container">
+            <button class="filter-btn active-filter" onclick="filtreDegistir('tumu', this)">Tümü</button>
+            <button class="filter-btn" onclick="filtreDegistir('zat', this)">Sadece Kişiler</button>
+            <button class="filter-btn" onclick="filtreDegistir('olay', this)">Sadece Olaylar</button>
+        </div>
+
         <input type="text" id="ara" placeholder="İsim veya içerik ara (Örn: Bedir, Mekke, Amca)..." onkeyup="aramaYap()">
         <div id="arsivList"></div>
     </div>
@@ -173,6 +178,7 @@
 
     let veriler = [];
     let olaylar = [];
+    let aktifFiltre = 'tumu';
 
     db.collection("zatlar").onSnapshot(s => {
         veriler = s.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -223,19 +229,28 @@
         let aHtml = ""; let admHtml = "";
 
         veriler.forEach(z => {
-            const hicriGosterim = z.d_hicri || z.hicri || '?';
-            
-            // KAPSAMLI ARAMA MANTIĞI: İsim ve Bilgi birleştirilerek arama metnine dönüştürüldü
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             
-            aHtml += `<div class="data-box search-item" data-search="${aramaMetni}">
-                        <strong>${z.isim || 'İsimsiz Kayıt'}</strong><br>
-                        <small>H. ${hicriGosterim} (M. ${z.d_miladi || '?'})</small>
+            // YENİ: YAŞ HESAPLAMA MANTIĞI
+            let yasBilgisi = "";
+            let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
+            let dH = parseInt(z.d_hicri), vH = parseInt(z.v_hicri);
+            
+            if (!isNaN(dM) && !isNaN(vM) && vM >= dM) {
+                yasBilgisi = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${vM - dM})</span>`;
+            } else if (!isNaN(dH) && !isNaN(vH) && vH >= dH) {
+                yasBilgisi = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${vH - dH})</span>`;
+            }
+            // -----------------------------
+            
+            aHtml += `<div class="data-box search-item" data-search="${aramaMetni}" data-type="zat">
+                        <strong>${z.isim || 'İsimsiz Kayıt'}</strong>${yasBilgisi}<br>
+                        <small>D: H. ${z.d_hicri || '?'} (M. ${z.d_miladi || '?'}) | V: H. ${z.v_hicri || '?'} (M. ${z.v_miladi || '?'})</small>
                         <p>${z.bilgi || ''}</p>
                       </div>`;
             
             admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none;">
-                          <strong>${z.isim || 'İsimsiz Kayıt'} (Zat)</strong>
+                          <strong>${z.isim || 'İsimsiz Kayıt'} (Zat)</strong>${yasBilgisi}
                           <div class="admin-controls">
                               <button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button>
                               <button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button>
@@ -245,13 +260,11 @@
 
         olaylar.forEach(o => {
             const hicriGosterim = o.hicri || o.yil || '?';
-            
-            // KAPSAMLI ARAMA MANTIĞI: Olaylar için de isim ve bilgi birleştirildi
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
             
-            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-search="${aramaMetniOlay}">
+            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-search="${aramaMetniOlay}" data-type="olay">
                         <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong><br>
-                        <small>H. ${hicriGosterim} (M. ${o.miladi || '?'})</small>
+                        <small>Tarih: H. ${hicriGosterim} (M. ${o.miladi || '?'})</small>
                         <p>${o.bilgi || ''}</p>
                       </div>`;
             admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none; border-left-color: #8d6e63;">
@@ -279,11 +292,23 @@
         let soyHtml = "";
         Object.keys(gruplar).forEach(baba => {
             soyHtml += `<details class="soy-klasor"><summary class="soy-baslik">${baba}</summary><div class="soy-icerik">
-                        ${gruplar[baba].map(k => `<div style="margin-bottom:10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                        <strong>👤 ${k.isim || 'İsimsiz'}</strong><br><small>Anne: ${k.anne || '?'}</small> | <small>Eş: ${k.es || '?'}</small><br>
-                        <small>Bağlar: ${k.baglar || '?'}</small></div>`).join('')}</div></details>`;
+                        ${gruplar[baba].map(k => {
+                            
+                            // Soyağacı için de yaş hesaplama
+                            let kYas = "";
+                            let kdm = parseInt(k.d_miladi), kvm = parseInt(k.v_miladi);
+                            let kdh = parseInt(k.d_hicri), kvh = parseInt(k.v_hicri);
+                            if (!isNaN(kdm) && !isNaN(kvm) && kvm >= kdm) kYas = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${kvm - kdm})</span>`;
+                            else if (!isNaN(kdh) && !isNaN(kvh) && kvh >= kdh) kYas = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${kvh - kdh})</span>`;
+                            
+                            return `<div style="margin-bottom:10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
+                            <strong>👤 ${k.isim || 'İsimsiz'}</strong>${kYas}<br><small>Anne: ${k.anne || '?'}</small> | <small>Eş: ${k.es || '?'}</small><br>
+                            <small>Bağlar: ${k.baglar || '?'}</small></div>`;
+                        }).join('')}</div></details>`;
         });
         soy.innerHTML = soyHtml;
+        
+        aramaYap(); 
     }
 
     function bagEkle() {
@@ -395,12 +420,23 @@
         localStorage.removeItem('adminGiris'); 
         sayfaDegistir('home'); 
     }
+
+    function filtreDegistir(tur, btnElement) {
+        aktifFiltre = tur;
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active-filter'));
+        btnElement.classList.add('active-filter');
+        aramaYap();
+    }
     
     function aramaYap() { 
-        // Arama artık data-search (isim + bilgi birleşimi) özelliğine bakıyor
         const m = document.getElementById('ara').value.toLocaleLowerCase('tr'); 
+        
         document.querySelectorAll('.search-item').forEach(k => { 
-            k.style.display = k.getAttribute('data-search').includes(m) ? 'block' : 'none'; 
+            const metinUyar = k.getAttribute('data-search').includes(m);
+            const tip = k.getAttribute('data-type');
+            const tipUyar = (aktifFiltre === 'tumu' || aktifFiltre === tip);
+            
+            k.style.display = (metinUyar && tipUyar) ? 'block' : 'none'; 
         }); 
     }
 </script>
