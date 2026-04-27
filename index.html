@@ -120,10 +120,20 @@
         ekranaBas();
     });
 
+    // SAYFA DEĞİŞTİRME VE HAFIZAYA ALMA
     function sayfaDegistir(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
+        localStorage.setItem('aktifSayfa', id); // Hangi sayfada olduğunu kaydeder
     }
+
+    // SAYFA YENİLENDİĞİNDE HAFIZADAKİ SAYFAYI AÇMA
+    window.onload = function() {
+        const sonSayfa = localStorage.getItem('aktifSayfa');
+        if(sonSayfa) {
+            sayfaDegistir(sonSayfa);
+        }
+    };
 
     function ekranaBas() {
         const arsiv = document.getElementById('arsivList');
@@ -147,7 +157,6 @@
         arsiv.innerHTML = html;
         adminL.innerHTML = adminHtml;
 
-        // --- MILADI SIRALAMA MANTIĞI ---
         const bilinenler = [];
         const bilinmeyenler = [];
 
