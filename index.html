@@ -145,7 +145,22 @@
     let olaylar = [];
     let aktifFiltre = 'tumu';
 
-    auth.onAuthStateChanged(user => { if (!user && localStorage.getItem('aktifSayfa') === 'admin') sayfaDegistir('home'); });
+    // Sayfa yenilendiğinde nerede kaldığımızı hatırlama sistemi (DÜZELTİLDİ)
+    window.onload = function() {
+        const sonSayfa = localStorage.getItem('aktifSayfa');
+        if (sonSayfa) {
+            sayfaDegistir(sonSayfa);
+        }
+    };
+
+    auth.onAuthStateChanged(user => { 
+        if (!user) {
+            if (localStorage.getItem('aktifSayfa') === 'admin') sayfaDegistir('login');
+        } else {
+            if (localStorage.getItem('aktifSayfa') === 'login') sayfaDegistir('admin');
+        }
+    });
+
     db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
     db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
 
@@ -211,13 +226,16 @@
 
         arsiv.innerHTML = aHtml; adminL.innerHTML = admHtml;
 
+        // ÇİZELGE MANTIĞI VE RENK AYRIMI (DÜZELTİLDİ)
         const bil = [];
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
-        cizelge.innerHTML = bil.map(i => `<div class="data-box"><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
+        cizelge.innerHTML = bil.map(i => {
+            const olayStili = i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : '';
+            return `<div class="data-box"${olayStili}><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`;
+        }).join('');
 
-        // SOYAĞACI DÜZENLEME MANTIĞI
         const gruplar = {};
         veriler.forEach(z => {
             const b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler";
