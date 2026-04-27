@@ -23,6 +23,10 @@
         .admin-controls { margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
         .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
+        
+        /* YENİ: YÖNETİCİ PANELİ ÖZEL TASARIMI */
+        .admin-dashboard { background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.15); border-top: 8px solid #5d4037; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
     </style>
 </head>
 <body>
@@ -59,42 +63,54 @@
     <div id="soy" class="page"><h2>🌳 Soyağacı</h2><div id="soyList"></div></div>
 
     <div id="admin" class="page">
-        <h2>⚙️ Yönetim Paneli</h2>
-        <div class="admin-section" style="border-left-color: #8d6e63;">
-            <h3>📜 Yeni Olay Ekle</h3>
-            <input id="ol_ad" placeholder="Olay İsmi">
-            <div class="row">
-                <input id="ol_hicri" placeholder="Olay Tarihi (Hicri)">
-                <input id="ol_miladi" placeholder="Olay Tarihi (Miladi)">
-            </div>
-            <textarea id="ol_bilgi" placeholder="Olay Hakkında Bilgi" rows="2"></textarea>
-            <button class="btn-action" onclick="olayKaydet()" style="background: #8d6e63;">OLAYI KAYDET</button>
-        </div>
-        <hr>
-        <h2 id="form-baslik">⚙️ Zat Ekle / Düzenle</h2>
-        <div class="admin-section">
-            <input type="hidden" id="edit-id">
-            <input id="in_ad" placeholder="İsim">
-            <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
+        <div class="admin-dashboard">
             
-            <input id="in_es" placeholder="Eşi / Eşleri">
-            <input id="in_baglar" placeholder="Kardeş, Çocuk veya Diğer Bağlar">
+            <div class="admin-header">
+                <h2 style="margin: 0; color: #5d4037;">⚙️ Yönetici Kontrol Merkezi</h2>
+                <button onclick="sayfaDegistir('home')" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap</button>
+            </div>
+
+            <div class="admin-section" style="border-left-color: #8d6e63;">
+                <h3>📜 Yeni Olay Ekle</h3>
+                <input id="ol_ad" placeholder="Olay İsmi">
+                <div class="row">
+                    <input id="ol_hicri" placeholder="Olay Tarihi (Hicri)">
+                    <input id="ol_miladi" placeholder="Olay Tarihi (Miladi)">
+                </div>
+                <textarea id="ol_bilgi" placeholder="Olay Hakkında Bilgi" rows="2"></textarea>
+                <button class="btn-action" onclick="olayKaydet()" style="background: #8d6e63;">OLAYI KAYDET</button>
+            </div>
             
-            <div class="row">
-                <input id="in_d_hicri" placeholder="Doğum Tarihi (Hicri)">
-                <input id="in_d_miladi" placeholder="Doğum Tarihi (Miladi)">
+            <hr style="border: 1px solid #eee; margin: 30px 0;">
+            
+            <h2 id="form-baslik" style="color: #5d4037;">👤 Zat Ekle / Düzenle</h2>
+            <div class="admin-section">
+                <input type="hidden" id="edit-id">
+                <input id="in_ad" placeholder="İsim">
+                <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
+                
+                <input id="in_es" placeholder="Eşi / Eşleri">
+                <input id="in_baglar" placeholder="Kardeş, Çocuk veya Diğer Bağlar">
+                
+                <div class="row">
+                    <input id="in_d_hicri" placeholder="Doğum Tarihi (Hicri)">
+                    <input id="in_d_miladi" placeholder="Doğum Tarihi (Miladi)">
+                </div>
+                <div class="row">
+                    <input id="in_v_hicri" placeholder="Vefat Tarihi (Hicri)">
+                    <input id="in_v_miladi" placeholder="Vefat Tarihi (Miladi)">
+                </div>
+                <textarea id="in_bilgi" placeholder="Bilgi" rows="3"></textarea>
+                <button class="btn-action" id="main-btn" onclick="kaydet()">KAYDET</button>
+                <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
             </div>
-            <div class="row">
-                <input id="in_v_hicri" placeholder="Vefat Tarihi (Hicri)">
-                <input id="in_v_miladi" placeholder="Vefat Tarihi (Miladi)">
-            </div>
-            <textarea id="in_bilgi" placeholder="Bilgi" rows="3"></textarea>
-            <button class="btn-action" id="main-btn" onclick="kaydet()">KAYDET</button>
-            <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
+            
+            <hr style="border: 1px solid #eee; margin: 30px 0;">
+            
+            <h3 style="color: #5d4037;">📋 Mevcut Kayıtlar</h3>
+            <div id="adminList"></div>
+
         </div>
-        <hr>
-        <h3>📋 Mevcut Kayıtlar</h3>
-        <div id="adminList"></div>
     </div>
 </div>
 
@@ -151,13 +167,13 @@
         veriler.forEach(z => {
             const hicriGosterim = z.d_hicri || z.hicri || '?';
             html += `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}"><strong>${z.isim}</strong><br><small>H. ${hicriGosterim} (M. ${z.d_miladi || '?'})</small><p>${z.bilgi || ''}</p></div>`;
-            adminHtml += `<div class="data-box"><strong>${z.isim} (Zat)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
+            adminHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none;"><strong>${z.isim} (Zat)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
         });
 
         olaylar.forEach(o => {
             const hicriGosterim = o.hicri || o.yil || '?';
             html += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${o.ad.toLowerCase()}"><strong>${o.ad} (Olay)</strong><br><small>H. ${hicriGosterim} (M. ${o.miladi || '?'})</small><p>${o.bilgi || ''}</p></div>`;
-            adminHtml += `<div class="data-box" style="border-left-color: #8d6e63;"><strong>${o.ad} (Olay)</strong><div class="admin-controls"><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
+            adminHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none; border-left-color: #8d6e63;"><strong>${o.ad} (Olay)</strong><div class="admin-controls"><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
         });
 
         arsiv.innerHTML = html;
@@ -187,7 +203,6 @@
 
         cizelge.innerHTML = sonListe.map(item => `<div class="data-box"><b>H. ${item.h}</b> <small>(M. ${item.m})</small>: ${item.ad} <small>[${item.tip}]</small></div>`).join('');
 
-        // SOYAĞACI GÖRÜNÜMÜ GÜNCELLENDİ
         soy.innerHTML = veriler.map(z => `<div class="data-box"><strong>${z.isim}</strong><br>Baba: ${z.baba || '?'} | Anne: ${z.anne || '?'}<br>Eş: ${z.es || '?'} <br>Bağlar: ${z.baglar || '?'}</div>`).join('');
     }
 
@@ -238,7 +253,7 @@
 
     function temizle() {
         document.getElementById('edit-id').value = ""; document.querySelectorAll('input, textarea').forEach(i => i.value = "");
-        document.getElementById('form-baslik').innerText = "⚙️ Zat Ekle / Düzenle"; document.getElementById('main-btn').innerText = "KAYDET";
+        document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; document.getElementById('main-btn').innerText = "KAYDET";
         document.getElementById('cancel-btn').style.display = "none";
     }
 
