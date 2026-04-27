@@ -6,9 +6,9 @@
     <title>ASRI SAADET PORTALI</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <style>
         body { font-family: sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; }
-        
         #main-header { background: #5d4037; color: white; padding: 20px; text-align: center; }
         .nav-btn { background: #8d6e63; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .container { max-width: 900px; margin: 20px auto; padding: 20px; }
@@ -17,18 +17,12 @@
         .card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 20px; }
         .card { background: white; padding: 40px 10px; text-align: center; border-radius: 10px; cursor: pointer; border-bottom: 5px solid #5d4037; font-weight: bold; }
         .data-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; position: relative; border-left: 5px solid #5d4037; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        
-        /* HADİS-İ ŞERİF KUTUSU TASARIMI */
         .quote-box { background: white; padding: 35px; border-radius: 15px; text-align: center; margin-bottom: 30px; border-left: 10px solid #8d6e63; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
         .quote-box p { font-size: 1.4rem; color: #5d4037; margin: 0 0 15px 0; line-height: 1.6; font-style: italic; font-family: 'Georgia', serif; }
         .quote-box span { font-weight: bold; color: #8d6e63; font-size: 1.1rem; }
-
-        /* FİLTRE BUTONLARI TASARIMI */
         .filter-container { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         .filter-btn { background: #d7ccc8; color: #5d4037; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .filter-btn:hover { background: #bcaaa4; }
         .filter-btn.active-filter { background: #5d4037; color: white; }
-
         .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; font-size: 15px; }
         .row { display: flex; gap: 10px; align-items: center; }
@@ -36,14 +30,11 @@
         .admin-controls { margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
         .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
-        
         .admin-dashboard { background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.15); border-top: 8px solid #5d4037; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
-        
         details.soy-klasor { background: white; border-radius: 8px; margin-bottom: 12px; border: 1px solid #d7ccc8; }
         summary.soy-baslik { cursor: pointer; padding: 15px; font-weight: bold; color: #5d4037; list-style: none; display: flex; align-items: center; }
         summary.soy-baslik::before { content: "📂"; margin-right: 10px; font-size: 1.2rem; }
-        details[open] summary.soy-baslik::before { content: "📂"; }
         .soy-icerik { padding: 10px 15px 15px 35px; border-top: 1px solid #eee; background: #faf9f6; }
     </style>
 </head>
@@ -65,90 +56,86 @@
             <p>"Ashabım, yıldızlar gibidir. Hangisine tabi olursanız hidayete eresiniz."</p>
             <span>- Peygamber Efendimiz (s.a.v.)</span>
         </div>
-
         <div class="card-grid">
             <div class="card" onclick="sayfaDegistir('arsiv')">📚<br>ARŞİV</div>
             <div class="card" onclick="sayfaDegistir('cizelge')">⏳<br>ÇİZELGE</div>
             <div class="card" onclick="sayfaDegistir('soy')">🌳<br>SOYAĞACI</div>
         </div>
         <div style="text-align: center; margin-top: 50px;">
-            <button onclick="yoneticiGiris()" style="background: none; border: none; color: #999; cursor: pointer;">[ Yönetici Paneli ]</button>
+            <button onclick="sayfaDegistir('login')" style="background: none; border: none; color: #999; cursor: pointer;">[ Yönetici Paneli ]</button>
+        </div>
+    </div>
+
+    <div id="login" class="page">
+        <div class="admin-dashboard" style="max-width: 400px; margin: auto;">
+            <h2 style="text-align: center; color: #5d4037;">🔐 Yönetici Girişi</h2>
+            <input type="email" id="login-email" placeholder="E-posta Adresiniz">
+            <input type="password" id="login-pass" placeholder="Şifreniz">
+            <button class="btn-action" onclick="girisYap()">GİRİŞ YAP</button>
+            <button class="btn-action" onclick="sayfaDegistir('home')" style="background: #999;">VAZGEÇ</button>
         </div>
     </div>
 
     <div id="arsiv" class="page">
         <h2>📚 Kayıtlar</h2>
-        
         <div class="filter-container">
             <button class="filter-btn active-filter" onclick="filtreDegistir('tumu', this)">Tümü</button>
             <button class="filter-btn" onclick="filtreDegistir('zat', this)">Sadece Kişiler</button>
             <button class="filter-btn" onclick="filtreDegistir('olay', this)">Sadece Olaylar</button>
         </div>
-
-        <input type="text" id="ara" placeholder="İsim veya içerik ara (Örn: Bedir, Mekke, Amca)..." onkeyup="aramaYap()">
+        <input type="text" id="ara" placeholder="İsim veya içerik ara..." onkeyup="aramaYap()">
         <div id="arsivList"></div>
     </div>
 
-    <div id="cizelge" class="page"><h2>⏳ Zaman Çizelgesi (Miladi)</h2><div id="cizelgeList"></div></div>
-    <div id="soy" class="page"><h2>🌳 Soyağacı (Soy Grupları)</h2><div id="soyList"></div></div>
+    <div id="cizelge" class="page"><h2>⏳ Zaman Çizelgesi</h2><div id="cizelgeList"></div></div>
+    
+    <div id="soy" class="page"><h2>🌳 Soyağacı</h2><div id="soyList"></div></div>
 
     <div id="admin" class="page">
         <div class="admin-dashboard">
             <div class="admin-header">
                 <h2 style="margin: 0; color: #5d4037;">⚙️ Yönetici Kontrol Merkezi</h2>
-                <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap / Siteye Dön</button>
+                <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap</button>
             </div>
 
             <div class="admin-section" style="border-left-color: #8d6e63;">
-                <h3 id="olay-form-baslik" style="color: #5d4037;">📜 Yeni Olay Ekle</h3>
+                <h3 id="olay-form-baslik">📜 Olay Ekle / Düzenle</h3>
                 <input type="hidden" id="edit-olay-id">
-                
-                <input id="ol_ad" placeholder="Olay İsmi (Siz yazın, sistem kaydederken baş harflerini büyütecek)">
-                
+                <input id="ol_ad" placeholder="Olay İsmi">
                 <div class="row">
                     <input id="ol_hicri" placeholder="Hicri">
                     <input id="ol_miladi" placeholder="Miladi">
                 </div>
                 <textarea id="ol_bilgi" placeholder="Hakkında Bilgi" rows="2"></textarea>
-                <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">OLAYI KAYDET</button>
+                <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET</button>
                 <button class="btn-action" id="olay-cancel-btn" onclick="temizleOlay()" style="background:#999; display:none;">İPTAL</button>
             </div>
             
             <hr style="border: 1px solid #eee; margin: 30px 0;">
             
-            <h2 id="form-baslik" style="color: #5d4037;">👤 Zat Ekle / Düzenle</h2>
+            <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
-                
-                <input id="in_ad" placeholder="İsim (Siz yazın, sistem kaydederken baş harflerini büyütecek)">
-                
+                <input id="in_ad" placeholder="İsim">
                 <div class="row">
                     <input id="in_anne" placeholder="Anne">
                     <input id="in_baba" placeholder="Baba">
                 </div>
-                <input id="in_es" placeholder="Eşi / Eşleri (Birden fazlaysa virgülle ayırın)">
+                <input id="in_es" placeholder="Eşi / Eşleri">
                 
                 <div class="row" style="margin-top: 10px;">
-                    <input id="in_baglar_isim" placeholder="İsim Yaz (Örn: ali > Ali olacak)">
-                    <select id="in_baglar_secenek" style="background: white;">
+                    <input id="in_baglar_isim" placeholder="İsim Yaz">
+                    <select id="in_baglar_secenek">
                         <option value="">Bağlantı Türü...</option>
                         <option value="Çocuk">Çocuk</option>
                         <option value="Kardeş">Kardeş</option>
                         <option value="Dede">Dede</option>
-                        <option value="Nine">Nine</option>
-                        <option value="Torun">Torun</option>
                         <option value="Amca">Amca</option>
                         <option value="Hala">Hala</option>
-                        <option value="Dayı">Dayı</option>
-                        <option value="Teyze">Teyze</option>
-                        <option value="Yeğen">Yeğen</option>
-                        <option value="Kayınvalide">Kayınvalide</option>
-                        <option value="Kayınpeder">Kayınpeder</option>
-                        <option value="Damat">Damat</option>
                     </select>
-                    <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap;">➕ Ekle</button>
+                    <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">➕ Ekle</button>
                 </div>
-                <textarea id="in_baglar_liste" placeholder="Eklenen Diğer Bağlar Burada Birikir (Buradan da silebilir veya düzeltebilirsiniz)" rows="2"></textarea>
+                <textarea id="in_baglar_liste" placeholder="Eklenen Bağlar" rows="2"></textarea>
 
                 <div class="row">
                     <input id="in_d_hicri" placeholder="Doğum Hicri">
@@ -164,7 +151,7 @@
             </div>
             
             <hr style="border: 1px solid #eee; margin: 30px 0;">
-            <h3 style="color: #5d4037;">📋 Mevcut Kayıtlar</h3>
+            <h3>📋 Mevcut Kayıtlar</h3>
             <div id="adminList"></div>
         </div>
     </div>
@@ -181,10 +168,20 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const auth = firebase.auth();
 
     let veriler = [];
     let olaylar = [];
     let aktifFiltre = 'tumu';
+
+    // OTURUM TAKİBİ
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            console.log("Yönetici girişi aktif.");
+        } else {
+            if (localStorage.getItem('aktifSayfa') === 'admin') sayfaDegistir('home');
+        }
+    });
 
     db.collection("zatlar").onSnapshot(s => {
         veriler = s.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -197,31 +194,32 @@
     });
 
     function sayfaDegistir(id) {
-        let secilenSayfa = document.getElementById(id);
-        if (!secilenSayfa) {
-            id = 'home';
-            secilenSayfa = document.getElementById('home');
-        }
-
-        const mainHeader = document.getElementById('main-header');
-        if (mainHeader) {
-            mainHeader.style.display = (id === 'admin') ? 'none' : 'block';
-        }
-
         document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
-        secilenSayfa.classList.add('active');
-        localStorage.setItem('aktifSayfa', id); 
+        document.getElementById(id).classList.add('active');
+        localStorage.setItem('aktifSayfa', id);
+        window.scrollTo(0, 0);
     }
 
-    window.onload = function() {
-        const sonSayfa = localStorage.getItem('aktifSayfa');
-        if (sonSayfa === 'admin') {
-            if (localStorage.getItem('adminGiris') === 'basarili') sayfaDegistir('admin');
-            else sayfaDegistir('home');
-        } else if (sonSayfa) {
-            sayfaDegistir(sonSayfa);
+    async function girisYap() {
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-pass').value;
+        try {
+            await auth.signInWithEmailAndPassword(email, pass);
+            sayfaDegistir('admin');
+        } catch (e) {
+            alert("Hatalı giriş: " + e.message);
         }
-    };
+    }
+
+    function cikisYap() {
+        auth.signOut();
+        sayfaDegistir('home');
+    }
+
+    function kelimeBaslariniBuyut(metin) {
+        if (!metin || metin === "?") return metin;
+        return metin.split(' ').map(k => k.charAt(0).toLocaleUpperCase('tr') + k.slice(1)).join(' ');
+    }
 
     function ekranaBas() {
         const arsiv = document.getElementById('arsivList');
@@ -234,28 +232,17 @@
 
         let aHtml = ""; let admHtml = "";
 
-        // ZATLAR LİSTESİ
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
-            
-            let yasBilgisi = "";
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
-            let dH = parseInt(z.d_hicri), vH = parseInt(z.v_hicri);
-            
-            if (!isNaN(dM) && !isNaN(vM) && vM >= dM) {
-                yasBilgisi = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${vM - dM})</span>`;
-            } else if (!isNaN(dH) && !isNaN(vH) && vH >= dH) {
-                yasBilgisi = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${vH - dH})</span>`;
-            }
+            let yas = (!isNaN(dM) && !isNaN(vM)) ? ` <b>(Yaş: ${vM - dM})</b>` : "";
             
             aHtml += `<div class="data-box search-item" data-search="${aramaMetni}" data-type="zat">
-                        <strong>${z.isim || 'İsimsiz Kayıt'}</strong>${yasBilgisi}<br>
-                        <small>D: H. ${z.d_hicri || '?'} (M. ${z.d_miladi || '?'}) | V: H. ${z.v_hicri || '?'} (M. ${z.v_miladi || '?'})</small>
-                        <p>${z.bilgi || ''}</p>
+                        <strong>${z.isim}</strong>${yas}<br>
+                        <small>D: ${z.d_hicri} | V: ${z.v_hicri}</small><p>${z.bilgi}</p>
                       </div>`;
-            
-            admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none;">
-                          <strong>${z.isim || 'İsimsiz Kayıt'} (Zat)</strong>${yasBilgisi}
+            admHtml += `<div class="data-box">
+                          <strong>${z.isim} (Zat)</strong>
                           <div class="admin-controls">
                               <button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button>
                               <button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button>
@@ -263,18 +250,13 @@
                         </div>`;
         });
 
-        // OLAYLAR LİSTESİ
         olaylar.forEach(o => {
-            const hicriGosterim = o.hicri || o.yil || '?';
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
-            
-            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63; background-color: #fbf8f3;" data-search="${aramaMetniOlay}" data-type="olay">
-                        <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong><br>
-                        <small>Tarih: H. ${hicriGosterim} (M. ${o.miladi || '?'})</small>
-                        <p>${o.bilgi || ''}</p>
+            aHtml += `<div class="data-box search-item" style="background:#fbf8f3;" data-search="${aramaMetniOlay}" data-type="olay">
+                        <strong>${o.ad} (Olay)</strong><br><small>H. ${o.hicri}</small><p>${o.bilgi}</p>
                       </div>`;
-            admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none; border-left-color: #8d6e63; background-color: #fbf8f3;">
-                          <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong>
+            admHtml += `<div class="data-box" style="background:#fbf8f3;">
+                          <strong>${o.ad} (Olay)</strong>
                           <div class="admin-controls">
                               <button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button>
                               <button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button>
@@ -282,106 +264,40 @@
                         </div>`;
         });
 
-        arsiv.innerHTML = aHtml; 
-        adminL.innerHTML = admHtml;
+        arsiv.innerHTML = aHtml; adminL.innerHTML = admHtml;
 
-        const bil = []; 
-        veriler.forEach(z => { 
-            const m = parseInt(z.d_miladi); 
-            if(!isNaN(m)) bil.push({s: m, ad: z.isim, t: 'Zat'}); 
-        });
-        olaylar.forEach(o => { 
-            const m = parseInt(o.miladi); 
-            if(!isNaN(m)) bil.push({s: m, ad: o.ad, t: 'Olay'}); 
-        });
+        const bil = [];
+        veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
+        olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
-        cizelge.innerHTML = bil.map(i => {
-            const olayStili = i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : '';
-            return `<div class="data-box"${olayStili}><b>M. ${i.s}</b>: ${i.ad || 'İsimsiz'} <small>[${i.t}]</small></div>`;
-        }).join('');
+        cizelge.innerHTML = bil.map(i => `<div class="data-box"><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
 
         const gruplar = {};
         veriler.forEach(z => {
-            const baba = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler";
-            if (!gruplar[baba]) gruplar[baba] = [];
-            gruplar[baba].push(z);
+            const b = z.baba || "Soy Bilgisi Beklenenler";
+            if (!gruplar[b]) gruplar[b] = [];
+            gruplar[b].push(z);
         });
 
-        let soyHtml = "";
-        Object.keys(gruplar).forEach(baba => {
-            soyHtml += `<details class="soy-klasor"><summary class="soy-baslik">${baba}</summary><div class="soy-icerik">
-                        ${gruplar[baba].map(k => {
-                            let kYas = "";
-                            let kdm = parseInt(k.d_miladi), kvm = parseInt(k.v_miladi);
-                            let kdh = parseInt(k.d_hicri), kvh = parseInt(k.v_hicri);
-                            if (!isNaN(kdm) && !isNaN(kvm) && kvm >= kdm) kYas = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${kvm - kdm})</span>`;
-                            else if (!isNaN(kdh) && !isNaN(kvh) && kvh >= kdh) kYas = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${kvh - kdh})</span>`;
-                            
-                            return `<div style="margin-bottom:10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                            <strong>👤 ${k.isim || 'İsimsiz'}</strong>${kYas}<br><small>Anne: ${k.anne || '?'}</small> | <small>Eş: ${k.es || '?'}</small><br>
-                            <small>Bağlar: ${k.baglar || '?'}</small></div>`;
-                        }).join('')}</div></details>`;
-        });
-        soy.innerHTML = soyHtml;
+        soy.innerHTML = Object.keys(gruplar).map(b => `
+            <details class="soy-klasor"><summary class="soy-baslik">${b}</summary>
+            <div class="soy-icerik">${gruplar[b].map(k => `<div><strong>${k.isim}</strong><br><small>Anne: ${k.anne}</small></div>`).join('')}</div></details>
+        `).join('');
         
-        aramaYap(); 
-    }
-
-    // YENİ EKLENEN AKILLI HARF BÜYÜTME MOTORU
-    function kelimeBaslariniBuyut(metin) {
-        if (!metin || metin === "?") return metin;
-        return metin.split(' ').map(k => {
-            if (k.length === 0) return "";
-            // Her kelimenin sadece ilk harfini büyütür, kalanına dokunmaz
-            return k.charAt(0).toLocaleUpperCase('tr') + k.slice(1);
-        }).join(' ');
-    }
-
-    function bagEkle() {
-        // İsim otomatik büyütülerek sepete eklenecek
-        const isim = kelimeBaslariniBuyut(document.getElementById('in_baglar_isim').value.trim());
-        const tip = document.getElementById('in_baglar_secenek').value;
-        
-        if (!isim) {
-            alert("Lütfen eklenecek kişinin ismini yazın!");
-            return;
-        }
-
-        const formatliBag = tip ? isim + " (" + tip + ")" : isim;
-        const listeKutusu = document.getElementById('in_baglar_liste');
-
-        if (listeKutusu.value.trim() === "" || listeKutusu.value === "?") {
-            listeKutusu.value = formatliBag;
-        } else {
-            listeKutusu.value += ", " + formatliBag;
-        }
-
-        document.getElementById('in_baglar_isim').value = "";
-        document.getElementById('in_baglar_secenek').value = "";
+        aramaYap();
     }
 
     async function kaydet() {
-        // Tüm isim alanları kaydedilirken saniyeden kısa sürede mükemmel baş harfe dönüştürülüyor
+        if (!auth.currentUser) return alert("Giriş yapmalısınız!");
         const ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
         const id = document.getElementById('edit-id').value;
-        if(!ad) return;
-        
-        if(!id && veriler.find(v => (v.isim || "").toLocaleLowerCase('tr') === ad.toLocaleLowerCase('tr'))) { 
-            if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return; 
-        }
-        
-        const nihaiBag = document.getElementById('in_baglar_liste').value.trim() || "?";
-
         const obj = { 
-            isim: ad, 
-            anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value.trim()) || "?", 
-            baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value.trim()) || "?", 
-            es: kelimeBaslariniBuyut(document.getElementById('in_es').value.trim()) || "?", 
-            baglar: nihaiBag, 
-            d_hicri: document.getElementById('in_d_hicri').value || "?", 
-            d_miladi: document.getElementById('in_d_miladi').value || "?", 
-            v_hicri: document.getElementById('in_v_hicri').value || "?", 
-            v_miladi: document.getElementById('in_v_miladi').value || "?", 
+            isim: ad, anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", 
+            baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?",
+            es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?",
+            baglar: document.getElementById('in_baglar_liste').value || "?",
+            d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?",
+            v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?",
             bilgi: document.getElementById('in_bilgi').value || "" 
         };
         if(id) await db.collection("zatlar").doc(id).update(obj); else await db.collection("zatlar").add(obj);
@@ -389,130 +305,62 @@
     }
 
     async function olayKaydet() {
-        // Olay adı da kaydedilirken otomatik kelime başı büyütme uygulanıyor
-        const ad = kelimeBaslariniBuyut(document.getElementById('ol_ad').value.trim()); 
+        if (!auth.currentUser) return alert("Giriş yapmalısınız!");
+        const ad = kelimeBaslariniBuyut(document.getElementById('ol_ad').value.trim());
         const id = document.getElementById('edit-olay-id').value;
-        if(!ad) return;
-        
-        const obj = { 
-            ad: ad, 
-            hicri: document.getElementById('ol_hicri').value || "?", 
-            miladi: document.getElementById('ol_miladi').value || "?", 
-            bilgi: document.getElementById('ol_bilgi').value || "" 
-        };
-        
-        if(id) {
-            await db.collection("olaylar").doc(id).update(obj);
-        } else {
-            await db.collection("olaylar").add(obj);
-        }
+        const obj = { ad: ad, hicri: document.getElementById('ol_hicri').value || "?", miladi: document.getElementById('ol_miladi').value || "?", bilgi: document.getElementById('ol_bilgi').value || "" };
+        if(id) await db.collection("olaylar").doc(id).update(obj); else await db.collection("olaylar").add(obj);
         temizleOlay();
+    }
+
+    function bagEkle() {
+        const isim = kelimeBaslariniBuyut(document.getElementById('in_baglar_isim').value.trim());
+        const tip = document.getElementById('in_baglar_secenek').value;
+        if (!isim) return;
+        const txt = document.getElementById('in_baglar_liste');
+        txt.value += (txt.value ? ", " : "") + isim + (tip ? ` (${tip})` : "");
+        document.getElementById('in_baglar_isim').value = "";
     }
 
     async function sil(id, kol) { if(confirm("Silinsin mi?")) await db.collection(kol).doc(id).delete(); }
 
     function duzenle(id) {
         const z = veriler.find(v => v.id === id);
-        document.getElementById('edit-id').value = id; 
-        document.getElementById('in_ad').value = z.isim || "";
-        document.getElementById('in_anne').value = z.anne || ""; 
-        document.getElementById('in_baba').value = z.baba || "";
-        document.getElementById('in_es').value = z.es || ""; 
-        
-        document.getElementById('in_baglar_liste').value = z.baglar && z.baglar !== "?" ? z.baglar : ""; 
-        document.getElementById('in_baglar_isim').value = "";
-        document.getElementById('in_baglar_secenek').value = "";
-        
-        document.getElementById('in_d_hicri').value = z.d_hicri || z.hicri || ""; 
-        document.getElementById('in_d_miladi').value = z.d_miladi || "";
-        document.getElementById('in_v_hicri').value = z.v_hicri || ""; 
-        document.getElementById('in_v_miladi').value = z.v_miladi || "";
-        document.getElementById('in_bilgi').value = z.bilgi || ""; 
-        document.getElementById('form-baslik').innerText = "⚙️ Kaydı Düzenle";
-        document.getElementById('main-btn').innerText = "GÜNCELLE"; 
+        document.getElementById('edit-id').value = id;
+        document.getElementById('in_ad').value = z.isim;
+        document.getElementById('in_anne').value = z.anne;
+        document.getElementById('in_baba').value = z.baba;
+        document.getElementById('in_bilgi').value = z.bilgi;
         document.getElementById('cancel-btn').style.display = "block";
-        window.scrollTo(0, 0);
+        window.scrollTo(0,0);
     }
 
     function duzenleOlay(id) {
         const o = olaylar.find(v => v.id === id);
-        document.getElementById('edit-olay-id').value = id; 
-        document.getElementById('ol_ad').value = o.ad || "";
-        document.getElementById('ol_hicri').value = o.hicri || ""; 
-        document.getElementById('ol_miladi').value = o.miladi || "";
-        document.getElementById('ol_bilgi').value = o.bilgi || ""; 
-        
-        document.getElementById('olay-form-baslik').innerText = "⚙️ Olayı Düzenle";
-        document.getElementById('olay-main-btn').innerText = "GÜNCELLE"; 
+        document.getElementById('edit-olay-id').value = id;
+        document.getElementById('ol_ad').value = o.ad;
+        document.getElementById('ol_bilgi').value = o.bilgi;
         document.getElementById('olay-cancel-btn').style.display = "block";
-        window.scrollTo(0, 0);
+        window.scrollTo(0,0);
     }
 
-    function temizle() { 
-        document.getElementById('edit-id').value = ""; 
-        document.querySelectorAll('input[id^="in_"], textarea[id^="in_"], select[id^="in_"]').forEach(i => i.value = ""); 
-        document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; 
-        document.getElementById('main-btn').innerText = "KAYDET"; 
-        document.getElementById('cancel-btn').style.display = "none"; 
-        
-        temizleOlayYariSessiz();
-    }
-    
-    function temizleOlay() { 
-        document.getElementById('edit-olay-id').value = ""; 
-        document.getElementById('ol_ad').value = ""; 
-        document.getElementById('ol_hicri').value = ""; 
-        document.getElementById('ol_miladi').value = ""; 
-        document.getElementById('ol_bilgi').value = ""; 
-        
-        document.getElementById('olay-form-baslik').innerText = "📜 Yeni Olay Ekle";
-        document.getElementById('olay-main-btn').innerText = "OLAYI KAYDET"; 
-        document.getElementById('olay-cancel-btn').style.display = "none";
-    }
+    function temizle() { document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); document.getElementById('cancel-btn').style.display = "none"; }
+    function temizleOlay() { document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); document.getElementById('olay-cancel-btn').style.display = "none"; }
 
-    function temizleOlayYariSessiz() {
-        document.getElementById('edit-olay-id').value = ""; 
-        document.getElementById('ol_ad').value = ""; 
-        document.getElementById('ol_hicri').value = ""; 
-        document.getElementById('ol_miladi').value = ""; 
-        document.getElementById('ol_bilgi').value = ""; 
-        document.getElementById('olay-form-baslik').innerText = "📜 Yeni Olay Ekle";
-        document.getElementById('olay-main-btn').innerText = "OLAYI KAYDET"; 
-        document.getElementById('olay-cancel-btn').style.display = "none";
-    }
-
-    function yoneticiGiris() { 
-        if (localStorage.getItem('adminGiris') === 'basarili') sayfaDegistir('admin'); 
-        else { 
-            if(prompt("Şifre?") === "130504") { 
-                localStorage.setItem('adminGiris', 'basarili'); 
-                sayfaDegistir('admin'); 
-            } else alert("Yanlış Şifre!"); 
-        } 
-    }
-    
-    function cikisYap() { 
-        localStorage.removeItem('adminGiris'); 
-        sayfaDegistir('home'); 
-    }
-
-    function filtreDegistir(tur, btnElement) {
-        aktifFiltre = tur;
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active-filter'));
-        btnElement.classList.add('active-filter');
-        aramaYap();
-    }
-    
-    function aramaYap() { 
-        const m = document.getElementById('ara').value.toLocaleLowerCase('tr'); 
-        
-        document.querySelectorAll('.search-item').forEach(k => { 
-            const metinUyar = k.getAttribute('data-search').includes(m);
+    function aramaYap() {
+        const m = document.getElementById('ara').value.toLocaleLowerCase('tr');
+        document.querySelectorAll('.search-item').forEach(k => {
+            const uyar = k.getAttribute('data-search').includes(m);
             const tip = k.getAttribute('data-type');
-            const tipUyar = (aktifFiltre === 'tumu' || aktifFiltre === tip);
-            
-            k.style.display = (metinUyar && tipUyar) ? 'block' : 'none'; 
-        }); 
+            k.style.display = (uyar && (aktifFiltre === 'tumu' || aktifFiltre === tip)) ? 'block' : 'none';
+        });
+    }
+
+    function filtreDegistir(tur, btn) {
+        aktifFiltre = tur;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
+        btn.classList.add('active-filter');
+        aramaYap();
     }
 </script>
 </body>
