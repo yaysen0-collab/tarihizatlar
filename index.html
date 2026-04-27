@@ -216,22 +216,24 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
 
-        // ALFABETİK SIRALAMA (TÜRKÇE KARAKTER DUYARLI)
-        veriler.sort((a, b) => a.isim.localeCompare(b.isim, 'tr'));
-        olaylar.sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
+        // ALFABETİK SIRALAMA (BOŞ KAYITLARA KARŞI GÜVENLİK KİLİTLİ)
+        veriler.sort((a, b) => (a.isim || "").localeCompare(b.isim || "", 'tr'));
+        olaylar.sort((a, b) => (a.ad || "").localeCompare(b.ad || "", 'tr'));
 
         let aHtml = ""; let admHtml = "";
 
         veriler.forEach(z => {
             const hicriGosterim = z.d_hicri || z.hicri || '?';
-            aHtml += `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}">
-                        <strong>${z.isim}</strong><br>
+            const isimKucuk = (z.isim || "").toLowerCase(); // Boş isme karşı koruma
+            
+            aHtml += `<div class="data-box search-item" data-name="${isimKucuk}">
+                        <strong>${z.isim || 'İsimsiz Kayıt'}</strong><br>
                         <small>H. ${hicriGosterim} (M. ${z.d_miladi || '?'})</small>
                         <p>${z.bilgi || ''}</p>
                       </div>`;
             
             admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none;">
-                          <strong>${z.isim} (Zat)</strong>
+                          <strong>${z.isim || 'İsimsiz Kayıt'} (Zat)</strong>
                           <div class="admin-controls">
                               <button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button>
                               <button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button>
@@ -241,13 +243,15 @@
 
         olaylar.forEach(o => {
             const hicriGosterim = o.hicri || o.yil || '?';
-            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${o.ad.toLowerCase()}">
-                        <strong>${o.ad} (Olay)</strong><br>
+            const adKucuk = (o.ad || "").toLowerCase(); // Boş ada karşı koruma
+            
+            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${adKucuk}">
+                        <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong><br>
                         <small>H. ${hicriGosterim} (M. ${o.miladi || '?'})</small>
                         <p>${o.bilgi || ''}</p>
                       </div>`;
             admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none; border-left-color: #8d6e63;">
-                          <strong>${o.ad} (Olay)</strong>
+                          <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong>
                           <div class="admin-controls"><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div>
                         </div>`;
         });
@@ -259,7 +263,7 @@
         veriler.forEach(z => { const m = parseInt(z.d_miladi); if(!isNaN(m)) bil.push({s: m, ad: z.isim, t: 'Zat'}); else bilmz.push({ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { const m = parseInt(o.miladi); if(!isNaN(m)) bil.push({s: m, ad: o.ad, t: 'Olay'}); else bilmz.push({ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
-        cizelge.innerHTML = [...bil, ...bilmz].map(i => `<div class="data-box"><b>M. ${i.s || '?'}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
+        cizelge.innerHTML = [...bil, ...bilmz].map(i => `<div class="data-box"><b>M. ${i.s || '?'}</b>: ${i.ad || 'İsimsiz'} <small>[${i.t}]</small></div>`).join('');
 
         const gruplar = {};
         veriler.forEach(z => {
@@ -272,7 +276,7 @@
         Object.keys(gruplar).forEach(baba => {
             soyHtml += `<details class="soy-klasor"><summary class="soy-baslik">${baba}</summary><div class="soy-icerik">
                         ${gruplar[baba].map(k => `<div style="margin-bottom:10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                        <strong>👤 ${k.isim}</strong><br><small>Anne: ${k.anne || '?'}</small> | <small>Eş: ${k.es || '?'}</small><br>
+                        <strong>👤 ${k.isim || 'İsimsiz'}</strong><br><small>Anne: ${k.anne || '?'}</small> | <small>Eş: ${k.es || '?'}</small><br>
                         <small>Bağlar: ${k.baglar || '?'}</small></div>`).join('')}</div></details>`;
         });
         soy.innerHTML = soyHtml;
@@ -297,7 +301,6 @@
             listeKutusu.value += ", " + formatliBag;
         }
 
-        // Ekledikten sonra yazma yerlerini temizle ki yenisi yazılabilsin
         document.getElementById('in_baglar_isim').value = "";
         document.getElementById('in_baglar_secenek').value = "";
     }
@@ -306,9 +309,12 @@
         const ad = document.getElementById('in_ad').value.trim();
         const id = document.getElementById('edit-id').value;
         if(!ad) return;
-        if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) { if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return; }
         
-        // Nihai bağları, birikmiş olan liste kutusundan al
+        // BOŞ İSİMLERE KARŞI MÜKERRER KONTROLÜ
+        if(!id && veriler.find(v => (v.isim || "").toLowerCase() === ad.toLowerCase())) { 
+            if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return; 
+        }
+        
         const nihaiBag = document.getElementById('in_baglar_liste').value.trim() || "?";
 
         const obj = { 
@@ -338,15 +344,62 @@
     function duzenle(id) {
         const z = veriler.find(v => v.id === id);
         document.getElementById('edit-id').value = id; 
-        document.getElementById('in_ad').value = z.isim;
-        document.getElementById('in_anne').value = z.anne; 
-        document.getElementById('in_baba').value = z.baba;
+        document.getElementById('in_ad').value = z.isim || "";
+        document.getElementById('in_anne').value = z.anne || ""; 
+        document.getElementById('in_baba').value = z.baba || "";
         document.getElementById('in_es').value = z.es || ""; 
         
-        // Düzenlerken bağları direkt listeye aktar, inputları boşalt
         document.getElementById('in_baglar_liste').value = z.baglar && z.baglar !== "?" ? z.baglar : ""; 
         document.getElementById('in_baglar_isim').value = "";
         document.getElementById('in_baglar_secenek').value = "";
         
         document.getElementById('in_d_hicri').value = z.d_hicri || z.hicri || ""; 
-        document.getElementById('in_d_miladi').value =
+        document.getElementById('in_d_miladi').value = z.d_miladi || "";
+        document.getElementById('in_v_hicri').value = z.v_hicri || ""; 
+        document.getElementById('in_v_miladi').value = z.v_miladi || "";
+        document.getElementById('in_bilgi').value = z.bilgi || ""; 
+        document.getElementById('form-baslik').innerText = "⚙️ Kaydı Düzenle";
+        document.getElementById('main-btn').innerText = "GÜNCELLE"; 
+        document.getElementById('cancel-btn').style.display = "block";
+        window.scrollTo(0, 0);
+    }
+
+    function temizle() { 
+        document.getElementById('edit-id').value = ""; 
+        document.querySelectorAll('#admin input, #admin textarea, #admin select').forEach(i => i.value = ""); 
+        document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; 
+        document.getElementById('main-btn').innerText = "KAYDET"; 
+        document.getElementById('cancel-btn').style.display = "none"; 
+    }
+    
+    function temizleOlay() { 
+        document.getElementById('ol_ad').value = ""; 
+        document.getElementById('ol_hicri').value = ""; 
+        document.getElementById('ol_miladi').value = ""; 
+        document.getElementById('ol_bilgi').value = ""; 
+    }
+
+    function yoneticiGiris() { 
+        if (localStorage.getItem('adminGiris') === 'basarili') sayfaDegistir('admin'); 
+        else { 
+            if(prompt("Şifre?") === "130504") { 
+                localStorage.setItem('adminGiris', 'basarili'); 
+                sayfaDegistir('admin'); 
+            } else alert("Yanlış Şifre!"); 
+        } 
+    }
+    
+    function cikisYap() { 
+        localStorage.removeItem('adminGiris'); 
+        sayfaDegistir('home'); 
+    }
+    
+    function aramaYap() { 
+        const m = document.getElementById('ara').value.toLowerCase(); 
+        document.querySelectorAll('.search-item').forEach(k => { 
+            k.style.display = k.getAttribute('data-name').includes(m) ? 'block' : 'none'; 
+        }); 
+    }
+</script>
+</body>
+</html>
