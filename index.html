@@ -37,6 +37,9 @@
         summary.soy-baslik::before { content: "📂"; margin-right: 10px; font-size: 1.2rem; }
         .soy-icerik { padding: 10px 15px 15px 35px; border-top: 1px solid #eee; background: #faf9f6; }
         .soy-kart { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        
+        /* CANLI UYARI KUTUSU TASARIMI */
+        .canli-uyari { color: #c62828; font-size: 0.85em; font-weight: bold; margin: -2px 0 8px 5px; display: none; }
     </style>
 </head>
 <body>
@@ -97,20 +100,29 @@
                 <h2 style="margin: 0; color: #5d4037;">⚙️ Yönetici Kontrol Merkezi</h2>
                 <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap</button>
             </div>
+            
             <div class="admin-section" style="border-left-color: #8d6e63;">
                 <h3 id="olay-form-baslik">📜 Olay Ekle / Düzenle</h3>
                 <input type="hidden" id="edit-olay-id">
-                <input id="ol_ad" placeholder="Olay İsmi">
+                
+                <input id="ol_ad" placeholder="Olay İsmi" oninput="benzerOlayKontrol()">
+                <div id="olay-uyari" class="canli-uyari"></div>
+                
                 <div class="row"><input id="ol_hicri" placeholder="Hicri"><input id="ol_miladi" placeholder="Miladi"></div>
                 <textarea id="ol_bilgi" placeholder="Hakkında Bilgi" rows="2"></textarea>
                 <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET</button>
                 <button class="btn-action" id="olay-cancel-btn" onclick="temizleOlay()" style="background:#999; display:none;">İPTAL</button>
             </div>
+            
             <hr style="border: 1px solid #eee; margin: 30px 0;">
+            
             <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
-                <input id="in_ad" placeholder="İsim">
+                
+                <input id="in_ad" placeholder="İsim" oninput="benzerZatKontrol()">
+                <div id="zat-uyari" class="canli-uyari"></div>
+                
                 <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
                 <input id="in_es" placeholder="Eşi / Eşleri">
                 <div class="row" style="margin-top: 10px;"><input id="in_baglar_isim" placeholder="İsim Yaz"><select id="in_baglar_secenek"><option value="">Bağlantı Türü...</option><option value="Çocuk">Çocuk</option><option value="Kardeş">Kardeş</option><option value="Dede">Dede</option><option value="Amca">Amca</option><option value="Hala">Hala</option></select><button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">➕ Ekle</button></div>
@@ -145,7 +157,6 @@
     let olaylar = [];
     let aktifFiltre = 'tumu';
 
-    // Sayfa yenilendiğinde nerede kaldığımızı hatırlama sistemi (DÜZELTİLDİ)
     window.onload = function() {
         const sonSayfa = localStorage.getItem('aktifSayfa');
         if (sonSayfa) {
@@ -182,6 +193,48 @@
     function kelimeBaslariniBuyut(metin) {
         if (!metin || metin === "?") return metin;
         return metin.split(' ').map(k => k.charAt(0).toLocaleUpperCase('tr') + k.slice(1)).join(' ');
+    }
+
+    /* YENİ: CANLI BENZERLİK KONTROLÜ FONKSİYONLARI */
+    function benzerZatKontrol() {
+        const metin = document.getElementById('in_ad').value.trim().toLocaleLowerCase('tr');
+        const uyariKutusu = document.getElementById('zat-uyari');
+        
+        // Düzenleme modundaysak veya çok kısa bir şey yazdıysa uyarı verme
+        if (metin.length < 2 || document.getElementById('edit-id').value !== "") { 
+            uyariKutusu.style.display = 'none'; 
+            return; 
+        }
+        
+        const benzerler = veriler.filter(v => (v.isim || "").toLocaleLowerCase('tr').includes(metin));
+        if (benzerler.length > 0) {
+            const isimler = benzerler.map(b => b.isim).slice(0, 3).join(', ');
+            const eklenti = benzerler.length > 3 ? ` ve ${benzerler.length - 3} kişi daha...` : '';
+            uyariKutusu.innerHTML = `⚠️ Sistemde benzer isimler var: ${isimler}${eklenti}`;
+            uyariKutusu.style.display = 'block';
+        } else {
+            uyariKutusu.style.display = 'none';
+        }
+    }
+
+    function benzerOlayKontrol() {
+        const metin = document.getElementById('ol_ad').value.trim().toLocaleLowerCase('tr');
+        const uyariKutusu = document.getElementById('olay-uyari');
+        
+        if (metin.length < 2 || document.getElementById('edit-olay-id').value !== "") { 
+            uyariKutusu.style.display = 'none'; 
+            return; 
+        }
+        
+        const benzerler = olaylar.filter(o => (o.ad || "").toLocaleLowerCase('tr').includes(metin));
+        if (benzerler.length > 0) {
+            const isimler = benzerler.map(b => b.ad).slice(0, 3).join(', ');
+            const eklenti = benzerler.length > 3 ? ` ve ${benzerler.length - 3} olay daha...` : '';
+            uyariKutusu.innerHTML = `⚠️ Sistemde benzer olaylar var: ${isimler}${eklenti}`;
+            uyariKutusu.style.display = 'block';
+        } else {
+            uyariKutusu.style.display = 'none';
+        }
     }
 
     function ekranaBas() {
@@ -226,7 +279,6 @@
 
         arsiv.innerHTML = aHtml; adminL.innerHTML = admHtml;
 
-        // ÇİZELGE MANTIĞI VE RENK AYRIMI (DÜZELTİLDİ)
         const bil = [];
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
@@ -274,7 +326,11 @@
     async function kaydet() {
         if (!auth.currentUser) return;
         const ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
+        if (!ad) { alert("Lütfen bir isim girin!"); return; }
         const id = document.getElementById('edit-id').value;
+        
+        // Eskiden burada olan Popup uyarıyı kaldırdık, çünkü artık yazarken canlı olarak uyarıyor.
+
         const obj = { isim: ad, anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?", es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?", baglar: document.getElementById('in_baglar_liste').value || "?", d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?", v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?", bilgi: document.getElementById('in_bilgi').value || "" };
         if(id) await db.collection("zatlar").doc(id).update(obj); else await db.collection("zatlar").add(obj);
         temizle();
@@ -283,7 +339,11 @@
     async function olayKaydet() {
         if (!auth.currentUser) return;
         const ad = kelimeBaslariniBuyut(document.getElementById('ol_ad').value.trim());
+        if (!ad) { alert("Lütfen bir olay ismi girin!"); return; }
         const id = document.getElementById('edit-olay-id').value;
+
+        // Eskiden burada olan Popup uyarıyı kaldırdık, çünkü artık yazarken canlı olarak uyarıyor.
+
         const obj = { ad: ad, hicri: document.getElementById('ol_hicri').value || "?", miladi: document.getElementById('ol_miladi').value || "?", bilgi: document.getElementById('ol_bilgi').value || "" };
         if(id) await db.collection("olaylar").doc(id).update(obj); else await db.collection("olaylar").add(obj);
         temizleOlay();
@@ -314,6 +374,7 @@
         document.getElementById('in_v_miladi').value = z.v_miladi;
         document.getElementById('in_bilgi').value = z.bilgi;
         document.getElementById('cancel-btn').style.display = "block";
+        document.getElementById('zat-uyari').style.display = "none"; // Uyarıyı gizle
         window.scrollTo(0,0);
     }
 
@@ -325,11 +386,21 @@
         document.getElementById('ol_miladi').value = o.miladi;
         document.getElementById('ol_bilgi').value = o.bilgi;
         document.getElementById('olay-cancel-btn').style.display = "block";
+        document.getElementById('olay-uyari').style.display = "none"; // Uyarıyı gizle
         window.scrollTo(0,0);
     }
 
-    function temizle() { document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); document.getElementById('cancel-btn').style.display = "none"; }
-    function temizleOlay() { document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); document.getElementById('olay-cancel-btn').style.display = "none"; }
+    function temizle() { 
+        document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); 
+        document.getElementById('cancel-btn').style.display = "none"; 
+        document.getElementById('zat-uyari').style.display = "none"; // Uyarıyı gizle
+    }
+    
+    function temizleOlay() { 
+        document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); 
+        document.getElementById('olay-cancel-btn').style.display = "none"; 
+        document.getElementById('olay-uyari').style.display = "none"; // Uyarıyı gizle
+    }
 
     function aramaYap() {
         const m = document.getElementById('ara').value.toLocaleLowerCase('tr');
