@@ -240,8 +240,9 @@
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
         olaylar.sort((a, b) => (a.ad || "").toLocaleLowerCase('tr').localeCompare((b.ad || "").toLocaleLowerCase('tr'), 'tr'));
 
-        let aHtml = ""; let admHtml = "";
+        let aHtml = ""; 
 
+        // 1. ARŞİV LİSTESİ OLUŞTURMA
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
@@ -252,23 +253,56 @@
             let vMil = (z.v_miladi && z.v_miladi !== "?") ? " (M. " + z.v_miladi + ")" : "";
             let tarihText = (dH || dMil || vH || vMil) ? `D: ${dH}${dMil} | V: ${vH}${vMil}` : "";
             aHtml += `<div class="data-box search-item" data-search="${aramaMetni}" data-type="zat"><strong>${z.isim}</strong>${yasStr}<br><small>${tarihText}</small><p>${z.bilgi}</p></div>`;
-            admHtml += `<div class="data-box"><strong>${z.isim} (Zat)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
         });
 
         olaylar.forEach(o => {
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
-            aHtml += `<div class="data-box search-item" style="background:#fbf8f3;" data-search="${aramaMetniOlay}" data-type="olay"><strong>${o.ad} (Olay)</strong><br><small>H. ${o.hicri}</small><p>${o.bilgi}</p></div>`;
-            admHtml += `<div class="data-box" style="background:#fbf8f3;"><strong>${o.ad} (Olay)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
+            let oH = (o.hicri && o.hicri !== "?") ? "H. " + o.hicri : "";
+            let oM = (o.miladi && o.miladi !== "?") ? " (M. " + o.miladi + ")" : "";
+            aHtml += `<div class="data-box search-item" style="background:#fbf8f3;" data-search="${aramaMetniOlay}" data-type="olay"><strong>${o.ad} (Olay)</strong><br><small>${oH}${oM}</small><p>${o.bilgi}</p></div>`;
+        });
+        arsiv.innerHTML = aHtml; 
+
+        // 2. YÖNETİCİ LİSTESİ (A-Z KLASÖRLEME SİSTEMİ)
+        let admHtml = `<h4 style="color:#5d4037; margin-top:0;">👤 Zatlar</h4>`;
+        const azZatlar = {};
+        veriler.forEach(z => {
+            let harf = (z.isim || "İ").charAt(0).toLocaleUpperCase('tr');
+            if (!azZatlar[harf]) azZatlar[harf] = [];
+            azZatlar[harf].push(z);
+        });
+        Object.keys(azZatlar).sort((a,b) => a.localeCompare(b, 'tr')).forEach(h => {
+            admHtml += `<details class="soy-klasor" style="margin-bottom:5px;"><summary class="soy-baslik" style="padding:10px;">${h} Harfi (${azZatlar[h].length} Kayıt)</summary><div class="soy-icerik" style="padding:10px;">`;
+            azZatlar[h].forEach(z => {
+                admHtml += `<div class="data-box" style="padding:10px; margin-bottom:5px;"><strong>${z.isim}</strong><div class="admin-controls" style="margin-top:5px; padding-top:5px;"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
+            });
+            admHtml += `</div></details>`;
         });
 
-        arsiv.innerHTML = aHtml; adminL.innerHTML = admHtml;
+        admHtml += `<h4 style="color:#5d4037; margin-top:20px;">📜 Olaylar</h4>`;
+        const azOlaylar = {};
+        olaylar.forEach(o => {
+            let harf = (o.ad || "İ").charAt(0).toLocaleUpperCase('tr');
+            if (!azOlaylar[harf]) azOlaylar[harf] = [];
+            azOlaylar[harf].push(o);
+        });
+        Object.keys(azOlaylar).sort((a,b) => a.localeCompare(b, 'tr')).forEach(h => {
+            admHtml += `<details class="soy-klasor" style="margin-bottom:5px;"><summary class="soy-baslik" style="padding:10px;">${h} Harfi (${azOlaylar[h].length} Kayıt)</summary><div class="soy-icerik" style="padding:10px; background:#fbf8f3;">`;
+            azOlaylar[h].forEach(o => {
+                admHtml += `<div class="data-box" style="padding:10px; margin-bottom:5px; background:#fbf8f3;"><strong>${o.ad}</strong><div class="admin-controls" style="margin-top:5px; padding-top:5px;"><button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
+            });
+            admHtml += `</div></details>`;
+        });
+        adminL.innerHTML = admHtml;
 
+        // 3. ÇİZELGE
         const bil = [];
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
         cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
 
+        // 4. SOYAĞACI
         const gruplar = {};
         veriler.forEach(z => { const b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler"; if (!gruplar[b]) gruplar[b] = []; gruplar[b].push(z); });
         soy.innerHTML = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr')).map(baba => {
