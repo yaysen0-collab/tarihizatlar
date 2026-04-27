@@ -37,8 +37,6 @@
         summary.soy-baslik::before { content: "📂"; margin-right: 10px; font-size: 1.2rem; }
         .soy-icerik { padding: 10px 15px 15px 35px; border-top: 1px solid #eee; background: #faf9f6; }
         .soy-kart { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        
-        /* CANLI UYARI KUTUSU TASARIMI */
         .canli-uyari { color: #c62828; font-size: 0.85em; font-weight: bold; margin: -2px 0 8px 5px; display: none; }
     </style>
 </head>
@@ -104,10 +102,8 @@
             <div class="admin-section" style="border-left-color: #8d6e63;">
                 <h3 id="olay-form-baslik">📜 Olay Ekle / Düzenle</h3>
                 <input type="hidden" id="edit-olay-id">
-                
                 <input id="ol_ad" placeholder="Olay İsmi" oninput="benzerOlayKontrol()">
                 <div id="olay-uyari" class="canli-uyari"></div>
-                
                 <div class="row"><input id="ol_hicri" placeholder="Hicri"><input id="ol_miladi" placeholder="Miladi"></div>
                 <textarea id="ol_bilgi" placeholder="Hakkında Bilgi" rows="2"></textarea>
                 <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET</button>
@@ -119,13 +115,31 @@
             <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
-                
                 <input id="in_ad" placeholder="İsim" oninput="benzerZatKontrol()">
                 <div id="zat-uyari" class="canli-uyari"></div>
-                
                 <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
                 <input id="in_es" placeholder="Eşi / Eşleri">
-                <div class="row" style="margin-top: 10px;"><input id="in_baglar_isim" placeholder="İsim Yaz"><select id="in_baglar_secenek"><option value="">Bağlantı Türü...</option><option value="Çocuk">Çocuk</option><option value="Kardeş">Kardeş</option><option value="Dede">Dede</option><option value="Amca">Amca</option><option value="Hala">Hala</option></select><button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">➕ Ekle</button></div>
+                
+                <div class="row" style="margin-top: 10px;">
+                    <input id="in_baglar_isim" placeholder="İsim Yaz">
+                    <select id="in_baglar_secenek">
+                        <option value="">Bağlantı Türü...</option>
+                        <option value="Çocuk">Çocuk</option>
+                        <option value="Kardeş">Kardeş</option>
+                        <option value="Dede">Dede</option>
+                        <option value="Nine">Nine</option>
+                        <option value="Torun">Torun</option>
+                        <option value="Amca">Amca</option>
+                        <option value="Hala">Hala</option>
+                        <option value="Dayı">Dayı</option>
+                        <option value="Teyze">Teyze</option>
+                        <option value="Yeğen">Yeğen</option>
+                        <option value="Kayınvalide">Kayınvalide</option>
+                        <option value="Kayınpeder">Kayınpeder</option>
+                        <option value="Damat">Damat</option>
+                    </select>
+                    <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">➕ Ekle</button>
+                </div>
                 <textarea id="in_baglar_liste" placeholder="Eklenen Bağlar" rows="2"></textarea>
                 <div class="row"><input id="in_d_hicri" placeholder="Doğum Hicri"><input id="in_d_miladi" placeholder="Doğum Miladi"></div>
                 <div class="row"><input id="in_v_hicri" placeholder="Vefat Hicri"><input id="in_v_miladi" placeholder="Vefat Miladi"></div>
@@ -159,9 +173,7 @@
 
     window.onload = function() {
         const sonSayfa = localStorage.getItem('aktifSayfa');
-        if (sonSayfa) {
-            sayfaDegistir(sonSayfa);
-        }
+        if (sonSayfa) sayfaDegistir(sonSayfa);
     };
 
     auth.onAuthStateChanged(user => { 
@@ -195,46 +207,28 @@
         return metin.split(' ').map(k => k.charAt(0).toLocaleUpperCase('tr') + k.slice(1)).join(' ');
     }
 
-    /* YENİ: CANLI BENZERLİK KONTROLÜ FONKSİYONLARI */
     function benzerZatKontrol() {
         const metin = document.getElementById('in_ad').value.trim().toLocaleLowerCase('tr');
         const uyariKutusu = document.getElementById('zat-uyari');
-        
-        // Düzenleme modundaysak veya çok kısa bir şey yazdıysa uyarı verme
-        if (metin.length < 2 || document.getElementById('edit-id').value !== "") { 
-            uyariKutusu.style.display = 'none'; 
-            return; 
-        }
-        
+        if (metin.length < 2 || document.getElementById('edit-id').value !== "") { uyariKutusu.style.display = 'none'; return; }
         const benzerler = veriler.filter(v => (v.isim || "").toLocaleLowerCase('tr').includes(metin));
         if (benzerler.length > 0) {
             const isimler = benzerler.map(b => b.isim).slice(0, 3).join(', ');
-            const eklenti = benzerler.length > 3 ? ` ve ${benzerler.length - 3} kişi daha...` : '';
-            uyariKutusu.innerHTML = `⚠️ Sistemde benzer isimler var: ${isimler}${eklenti}`;
+            uyariKutusu.innerHTML = `⚠️ Sistemde benzer isimler var: ${isimler}${benzerler.length > 3 ? '...' : ''}`;
             uyariKutusu.style.display = 'block';
-        } else {
-            uyariKutusu.style.display = 'none';
-        }
+        } else uyariKutusu.style.display = 'none';
     }
 
     function benzerOlayKontrol() {
         const metin = document.getElementById('ol_ad').value.trim().toLocaleLowerCase('tr');
         const uyariKutusu = document.getElementById('olay-uyari');
-        
-        if (metin.length < 2 || document.getElementById('edit-olay-id').value !== "") { 
-            uyariKutusu.style.display = 'none'; 
-            return; 
-        }
-        
+        if (metin.length < 2 || document.getElementById('edit-olay-id').value !== "") { uyariKutusu.style.display = 'none'; return; }
         const benzerler = olaylar.filter(o => (o.ad || "").toLocaleLowerCase('tr').includes(metin));
         if (benzerler.length > 0) {
             const isimler = benzerler.map(b => b.ad).slice(0, 3).join(', ');
-            const eklenti = benzerler.length > 3 ? ` ve ${benzerler.length - 3} olay daha...` : '';
-            uyariKutusu.innerHTML = `⚠️ Sistemde benzer olaylar var: ${isimler}${eklenti}`;
+            uyariKutusu.innerHTML = `⚠️ Sistemde benzer olaylar var: ${isimler}${benzerler.length > 3 ? '...' : ''}`;
             uyariKutusu.style.display = 'block';
-        } else {
-            uyariKutusu.style.display = 'none';
-        }
+        } else uyariKutusu.style.display = 'none';
     }
 
     function ekranaBas() {
@@ -252,28 +246,18 @@
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
             let yasStr = (!isNaN(dM) && !isNaN(vM)) ? ` <b>(Yaş: ${vM - dM})</b>` : "";
-            
             let dH = (z.d_hicri && z.d_hicri !== "?") ? "H. " + z.d_hicri : "";
             let dMil = (z.d_miladi && z.d_miladi !== "?") ? " (M. " + z.d_miladi + ")" : "";
             let vH = (z.v_hicri && z.v_hicri !== "?") ? "H. " + z.v_hicri : "";
             let vMil = (z.v_miladi && z.v_miladi !== "?") ? " (M. " + z.v_miladi + ")" : "";
             let tarihText = (dH || dMil || vH || vMil) ? `D: ${dH}${dMil} | V: ${vH}${vMil}` : "";
-
-            aHtml += `<div class="data-box search-item" data-search="${aramaMetni}" data-type="zat">
-                        <strong>${z.isim}</strong>${yasStr}<br>
-                        <small>${tarihText}</small><p>${z.bilgi}</p>
-                      </div>`;
+            aHtml += `<div class="data-box search-item" data-search="${aramaMetni}" data-type="zat"><strong>${z.isim}</strong>${yasStr}<br><small>${tarihText}</small><p>${z.bilgi}</p></div>`;
             admHtml += `<div class="data-box"><strong>${z.isim} (Zat)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
         });
 
         olaylar.forEach(o => {
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
-            let oH = (o.hicri && o.hicri !== "?") ? "H. " + o.hicri : "";
-            let oM = (o.miladi && o.miladi !== "?") ? " (M. " + o.miladi + ")" : "";
-
-            aHtml += `<div class="data-box search-item" style="background:#fbf8f3;" data-search="${aramaMetniOlay}" data-type="olay">
-                        <strong>${o.ad} (Olay)</strong><br><small>${oH}${oM}</small><p>${o.bilgi}</p>
-                      </div>`;
+            aHtml += `<div class="data-box search-item" style="background:#fbf8f3;" data-search="${aramaMetniOlay}" data-type="olay"><strong>${o.ad} (Olay)</strong><br><small>H. ${o.hicri}</small><p>${o.bilgi}</p></div>`;
             admHtml += `<div class="data-box" style="background:#fbf8f3;"><strong>${o.ad} (Olay)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
         });
 
@@ -283,43 +267,15 @@
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
-        cizelge.innerHTML = bil.map(i => {
-            const olayStili = i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : '';
-            return `<div class="data-box"${olayStili}><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`;
-        }).join('');
+        cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
 
         const gruplar = {};
-        veriler.forEach(z => {
-            const b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler";
-            if (!gruplar[b]) gruplar[b] = [];
-            gruplar[b].push(z);
-        });
-
-        const siraliBabalar = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr'));
-
-        soy.innerHTML = siraliBabalar.map(baba => {
-            const kisilerHtml = gruplar[baba].map(k => {
-                let dM = parseInt(k.d_miladi), vM = parseInt(k.v_miladi);
-                let yas = (!isNaN(dM) && !isNaN(vM)) ? ` <b>(Yaş: ${vM - dM})</b>` : "";
-                let dH = (k.d_hicri && k.d_hicri !== "?") ? "H. " + k.d_hicri : "";
-                let dMil = (k.d_miladi && k.d_miladi !== "?") ? " (M. " + k.d_miladi + ")" : "";
-                let vH = (k.v_hicri && k.v_hicri !== "?") ? "H. " + k.v_hicri : "";
-                let vMil = (k.v_miladi && k.v_miladi !== "?") ? " (M. " + k.v_miladi + ")" : "";
-                let tarihText = (dH || dMil || vH || vMil) ? `${dH}${dMil} - ${vH}${vMil}` : "";
-
-                return `
-                <div class="soy-kart">
-                    <strong>👤 ${k.isim}</strong>${yas}<br>
-                    ${k.anne && k.anne !== "?" ? `<small>🤱 Anne: ${k.anne}</small>` : ""}
-                    ${k.es && k.es !== "?" ? `<br><small>💍 Eş: ${k.es}</small>` : ""}
-                    ${tarihText ? `<br><small>📅 ${tarihText}</small>` : ""}
-                    ${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Bağlar: ${k.baglar}</small>` : ""}
-                </div>`;
-            }).join('');
-
+        veriler.forEach(z => { const b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler"; if (!gruplar[b]) gruplar[b] = []; gruplar[b].push(z); });
+        soy.innerHTML = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr')).map(baba => {
+            const kisilerHtml = gruplar[baba].map(k => `
+                <div class="soy-kart"><strong>👤 ${k.isim}</strong><br>${k.anne && k.anne !== "?" ? `<small>🤱 Anne: ${k.anne}</small>` : ""}${k.es && k.es !== "?" ? `<br><small>💍 Eş: ${k.es}</small>` : ""}${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Bağlar: ${k.baglar}</small>` : ""}</div>`).join('');
             return `<details class="soy-klasor"><summary class="soy-baslik">${baba}</summary><div class="soy-icerik">${kisilerHtml}</div></details>`;
         }).join('');
-
         aramaYap();
     }
 
@@ -328,9 +284,6 @@
         const ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
         if (!ad) { alert("Lütfen bir isim girin!"); return; }
         const id = document.getElementById('edit-id').value;
-        
-        // Eskiden burada olan Popup uyarıyı kaldırdık, çünkü artık yazarken canlı olarak uyarıyor.
-
         const obj = { isim: ad, anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?", es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?", baglar: document.getElementById('in_baglar_liste').value || "?", d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?", v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?", bilgi: document.getElementById('in_bilgi').value || "" };
         if(id) await db.collection("zatlar").doc(id).update(obj); else await db.collection("zatlar").add(obj);
         temizle();
@@ -341,9 +294,6 @@
         const ad = kelimeBaslariniBuyut(document.getElementById('ol_ad').value.trim());
         if (!ad) { alert("Lütfen bir olay ismi girin!"); return; }
         const id = document.getElementById('edit-olay-id').value;
-
-        // Eskiden burada olan Popup uyarıyı kaldırdık, çünkü artık yazarken canlı olarak uyarıyor.
-
         const obj = { ad: ad, hicri: document.getElementById('ol_hicri').value || "?", miladi: document.getElementById('ol_miladi').value || "?", bilgi: document.getElementById('ol_bilgi').value || "" };
         if(id) await db.collection("olaylar").doc(id).update(obj); else await db.collection("olaylar").add(obj);
         temizleOlay();
@@ -374,7 +324,7 @@
         document.getElementById('in_v_miladi').value = z.v_miladi;
         document.getElementById('in_bilgi').value = z.bilgi;
         document.getElementById('cancel-btn').style.display = "block";
-        document.getElementById('zat-uyari').style.display = "none"; // Uyarıyı gizle
+        document.getElementById('zat-uyari').style.display = "none";
         window.scrollTo(0,0);
     }
 
@@ -386,20 +336,20 @@
         document.getElementById('ol_miladi').value = o.miladi;
         document.getElementById('ol_bilgi').value = o.bilgi;
         document.getElementById('olay-cancel-btn').style.display = "block";
-        document.getElementById('olay-uyari').style.display = "none"; // Uyarıyı gizle
+        document.getElementById('olay-uyari').style.display = "none";
         window.scrollTo(0,0);
     }
 
     function temizle() { 
         document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); 
         document.getElementById('cancel-btn').style.display = "none"; 
-        document.getElementById('zat-uyari').style.display = "none"; // Uyarıyı gizle
+        document.getElementById('zat-uyari').style.display = "none";
     }
     
     function temizleOlay() { 
         document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); 
         document.getElementById('olay-cancel-btn').style.display = "none"; 
-        document.getElementById('olay-uyari').style.display = "none"; // Uyarıyı gizle
+        document.getElementById('olay-uyari').style.display = "none";
     }
 
     function aramaYap() {
