@@ -103,7 +103,7 @@
                 <h3 id="olay-form-baslik" style="color: #5d4037;">📜 Yeni Olay Ekle</h3>
                 <input type="hidden" id="edit-olay-id">
                 
-                <input id="ol_ad" placeholder="Olay İsmi" oninput="this.value = this.value.charAt(0).toLocaleUpperCase('tr') + this.value.slice(1)">
+                <input id="ol_ad" placeholder="Olay İsmi (Siz yazın, sistem kaydederken baş harflerini büyütecek)">
                 
                 <div class="row">
                     <input id="ol_hicri" placeholder="Hicri">
@@ -120,7 +120,7 @@
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
                 
-                <input id="in_ad" placeholder="İsim" oninput="this.value = this.value.charAt(0).toLocaleUpperCase('tr') + this.value.slice(1)">
+                <input id="in_ad" placeholder="İsim (Siz yazın, sistem kaydederken baş harflerini büyütecek)">
                 
                 <div class="row">
                     <input id="in_anne" placeholder="Anne">
@@ -129,7 +129,7 @@
                 <input id="in_es" placeholder="Eşi / Eşleri (Birden fazlaysa virgülle ayırın)">
                 
                 <div class="row" style="margin-top: 10px;">
-                    <input id="in_baglar_isim" placeholder="İsim Yaz (Örn: Ali)">
+                    <input id="in_baglar_isim" placeholder="İsim Yaz (Örn: ali > Ali olacak)">
                     <select id="in_baglar_secenek" style="background: white;">
                         <option value="">Bağlantı Türü...</option>
                         <option value="Çocuk">Çocuk</option>
@@ -327,8 +327,19 @@
         aramaYap(); 
     }
 
+    // YENİ EKLENEN AKILLI HARF BÜYÜTME MOTORU
+    function kelimeBaslariniBuyut(metin) {
+        if (!metin || metin === "?") return metin;
+        return metin.split(' ').map(k => {
+            if (k.length === 0) return "";
+            // Her kelimenin sadece ilk harfini büyütür, kalanına dokunmaz
+            return k.charAt(0).toLocaleUpperCase('tr') + k.slice(1);
+        }).join(' ');
+    }
+
     function bagEkle() {
-        const isim = document.getElementById('in_baglar_isim').value.trim();
+        // İsim otomatik büyütülerek sepete eklenecek
+        const isim = kelimeBaslariniBuyut(document.getElementById('in_baglar_isim').value.trim());
         const tip = document.getElementById('in_baglar_secenek').value;
         
         if (!isim) {
@@ -350,7 +361,8 @@
     }
 
     async function kaydet() {
-        const ad = document.getElementById('in_ad').value.trim();
+        // Tüm isim alanları kaydedilirken saniyeden kısa sürede mükemmel baş harfe dönüştürülüyor
+        const ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
         const id = document.getElementById('edit-id').value;
         if(!ad) return;
         
@@ -362,9 +374,9 @@
 
         const obj = { 
             isim: ad, 
-            anne: document.getElementById('in_anne').value || "?", 
-            baba: document.getElementById('in_baba').value || "?", 
-            es: document.getElementById('in_es').value || "?", 
+            anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value.trim()) || "?", 
+            baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value.trim()) || "?", 
+            es: kelimeBaslariniBuyut(document.getElementById('in_es').value.trim()) || "?", 
             baglar: nihaiBag, 
             d_hicri: document.getElementById('in_d_hicri').value || "?", 
             d_miladi: document.getElementById('in_d_miladi').value || "?", 
@@ -377,7 +389,8 @@
     }
 
     async function olayKaydet() {
-        const ad = document.getElementById('ol_ad').value.trim(); 
+        // Olay adı da kaydedilirken otomatik kelime başı büyütme uygulanıyor
+        const ad = kelimeBaslariniBuyut(document.getElementById('ol_ad').value.trim()); 
         const id = document.getElementById('edit-olay-id').value;
         if(!ad) return;
         
