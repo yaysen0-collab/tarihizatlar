@@ -36,6 +36,7 @@
         summary.soy-baslik { cursor: pointer; padding: 15px; font-weight: bold; color: #5d4037; list-style: none; display: flex; align-items: center; }
         summary.soy-baslik::before { content: "📂"; margin-right: 10px; font-size: 1.2rem; }
         .soy-icerik { padding: 10px 15px 15px 35px; border-top: 1px solid #eee; background: #faf9f6; }
+        .soy-kart { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -88,7 +89,7 @@
     </div>
 
     <div id="cizelge" class="page"><h2>⏳ Zaman Çizelgesi</h2><div id="cizelgeList"></div></div>
-    <div id="soy" class="page"><h2>🌳 Soyağacı</h2><div id="soyList"></div></div>
+    <div id="soy" class="page"><h2>🌳 Soyağacı (Soy Grupları)</h2><div id="soyList"></div></div>
 
     <div id="admin" class="page">
         <div class="admin-dashboard">
@@ -144,10 +145,7 @@
     let olaylar = [];
     let aktifFiltre = 'tumu';
 
-    auth.onAuthStateChanged(user => {
-        if (!user && localStorage.getItem('aktifSayfa') === 'admin') sayfaDegistir('home');
-    });
-
+    auth.onAuthStateChanged(user => { if (!user && localStorage.getItem('aktifSayfa') === 'admin') sayfaDegistir('home'); });
     db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
     db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
 
@@ -185,20 +183,17 @@
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
-            let yas = (!isNaN(dM) && !isNaN(vM)) ? ` <b>(Yaş: ${vM - dM})</b>` : "";
+            let yasStr = (!isNaN(dM) && !isNaN(vM)) ? ` <b>(Yaş: ${vM - dM})</b>` : "";
             
-            // YIL DÜZENLEME MANTIĞI
             let dH = (z.d_hicri && z.d_hicri !== "?") ? "H. " + z.d_hicri : "";
             let dMil = (z.d_miladi && z.d_miladi !== "?") ? " (M. " + z.d_miladi + ")" : "";
             let vH = (z.v_hicri && z.v_hicri !== "?") ? "H. " + z.v_hicri : "";
             let vMil = (z.v_miladi && z.v_miladi !== "?") ? " (M. " + z.v_miladi + ")" : "";
-            
-            let dogumSatiri = (dH || dMil) ? `D: ${dH}${dMil}` : "";
-            let vefatSatiri = (vH || vMil) ? ` | V: ${vH}${vMil}` : "";
+            let tarihText = (dH || dMil || vH || vMil) ? `D: ${dH}${dMil} | V: ${vH}${vMil}` : "";
 
             aHtml += `<div class="data-box search-item" data-search="${aramaMetni}" data-type="zat">
-                        <strong>${z.isim}</strong>${yas}<br>
-                        <small>${dogumSatiri}${vefatSatiri}</small><p>${z.bilgi}</p>
+                        <strong>${z.isim}</strong>${yasStr}<br>
+                        <small>${tarihText}</small><p>${z.bilgi}</p>
                       </div>`;
             admHtml += `<div class="data-box"><strong>${z.isim} (Zat)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
         });
@@ -222,9 +217,39 @@
         bil.sort((a,b) => a.s - b.s);
         cizelge.innerHTML = bil.map(i => `<div class="data-box"><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
 
+        // SOYAĞACI DÜZENLEME MANTIĞI
         const gruplar = {};
-        veriler.forEach(z => { const b = z.baba || "Soy Bilgisi Beklenenler"; if (!gruplar[b]) gruplar[b] = []; gruplar[b].push(z); });
-        soy.innerHTML = Object.keys(gruplar).map(b => `<details class="soy-klasor"><summary class="soy-baslik">${b}</summary><div class="soy-icerik">${gruplar[b].map(k => `<div><strong>${k.isim}</strong><br><small>Anne: ${k.anne}</small></div>`).join('')}</div></details>`).join('');
+        veriler.forEach(z => {
+            const b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler";
+            if (!gruplar[b]) gruplar[b] = [];
+            gruplar[b].push(z);
+        });
+
+        const siraliBabalar = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr'));
+
+        soy.innerHTML = siraliBabalar.map(baba => {
+            const kisilerHtml = gruplar[baba].map(k => {
+                let dM = parseInt(k.d_miladi), vM = parseInt(k.v_miladi);
+                let yas = (!isNaN(dM) && !isNaN(vM)) ? ` <b>(Yaş: ${vM - dM})</b>` : "";
+                let dH = (k.d_hicri && k.d_hicri !== "?") ? "H. " + k.d_hicri : "";
+                let dMil = (k.d_miladi && k.d_miladi !== "?") ? " (M. " + k.d_miladi + ")" : "";
+                let vH = (k.v_hicri && k.v_hicri !== "?") ? "H. " + k.v_hicri : "";
+                let vMil = (k.v_miladi && k.v_miladi !== "?") ? " (M. " + k.v_miladi + ")" : "";
+                let tarihText = (dH || dMil || vH || vMil) ? `${dH}${dMil} - ${vH}${vMil}` : "";
+
+                return `
+                <div class="soy-kart">
+                    <strong>👤 ${k.isim}</strong>${yas}<br>
+                    ${k.anne && k.anne !== "?" ? `<small>🤱 Anne: ${k.anne}</small>` : ""}
+                    ${k.es && k.es !== "?" ? `<br><small>💍 Eş: ${k.es}</small>` : ""}
+                    ${tarihText ? `<br><small>📅 ${tarihText}</small>` : ""}
+                    ${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Bağlar: ${k.baglar}</small>` : ""}
+                </div>`;
+            }).join('');
+
+            return `<details class="soy-klasor"><summary class="soy-baslik">${baba}</summary><div class="soy-icerik">${kisilerHtml}</div></details>`;
+        }).join('');
+
         aramaYap();
     }
 
