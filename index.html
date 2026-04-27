@@ -102,7 +102,9 @@
             <div class="admin-section" style="border-left-color: #8d6e63;">
                 <h3 id="olay-form-baslik" style="color: #5d4037;">📜 Yeni Olay Ekle</h3>
                 <input type="hidden" id="edit-olay-id">
-                <input id="ol_ad" placeholder="Olay İsmi">
+                
+                <input id="ol_ad" placeholder="Olay İsmi" oninput="this.value = this.value.charAt(0).toLocaleUpperCase('tr') + this.value.slice(1)">
+                
                 <div class="row">
                     <input id="ol_hicri" placeholder="Hicri">
                     <input id="ol_miladi" placeholder="Miladi">
@@ -259,7 +261,7 @@
                         </div>`;
         });
 
-        // OLAYLAR LİSTESİ (DÜZENLE BUTONU EKLENDİ)
+        // OLAYLAR LİSTESİ
         olaylar.forEach(o => {
             const hicriGosterim = o.hicri || o.yil || '?';
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
@@ -372,7 +374,6 @@
         temizle();
     }
 
-    // OLAY KAYDETME MANTIĞI GÜNCELLENDİ (YENİ EKLEME VE GÜNCELLEME)
     async function olayKaydet() {
         const ad = document.getElementById('ol_ad').value.trim(); 
         const id = document.getElementById('edit-olay-id').value;
@@ -418,7 +419,6 @@
         window.scrollTo(0, 0);
     }
 
-    // YENİ: OLAY DÜZENLEME FONKSİYONU
     function duzenleOlay(id) {
         const o = olaylar.find(v => v.id === id);
         document.getElementById('edit-olay-id').value = id; 
@@ -435,13 +435,11 @@
 
     function temizle() { 
         document.getElementById('edit-id').value = ""; 
-        // Formların birbirine karışmaması için sadece 'in_' ile başlayan Zat formunu temizleriz
         document.querySelectorAll('input[id^="in_"], textarea[id^="in_"], select[id^="in_"]').forEach(i => i.value = ""); 
         document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; 
         document.getElementById('main-btn').innerText = "KAYDET"; 
         document.getElementById('cancel-btn').style.display = "none"; 
         
-        // Temizlik yaparken olay tarafını da sıfırlayalım ki ekran düzenli kalsın
         temizleOlayYariSessiz();
     }
     
@@ -457,7 +455,6 @@
         document.getElementById('olay-cancel-btn').style.display = "none";
     }
 
-    // İki formun aynı anda temizlenebilmesi için yardımcı fonksiyon
     function temizleOlayYariSessiz() {
         document.getElementById('edit-olay-id').value = ""; 
         document.getElementById('ol_ad').value = ""; 
