@@ -55,7 +55,7 @@
         <div id="arsivList"></div>
     </div>
 
-    <div id="cizelge" class="page"><h2>⏳ Çizelge</h2><div id="cizelgeList"></div></div>
+    <div id="cizelge" class="page"><h2>⏳ Çizelge (Zaman Çizelgesi)</h2><div id="cizelgeList"></div></div>
     <div id="soy" class="page"><h2>🌳 Soyağacı</h2><div id="soyList"></div></div>
 
     <div id="admin" class="page">
@@ -77,7 +77,14 @@
             <input id="in_ad" placeholder="İsim">
             <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
             <input id="in_es" placeholder="Bağlar / Eşler">
-            <div class="row"><input id="in_d_hicri" placeholder="Doğum Hicri"><input id="in_v_hicri" placeholder="Vefat Hicri"></div>
+            <div class="row">
+                <input id="in_d_hicri" placeholder="Doğum Tarihi (Hicri)">
+                <input id="in_d_miladi" placeholder="Doğum Tarihi (Miladi)">
+            </div>
+            <div class="row">
+                <input id="in_v_hicri" placeholder="Vefat Tarihi (Hicri)">
+                <input id="in_v_miladi" placeholder="Vefat Tarihi (Miladi)">
+            </div>
             <textarea id="in_bilgi" placeholder="Bilgi" rows="3"></textarea>
             <button class="btn-action" id="main-btn" onclick="kaydet()">KAYDET</button>
             <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
@@ -128,38 +135,41 @@
         let adminHtml = "";
 
         veriler.forEach(z => {
-            html += `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}"><strong>${z.isim}</strong><br><small>H. ${z.d_hicri || '?'} - H. ${z.v_hicri || '?'}</small><p>${z.bilgi || ''}</p></div>`;
+            html += `<div class="data-box search-item" data-name="${z.isim.toLowerCase()}"><strong>${z.isim}</strong><br><small>H. ${z.d_hicri || '?'} (M. ${z.d_miladi || '?'})</small><p>${z.bilgi || ''}</p></div>`;
             adminHtml += `<div class="data-box"><strong>${z.isim} (Zat)</strong><div class="admin-controls"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
         });
 
         olaylar.forEach(o => {
-            html += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${o.ad.toLowerCase()}"><strong>${o.ad} (Olay)</strong><br><small>H. ${o.hicri || '?'} / M. ${o.miladi || '?'}</small><p>${o.bilgi || ''}</p></div>`;
+            html += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${o.ad.toLowerCase()}"><strong>${o.ad} (Olay)</strong><br><small>H. ${o.hicri || '?'} (M. ${o.miladi || '?'})</small><p>${o.bilgi || ''}</p></div>`;
             adminHtml += `<div class="data-box" style="border-left-color: #8d6e63;"><strong>${o.ad} (Olay)</strong><div class="admin-controls"><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
         });
 
         arsiv.innerHTML = html;
         adminL.innerHTML = adminHtml;
 
-        // --- SIRALAMA MANTIĞI ---
+        // --- MILADI SIRALAMA MANTIĞI ---
         const bilinenler = [];
         const bilinmeyenler = [];
 
         veriler.forEach(z => {
-            const yil = parseInt(z.d_hicri);
-            if (!isNaN(yil)) bilinenler.push({t: yil, ad: z.isim, tip: 'Zat'});
-            else bilinmeyenler.push({t: z.d_hicri || '?', ad: z.isim, tip: 'Zat'});
+            const miladiYil = parseInt(z.d_miladi);
+            if (!isNaN(miladiYil)) bilinenler.push({m: miladiYil, h: z.d_hicri, ad: z.isim, tip: 'Zat'});
+            else bilinmeyenler.push({m: '?', h: z.d_hicri || '?', ad: z.isim, tip: 'Zat'});
         });
 
         olaylar.forEach(o => {
-            const yil = parseInt(o.hicri);
-            if (!isNaN(yil)) bilinenler.push({t: yil, ad: o.ad, tip: 'Olay'});
-            else bilinmeyenler.push({t: o.hicri || '?', ad: o.ad, tip: 'Olay'});
+            const miladiYil = parseInt(o.miladi);
+            if (!isNaN(miladiYil)) bilinenler.push({m: miladiYil, h: o.hicri, ad: o.ad, tip: 'Olay'});
+            else bilinmeyenler.push({m: '?', h: o.hicri || '?', ad: o.ad, tip: 'Olay'});
         });
 
-        bilinenler.sort((a, b) => a.t - b.t);
+        bilinenler.sort((a, b) => a.m - b.m);
         const sonListe = [...bilinenler, ...bilinmeyenler];
-        cizelge.innerHTML = sonListe.map(item => `<div class="data-box"><b>H. ${item.t}:</b> ${item.ad} <small>(${item.tip})</small></div>`).join('');
-        // -------------------------
+
+        cizelge.innerHTML = sonListe.map(item => `
+            <div class="data-box">
+                <b>H. ${item.h}</b> <small>(M. ${item.m})</small>: ${item.ad} <small>[${item.tip}]</small>
+            </div>`).join('');
 
         soy.innerHTML = veriler.map(z => `<div class="data-box"><strong>${z.isim}</strong><br>Baba: ${z.baba || '?'} | Anne: ${z.anne || '?'}<br>Bağlar: ${z.es || '?'}</div>`).join('');
     }
@@ -168,8 +178,17 @@
         const ad = document.getElementById('in_ad').value.trim();
         const id = document.getElementById('edit-id').value;
         if(!ad) return;
-        if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) { if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return; }
-        const obj = { isim: ad, anne: document.getElementById('in_anne').value || "?", baba: document.getElementById('in_baba').value || "?", es: document.getElementById('in_es').value || "?", d_hicri: document.getElementById('in_d_hicri').value || "?", v_hicri: document.getElementById('in_v_hicri').value || "?", bilgi: document.getElementById('in_bilgi').value || "" };
+        const obj = { 
+            isim: ad, 
+            anne: document.getElementById('in_anne').value || "?", 
+            baba: document.getElementById('in_baba').value || "?", 
+            es: document.getElementById('in_es').value || "?", 
+            d_hicri: document.getElementById('in_d_hicri').value || "?", 
+            d_miladi: document.getElementById('in_d_miladi').value || "?",
+            v_hicri: document.getElementById('in_v_hicri').value || "?", 
+            v_miladi: document.getElementById('in_v_miladi').value || "?",
+            bilgi: document.getElementById('in_bilgi').value || "" 
+        };
         if(id) await db.collection("zatlar").doc(id).update(obj);
         else await db.collection("zatlar").add(obj);
         temizle();
@@ -193,7 +212,9 @@
         document.getElementById('in_baba').value = z.baba;
         document.getElementById('in_es').value = z.es;
         document.getElementById('in_d_hicri').value = z.d_hicri;
+        document.getElementById('in_d_miladi').value = z.d_miladi || "";
         document.getElementById('in_v_hicri').value = z.v_hicri;
+        document.getElementById('in_v_miladi').value = z.v_miladi || "";
         document.getElementById('in_bilgi').value = z.bilgi;
         document.getElementById('form-baslik').innerText = "⚙️ Kaydı Düzenle";
         document.getElementById('main-btn').innerText = "GÜNCELLE";
