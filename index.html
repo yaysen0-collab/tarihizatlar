@@ -32,10 +32,7 @@
         .quote-box span { font-weight: bold; color: #8d6e63; font-size: 1.1rem; }
 
         .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        
-        /* DAKTİLO YAZISI BURADA DÜZELTİLDİ: font-family: sans-serif eklendi */
         input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; font-size: 15px; }
-        
         .row { display: flex; gap: 10px; align-items: center; }
         .btn-action { background: #5d4037; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px; margin-top: 5px; }
         .admin-controls { margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
@@ -141,6 +138,7 @@
                     <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap;">➕ Ekle</button>
                 </div>
                 <textarea id="in_baglar_liste" placeholder="Eklenen Diğer Bağlar Burada Birikir (Buradan da silebilir veya düzeltebilirsiniz)" rows="2"></textarea>
+
                 <div class="row">
                     <input id="in_d_hicri" placeholder="Doğum Hicri">
                     <input id="in_d_miladi" placeholder="Doğum Miladi">
@@ -219,15 +217,16 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
 
-        // ALFABETİK SIRALAMA (BOŞ KAYITLARA KARŞI GÜVENLİK KİLİTLİ)
-        veriler.sort((a, b) => (a.isim || "").localeCompare(b.isim || "", 'tr'));
-        olaylar.sort((a, b) => (a.ad || "").localeCompare(b.ad || "", 'tr'));
+        // ALFABETİK SIRALAMA: TÜRKÇE VE BÜYÜK/KÜÇÜK HARF DUYARLILIĞI DÜZELTİLDİ
+        veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
+        olaylar.sort((a, b) => (a.ad || "").toLocaleLowerCase('tr').localeCompare((b.ad || "").toLocaleLowerCase('tr'), 'tr'));
 
         let aHtml = ""; let admHtml = "";
 
         veriler.forEach(z => {
             const hicriGosterim = z.d_hicri || z.hicri || '?';
-            const isimKucuk = (z.isim || "").toLowerCase();
+            // Arama için ismi küçük harfe çevirirken Türkçe uyumlu yap
+            const isimKucuk = (z.isim || "").toLocaleLowerCase('tr');
             
             aHtml += `<div class="data-box search-item" data-name="${isimKucuk}">
                         <strong>${z.isim || 'İsimsiz Kayıt'}</strong><br>
@@ -246,7 +245,7 @@
 
         olaylar.forEach(o => {
             const hicriGosterim = o.hicri || o.yil || '?';
-            const adKucuk = (o.ad || "").toLowerCase();
+            const adKucuk = (o.ad || "").toLocaleLowerCase('tr');
             
             aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-name="${adKucuk}">
                         <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong><br>
@@ -285,7 +284,6 @@
         soy.innerHTML = soyHtml;
     }
 
-    // ÇOKLU BAĞ EKLEME FONKSİYONU
     function bagEkle() {
         const isim = document.getElementById('in_baglar_isim').value.trim();
         const tip = document.getElementById('in_baglar_secenek').value;
@@ -313,8 +311,8 @@
         const id = document.getElementById('edit-id').value;
         if(!ad) return;
         
-        // BOŞ İSİMLERE KARŞI MÜKERRER KONTROLÜ
-        if(!id && veriler.find(v => (v.isim || "").toLowerCase() === ad.toLowerCase())) { 
+        // MÜKERRER KAYIT KONTROLÜ (Türkçe Büyük/Küçük Uyumlu)
+        if(!id && veriler.find(v => (v.isim || "").toLocaleLowerCase('tr') === ad.toLocaleLowerCase('tr'))) { 
             if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return; 
         }
         
@@ -398,7 +396,8 @@
     }
     
     function aramaYap() { 
-        const m = document.getElementById('ara').value.toLowerCase(); 
+        // Arama yaparken de Türkçe uyumlu küçük harf yap
+        const m = document.getElementById('ara').value.toLocaleLowerCase('tr'); 
         document.querySelectorAll('.search-item').forEach(k => { 
             k.style.display = k.getAttribute('data-name').includes(m) ? 'block' : 'none'; 
         }); 
