@@ -133,6 +133,7 @@
                         <option value="Yeğen">Yeğen</option>
                         <option value="Kayınvalide">Kayınvalide</option>
                         <option value="Kayınpeder">Kayınpeder</option>
+                        <option value="Damat">Damat</option>
                     </select>
                 </div>
 
@@ -214,10 +215,9 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
 
-        // --- ALFABETİK SIRALAMA (TÜRKÇE KARAKTER DUYARLI) ---
+        // ALFABETİK SIRALAMA (TÜRKÇE KARAKTER DUYARLI)
         veriler.sort((a, b) => a.isim.localeCompare(b.isim, 'tr'));
         olaylar.sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
-        // ----------------------------------------------------
 
         let aHtml = ""; let admHtml = "";
 
