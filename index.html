@@ -100,14 +100,16 @@
             </div>
 
             <div class="admin-section" style="border-left-color: #8d6e63;">
-                <h3>📜 Yeni Olay Ekle</h3>
+                <h3 id="olay-form-baslik" style="color: #5d4037;">📜 Yeni Olay Ekle</h3>
+                <input type="hidden" id="edit-olay-id">
                 <input id="ol_ad" placeholder="Olay İsmi">
                 <div class="row">
                     <input id="ol_hicri" placeholder="Hicri">
                     <input id="ol_miladi" placeholder="Miladi">
                 </div>
                 <textarea id="ol_bilgi" placeholder="Hakkında Bilgi" rows="2"></textarea>
-                <button class="btn-action" onclick="olayKaydet()" style="background: #8d6e63;">OLAYI KAYDET</button>
+                <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">OLAYI KAYDET</button>
+                <button class="btn-action" id="olay-cancel-btn" onclick="temizleOlay()" style="background:#999; display:none;">İPTAL</button>
             </div>
             
             <hr style="border: 1px solid #eee; margin: 30px 0;">
@@ -228,7 +230,7 @@
 
         let aHtml = ""; let admHtml = "";
 
-        // ZATLAR LİSTESİ (Saf Beyaz Kutu)
+        // ZATLAR LİSTESİ
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             
@@ -257,7 +259,7 @@
                         </div>`;
         });
 
-        // OLAYLAR LİSTESİ (Çok Hafif Krem Arka Plan - Olayları Belirginleştirmek İçin)
+        // OLAYLAR LİSTESİ (DÜZENLE BUTONU EKLENDİ)
         olaylar.forEach(o => {
             const hicriGosterim = o.hicri || o.yil || '?';
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
@@ -269,14 +271,16 @@
                       </div>`;
             admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none; border-left-color: #8d6e63; background-color: #fbf8f3;">
                           <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong>
-                          <div class="admin-controls"><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div>
+                          <div class="admin-controls">
+                              <button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button>
+                              <button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button>
+                          </div>
                         </div>`;
         });
 
         arsiv.innerHTML = aHtml; 
         adminL.innerHTML = admHtml;
 
-        // ÇİZELGE MANTIĞI: Olay Kutuları Çizelgede de Renklendirildi
         const bil = []; 
         veriler.forEach(z => { 
             const m = parseInt(z.d_miladi); 
@@ -368,10 +372,25 @@
         temizle();
     }
 
+    // OLAY KAYDETME MANTIĞI GÜNCELLENDİ (YENİ EKLEME VE GÜNCELLEME)
     async function olayKaydet() {
-        const ad = document.getElementById('ol_ad').value.trim(); if(!ad) return;
-        const obj = { ad: ad, hicri: document.getElementById('ol_hicri').value || "?", miladi: document.getElementById('ol_miladi').value || "?", bilgi: document.getElementById('ol_bilgi').value || "" };
-        await db.collection("olaylar").add(obj); temizleOlay();
+        const ad = document.getElementById('ol_ad').value.trim(); 
+        const id = document.getElementById('edit-olay-id').value;
+        if(!ad) return;
+        
+        const obj = { 
+            ad: ad, 
+            hicri: document.getElementById('ol_hicri').value || "?", 
+            miladi: document.getElementById('ol_miladi').value || "?", 
+            bilgi: document.getElementById('ol_bilgi').value || "" 
+        };
+        
+        if(id) {
+            await db.collection("olaylar").doc(id).update(obj);
+        } else {
+            await db.collection("olaylar").add(obj);
+        }
+        temizleOlay();
     }
 
     async function sil(id, kol) { if(confirm("Silinsin mi?")) await db.collection(kol).doc(id).delete(); }
@@ -399,19 +418,55 @@
         window.scrollTo(0, 0);
     }
 
+    // YENİ: OLAY DÜZENLEME FONKSİYONU
+    function duzenleOlay(id) {
+        const o = olaylar.find(v => v.id === id);
+        document.getElementById('edit-olay-id').value = id; 
+        document.getElementById('ol_ad').value = o.ad || "";
+        document.getElementById('ol_hicri').value = o.hicri || ""; 
+        document.getElementById('ol_miladi').value = o.miladi || "";
+        document.getElementById('ol_bilgi').value = o.bilgi || ""; 
+        
+        document.getElementById('olay-form-baslik').innerText = "⚙️ Olayı Düzenle";
+        document.getElementById('olay-main-btn').innerText = "GÜNCELLE"; 
+        document.getElementById('olay-cancel-btn').style.display = "block";
+        window.scrollTo(0, 0);
+    }
+
     function temizle() { 
         document.getElementById('edit-id').value = ""; 
-        document.querySelectorAll('#admin input, #admin textarea, #admin select').forEach(i => i.value = ""); 
+        // Formların birbirine karışmaması için sadece 'in_' ile başlayan Zat formunu temizleriz
+        document.querySelectorAll('input[id^="in_"], textarea[id^="in_"], select[id^="in_"]').forEach(i => i.value = ""); 
         document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; 
         document.getElementById('main-btn').innerText = "KAYDET"; 
         document.getElementById('cancel-btn').style.display = "none"; 
+        
+        // Temizlik yaparken olay tarafını da sıfırlayalım ki ekran düzenli kalsın
+        temizleOlayYariSessiz();
     }
     
     function temizleOlay() { 
+        document.getElementById('edit-olay-id').value = ""; 
         document.getElementById('ol_ad').value = ""; 
         document.getElementById('ol_hicri').value = ""; 
         document.getElementById('ol_miladi').value = ""; 
         document.getElementById('ol_bilgi').value = ""; 
+        
+        document.getElementById('olay-form-baslik').innerText = "📜 Yeni Olay Ekle";
+        document.getElementById('olay-main-btn').innerText = "OLAYI KAYDET"; 
+        document.getElementById('olay-cancel-btn').style.display = "none";
+    }
+
+    // İki formun aynı anda temizlenebilmesi için yardımcı fonksiyon
+    function temizleOlayYariSessiz() {
+        document.getElementById('edit-olay-id').value = ""; 
+        document.getElementById('ol_ad').value = ""; 
+        document.getElementById('ol_hicri').value = ""; 
+        document.getElementById('ol_miladi').value = ""; 
+        document.getElementById('ol_bilgi').value = ""; 
+        document.getElementById('olay-form-baslik').innerText = "📜 Yeni Olay Ekle";
+        document.getElementById('olay-main-btn').innerText = "OLAYI KAYDET"; 
+        document.getElementById('olay-cancel-btn').style.display = "none";
     }
 
     function yoneticiGiris() { 
