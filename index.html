@@ -228,10 +228,10 @@
 
         let aHtml = ""; let admHtml = "";
 
+        // ZATLAR LİSTESİ (Saf Beyaz Kutu)
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             
-            // YENİ: YAŞ HESAPLAMA MANTIĞI
             let yasBilgisi = "";
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
             let dH = parseInt(z.d_hicri), vH = parseInt(z.v_hicri);
@@ -241,7 +241,6 @@
             } else if (!isNaN(dH) && !isNaN(vH) && vH >= dH) {
                 yasBilgisi = ` <span style="color: #5d4037; font-size: 0.9em; font-weight: bold;">(Yaş: ${vH - dH})</span>`;
             }
-            // -----------------------------
             
             aHtml += `<div class="data-box search-item" data-search="${aramaMetni}" data-type="zat">
                         <strong>${z.isim || 'İsimsiz Kayıt'}</strong>${yasBilgisi}<br>
@@ -258,16 +257,17 @@
                         </div>`;
         });
 
+        // OLAYLAR LİSTESİ (Çok Hafif Krem Arka Plan - Olayları Belirginleştirmek İçin)
         olaylar.forEach(o => {
             const hicriGosterim = o.hicri || o.yil || '?';
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
             
-            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63;" data-search="${aramaMetniOlay}" data-type="olay">
+            aHtml += `<div class="data-box search-item" style="border-left-color: #8d6e63; background-color: #fbf8f3;" data-search="${aramaMetniOlay}" data-type="olay">
                         <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong><br>
                         <small>Tarih: H. ${hicriGosterim} (M. ${o.miladi || '?'})</small>
                         <p>${o.bilgi || ''}</p>
                       </div>`;
-            admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none; border-left-color: #8d6e63;">
+            admHtml += `<div class="data-box" style="border: 1px solid #e0e0e0; box-shadow: none; border-left-color: #8d6e63; background-color: #fbf8f3;">
                           <strong>${o.ad || 'İsimsiz Olay'} (Olay)</strong>
                           <div class="admin-controls"><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div>
                         </div>`;
@@ -276,11 +276,21 @@
         arsiv.innerHTML = aHtml; 
         adminL.innerHTML = admHtml;
 
-        const bil = []; const bilmz = [];
-        veriler.forEach(z => { const m = parseInt(z.d_miladi); if(!isNaN(m)) bil.push({s: m, ad: z.isim, t: 'Zat'}); else bilmz.push({ad: z.isim, t: 'Zat'}); });
-        olaylar.forEach(o => { const m = parseInt(o.miladi); if(!isNaN(m)) bil.push({s: m, ad: o.ad, t: 'Olay'}); else bilmz.push({ad: o.ad, t: 'Olay'}); });
+        // ÇİZELGE MANTIĞI: Olay Kutuları Çizelgede de Renklendirildi
+        const bil = []; 
+        veriler.forEach(z => { 
+            const m = parseInt(z.d_miladi); 
+            if(!isNaN(m)) bil.push({s: m, ad: z.isim, t: 'Zat'}); 
+        });
+        olaylar.forEach(o => { 
+            const m = parseInt(o.miladi); 
+            if(!isNaN(m)) bil.push({s: m, ad: o.ad, t: 'Olay'}); 
+        });
         bil.sort((a,b) => a.s - b.s);
-        cizelge.innerHTML = [...bil, ...bilmz].map(i => `<div class="data-box"><b>M. ${i.s || '?'}</b>: ${i.ad || 'İsimsiz'} <small>[${i.t}]</small></div>`).join('');
+        cizelge.innerHTML = bil.map(i => {
+            const olayStili = i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : '';
+            return `<div class="data-box"${olayStili}><b>M. ${i.s}</b>: ${i.ad || 'İsimsiz'} <small>[${i.t}]</small></div>`;
+        }).join('');
 
         const gruplar = {};
         veriler.forEach(z => {
@@ -293,8 +303,6 @@
         Object.keys(gruplar).forEach(baba => {
             soyHtml += `<details class="soy-klasor"><summary class="soy-baslik">${baba}</summary><div class="soy-icerik">
                         ${gruplar[baba].map(k => {
-                            
-                            // Soyağacı için de yaş hesaplama
                             let kYas = "";
                             let kdm = parseInt(k.d_miladi), kvm = parseInt(k.v_miladi);
                             let kdh = parseInt(k.d_hicri), kvh = parseInt(k.v_hicri);
