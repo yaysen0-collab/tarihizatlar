@@ -214,6 +214,11 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
 
+        // --- ALFABETİK SIRALAMA (TÜRKÇE KARAKTER DUYARLI) ---
+        veriler.sort((a, b) => a.isim.localeCompare(b.isim, 'tr'));
+        olaylar.sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
+        // ----------------------------------------------------
+
         let aHtml = ""; let admHtml = "";
 
         veriler.forEach(z => {
@@ -278,7 +283,6 @@
         if(!ad) return;
         if(!id && veriler.find(v => v.isim.toLowerCase() === ad.toLowerCase())) { if(!confirm("Aynı isimde kayıt var, yine de eklensin mi?")) return; }
         
-        // BAĞLAR VE SEÇENEĞİ BİRLEŞTİRME MANTIĞI
         const bagIsim = document.getElementById('in_baglar').value.trim();
         const bagTip = document.getElementById('in_baglar_secenek').value;
         const nihaiBag = bagIsim ? (bagTip ? bagIsim + " (" + bagTip + ")" : bagIsim) : "?";
@@ -315,7 +319,7 @@
         document.getElementById('in_baba').value = z.baba;
         document.getElementById('in_es').value = z.es || ""; 
         document.getElementById('in_baglar').value = z.baglar && z.baglar !== "?" ? z.baglar : ""; 
-        document.getElementById('in_baglar_secenek').value = ""; // Seçeneği düzenlemede boşaltır
+        document.getElementById('in_baglar_secenek').value = "";
         document.getElementById('in_d_hicri').value = z.d_hicri || z.hicri || ""; 
         document.getElementById('in_d_miladi').value = z.d_miladi || "";
         document.getElementById('in_v_hicri').value = z.v_hicri || ""; 
@@ -329,7 +333,6 @@
 
     function temizle() { 
         document.getElementById('edit-id').value = ""; 
-        // İnputları ve seçili kutuları temizle
         document.querySelectorAll('#admin input, #admin textarea, #admin select').forEach(i => i.value = ""); 
         document.getElementById('form-baslik').innerText = "👤 Zat Ekle / Düzenle"; 
         document.getElementById('main-btn').innerText = "KAYDET"; 
