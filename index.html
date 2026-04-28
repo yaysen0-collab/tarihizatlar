@@ -8,7 +8,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <style>
-        body { font-family: sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; }
+        body { font-family: sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; transition: background 0.3s; }
         
         /* HEADER TASARIMI */
         #main-header { background: #5d4037; color: white; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -68,7 +68,10 @@
         .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
         .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
         .admin-dashboard { background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.15); border-top: 8px solid #5d4037; }
-        .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
+        
+        /* ADMİN HEADER GÜNCELLEMESİ */
+        .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        
         details.soy-klasor { background: white; border-radius: 8px; margin-bottom: 12px; border: 1px solid #d7ccc8; }
         summary.soy-baslik { cursor: pointer; padding: 15px; font-weight: bold; color: #5d4037; list-style: none; display: flex; align-items: center; }
         summary.soy-baslik::before { content: "📂"; margin-right: 10px; font-size: 1.2rem; }
@@ -279,7 +282,7 @@
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.5 - Üçüncü Makale Eklendi</h3>
                 <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Dârü'l-Erkam ve Ashab-ı Suffe'yi anlatan üçüncü okuma metni (Rasulullah Sevgisi ve Kur'an Eğitimi) sisteme başarıyla entegre edildi.</li>
+                    <li>Dârü'l-Erkam ve Ashab-ı Suffe'yi anlatan üçüncü okuma metni (Rasulullah Sevgisi ve Kur'an Kerim Eğitimi) sisteme başarıyla entegre edildi.</li>
                 </ul>
             </div>
 
@@ -394,8 +397,8 @@
     <div id="login" class="page">
         <div class="admin-dashboard" style="max-width: 400px; margin: auto;">
             <h2 style="text-align: center; color: #5d4037;">🔐 Yönetici Girişi</h2>
-            <input type="email" id="login-email" placeholder="E-posta Adresiniz">
-            <input type="password" id="login-pass" placeholder="Şifreniz">
+            <input type="email" id="login-email" placeholder="E-posta Adresiniz" onkeypress="if(event.key === 'Enter') girisYap();">
+            <input type="password" id="login-pass" placeholder="Şifreniz" onkeypress="if(event.key === 'Enter') girisYap();">
             <button class="btn-action" onclick="girisYap()">GİRİŞ YAP</button>
             <button class="btn-action" onclick="sayfaDegistir('home')" style="background: #999;">VAZGEÇ</button>
         </div>
@@ -419,7 +422,10 @@
         <div class="admin-dashboard">
             <div class="admin-header">
                 <h2 style="margin: 0; color: #5d4037;">⚙️ Yönetici Kontrol Merkezi</h2>
-                <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap</button>
+                <div>
+                    <button onclick="sayfaDegistir('home')" style="background: #1565c0; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-right: 10px;">👁️ Siteyi Gör</button>
+                    <button onclick="cikisYap()" style="background: #c62828; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 Çıkış Yap</button>
+                </div>
             </div>
             
             <div class="admin-section" style="border-left-color: #8d6e63;">
@@ -554,6 +560,17 @@
         document.getElementById(id).classList.add('active');
         localStorage.setItem('aktifSayfa', id);
         window.scrollTo(0, 0);
+
+        // Yönetici paneli ayrımı (Tasarım Değişikliği)
+        if (id === 'admin') {
+            document.getElementById('main-header').style.display = 'none';
+            document.getElementById('main-footer').style.display = 'none';
+            document.body.style.background = '#eceff1'; // Yönetim paneline özel arka plan
+        } else {
+            document.getElementById('main-header').style.display = 'flex'; 
+            document.getElementById('main-footer').style.display = 'block';
+            document.body.style.background = '#f4f1ea'; // Standart site arka planı
+        }
 
         if (id !== 'arsiv') {
             const gs = document.getElementById('global-search');
@@ -696,7 +713,12 @@
         cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
 
         const gruplar = {};
-        veriler.forEach(z => { const b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler"; if (!gruplar[b]) gruplar[b] = []; gruplar[b].push(z); });
+        veriler.forEach(z => { 
+            let b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler"; 
+            if(b === "Abdülmuttalip" || b === "Abdulmuttalib" || b === "Abdülmuttalib") b = "Abdulmuttalip";
+            if (!gruplar[b]) gruplar[b] = []; 
+            gruplar[b].push(z); 
+        });
         soy.innerHTML = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr')).map(baba => {
             const kisilerHtml = gruplar[baba].map(k => `
                 <div class="soy-kart"><strong>👤 ${k.isim}</strong><br>${k.anne && k.anne !== "?" ? `<small>🤱 Anne: ${k.anne}</small>` : ""}${k.es && k.es !== "?" ? `<br><small>💍 Eş: ${k.es}</small>` : ""}${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Bağlar: ${k.baglar}</small>` : ""}</div>`).join('');
