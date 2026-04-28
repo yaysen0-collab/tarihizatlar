@@ -79,6 +79,16 @@
         .soy-kart { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         .canli-uyari { color: #c62828; font-size: 0.85em; font-weight: bold; margin: -2px 0 8px 5px; display: none; }
         
+        /* ÖZEL AKILLI LİSTE (AUTOCOMPLETE) TASARIMI */
+        .oto-liste {
+            position: absolute; display: none; background: #fff; border: 1px solid #d7ccc8;
+            max-height: 160px; overflow-y: auto; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border-radius: 6px; font-size: 0.95rem; font-family: sans-serif; box-sizing: border-box;
+        }
+        .oto-liste div { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #eee; color: #5d4037; transition: 0.2s; }
+        .oto-liste div:last-child { border-bottom: none; }
+        .oto-liste div:hover { background: #f4f1ea; font-weight: bold; }
+
         /* FOOTER */
         #main-footer { border-top: 10px solid #5d4037; margin-top: 50px; padding: 40px 20px 20px 20px; }
         .footer-container { max-width: 900px; margin: 0 auto; display: flex; gap: 20px; justify-content: flex-start; flex-wrap: wrap; }
@@ -148,7 +158,6 @@
                 </div>
                 <span class="read-more">Devamını Oku ➔</span>
             </div>
-
             <div class="article-card" onclick="sayfaDegistir('makale2')">
                 <div>
                     <h3>Neden Bu İlimleri Öğreniyoruz?</h3>
@@ -156,7 +165,6 @@
                 </div>
                 <span class="read-more">Devamını Oku ➔</span>
             </div>
-
             <div class="article-card" onclick="sayfaDegistir('makale3')">
                 <div>
                     <h3>Rasulullah Sevgisi ve Kur'an Kerim Eğitimi</h3>
@@ -171,7 +179,6 @@
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
             <h2>Ashab-ı Kiram'ın İzinde</h2>
-            
             <p>İslam’ın kuvvetli olduğu zamanlarda doğduk. Kuran-ı Kerim'i bize öğretenler oldu. Maalesef ki yeni nesil elimizden kayıp gidiyor. Bunları nerede kaybettik? Hangi mezhebe ait olduğunu bilmeyen, peygamberimizi tanımayan birine nasıl namaz kıl diyebiliriz?</p>
             <p>Hangi mezhepteniz, mezhep neden var, zorunda mıyız biz? <em>"El ilmü ferizatin ala küllü müslimin ve müslimetin"</em>. İlim öğrenmek her Müslüman erkek ve kadın üzerine farzdır. Burada kastedilen nasıl amel etmesi gerektiğini öğrenmektir. İtikadını bilmektir. Herkese tek tek vaciptir. Selam verse birisi, alsa diğerlerinden hüküm kalkar ama 5 vakit namaz herkese tek tek farzdır. İtikat konusunda da herkesin tek tek, fert fert kendisinin yapması lazımdır. İman ne demek? Hz. Allah’a, O'nun peygamberine, O'nun kulu ve resulü olduğuna iman etmektir.</p>
             <p>Amel imandan bir cüz müdür? Günümüzde çok fazla var; Müslümanım diyor, namaz kılmıyor, zekât vermiyor. Peki, biz ona "Sen Müslüman değilsin" dersek ne olur? Dinden çıkmış oluruz. Amelinde eksik vardır evet ama Allah’a iman ettim diyordur; amelinde kusur vardır bizi alakadar etmez. İman asıldır, amel onu kuvvetlendirmek içindir. Rabbim bize kâmil iman versin.</p>
@@ -186,24 +193,19 @@
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
             <h2>Neden Bu İlimleri Öğreniyoruz?</h2>
-            
             <p>İslam dini, okuyup ilim sahibi olmaya çok önem vermiştir. Hatta Peygamber Efendimize indirilen ilk ayeti kerime “Oku” emri ile başlar. Cenabı Hak Kuran-ı Keriminde; <em>“Ey Habibim! Yaratan Rabbinin adı ile oku”</em> buyurmuştur.</p>
             <p>Kur’an-ı Kerim’e bakacak olursak, Allah lafzından sonra en çok geçen kelimelerden biri de ilim ve ilim manasını ifade eden kelimeler olduğunu görürüz. Yine Cenabı Hak Kuran-ı Keriminde: <em>“Habibim! De ki: Hiç bilenler ile bilmeyenler bir olur mu?"</em> buyurarak ilmin ve âlimin üstünlüğünü bildirmiştir.</p>
             <p>Yine Hz. Allah bütün peygamberlerini âlim yapmıştır. Ümmetleri için öğretmen kılmıştır. Eğer ilimden daha yüce bir mertebe, daha güzel bir meslek olsaydı, Hz. Allah seçerek gönderdiği peygamberlerine o mesleği verirdi.</p>
-            
             <p style="margin-top: 25px; font-weight: bold; color: #5d4037;">Abdullah bin Mübarek Hazretleri’ne sordular:</p>
             <p style="margin-left: 20px;">— “Eğer Cenabı-ı Hak, sana öleceğin anı bildirse idi ne ile meşgul olurdun?”<br>
             — “İlim ile meşgul olurdum." dedi.<br>
             — “İlimden daha üstün bir ibadet yok mu ki, onunla meşgul olsanız?”<br>
             — “Evet. İlimden daha üstün bir ibadet yoktur.” dedi. Yanındakiler:<br>
             — “İlme çalışmanın her türlü ibadetten üstün olduğunu ne ile ispat edersiniz?” deyince,</p>
-            
             <p style="margin-top: 20px; font-weight: bold; color: #5d4037;">Abdullah bin Mübarek Hazretleri şöyle cevap verdi:</p>
             <p style="margin-left: 20px; font-style: italic; color: #444;">— “İlim her şeyden üstündür. Çünkü Cenabı-ı Hak (c.c.) Peygamber Efendimize (s.a.v.) her şeyi verdi. Fazlasını istemekle emir buyurmadı. İlim hakkında ise: ‘Ey Habibim! De ki: Rabbim benim ilmimi artır.’ Eğer ilimden daha üstün bir şey olsa idi, Rasulullah Efendimiz (s.a.v.), onun artmasını istemekle emrolunurdu. Bundan dolayı ben ilimden daha üstün bir amel göremiyorum.”</p>
-            
             <p style="margin-top: 25px;">İslam dini ilme o kadar değer ve kıymet vermiştir ki, Bedir harbi esirlerinin okuryazar olanlarına, Müslümanlardan on kişiye okuyup yazmayı öğrettikleri takdirde serbest bırakılacakları, Fahr-i Kâinat Efendimiz tarafından va’d edilmiş ve esirler denileni yaptıkları zaman serbest bırakılmışlardır.</p>
             <p>Bir milletin en büyük düşmanı cehalettir. Onu imha etmeden diğer düşmanlara karşı zafer mümkün değildir.</p>
-            
             <p style="text-align: center; font-weight: bold; margin-top: 30px; color: #8d6e63; font-size: 1.2rem;">Hiç kimse hakikati anlayacak ilimle doğmamıştır. Bu yüzden bu ilimleri okumaya ve anlamaya önem göstermeliyiz.</p>
         </div>
     </div>
@@ -212,24 +214,17 @@
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
             <h2>Rasulullah Sevgisi ve Kur'an Kerim Eğitimi</h2>
-            
             <p>Resulullah efendimiz bir hadisi şeriflerinde şöyle buyuruyor;</p>
             <p style="font-style: italic; color: #5d4037; font-weight: bold; font-size: 1.2rem;">”Evlatlarınızı üç haslet üzerine edeplendiriniz:</p>
-            
             <ul style="color: #444; line-height: 1.8; margin-bottom: 25px; font-size: 1.15rem;">
                 <li><strong>1. Rasulullah sevgisi</strong></li>
                 <li><strong>2. Rasulullah’ın ehlibeytinin sevgisi</strong></li>
                 <li><strong>3. Kur'an-ı Kerim okumak</strong></li>
             </ul>
-
             <p>Çünkü Kur'an-ı Kerim okuyan, okutan ve onun hizmetinde bulunanlar hiçbir gölgenin bulunmadığı o kıyamet gününde evliya ve esfiya ile beraber Allah’ımızın Arşının gölgesinde bulunacaklardır.</p>
-
             <h3 style="color: #5d4037; margin-top: 40px; border-bottom: 2px dashed #eee; padding-bottom: 10px;">Kur'an-ı Kerim ilk olarak nerede ve nasıl öğretilmeye başlandı?</h3>
-
             <p>Peygamber Efendimiz (s.a.v.), nübüvvetin ilk yıllarında Müslümanlar ile Safa tepesi eteklerindeki Hazret-i Erkam’ın (r.a.) evinde gizlice toplanır, onlara İslâm’ın emir ve hükümlerini bildirir, Kur’an-ı Kerim'in nazil olan Ayet-i Kerimelerini okur ve öğretirlerdi. <strong>Dârü'l-Erkam</strong> ismi verilen bu hane, İslam tarihinde ilk eğitim-öğretim yapılan ilim müessesesi olarak kabul edilir.</p>
-
             <p>Rasulullah Efendimiz (s.a.v.), Medine-i Münevvere‘ye hicretlerinin ardından Mescid-i Nebevi ve ona bitişik olarak da Hücre-i Saadet'i inşa ettirdiler. Mescidin kuzey tarafına, bir suffa (gölgelik) yaptırdılar. Sahabe-i Kiramdan burada ikamet edenlere <strong>Ashab-ı Suffe</strong> denilirdi. Onların ihtiyaçlarıyla bizzat Efendimiz (s.a.v.) ilgilenir, eğitimiyle de yine kendileri alakadar olurlardı. Ayrıca onlara yazı yazmayı ve Kur’an-ı Kerim okumayı öğretmek üzere Ubâde b. Sâmit, Mus'ab bin Umeyr (r.anhüma) gibi hocalar tayin etmişlerdi.</p>
-
             <p>Diğer Sahabe-i Kiram, geçimlerini temin için ticaret ve ziraatla uğraştıkları için vakit namazlarının ardından kendi işleriyle meşgul oluyorlardı. Fakat Ashab-ı Suffe, bütün vakitlerini ilim öğrenmeye ve ibadete ayırdıkları için Peygamber Efendimiz‘in (s.a.v.) yanından ayrılmazlardı.</p>
         </div>
     </div>
@@ -278,7 +273,6 @@
     <div id="surum" class="page">
         <div class="admin-dashboard" style="background: #faf9f6;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
-            
             <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.5 - Üçüncü Makale Eklendi</h3>
@@ -286,7 +280,6 @@
                     <li>Dârü'l-Erkam ve Ashab-ı Suffe'yi anlatan üçüncü okuma metni (Rasulullah Sevgisi ve Kur'an Kerim Eğitimi) sisteme başarıyla entegre edildi.</li>
                 </ul>
             </div>
-
             <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.4 - İkinci Makale Eklendi</h3>
@@ -294,7 +287,6 @@
                     <li>İlmin önemini anlatan ikinci okuma metni (Neden Bu İlimleri Öğreniyoruz?) sisteme eklendi ve diyalog yapısına uygun formatlandı.</li>
                 </ul>
             </div>
-            
             <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.3 - Makale Okuma Sistemi (Kart Tasarımı)</h3>
@@ -303,7 +295,6 @@
                     <li>Yazıların rahat okunabilmesi için özel tasarıma sahip yepyeni okuma sayfaları (Geri Dön butonlu) eklendi.</li>
                 </ul>
             </div>
-
             <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.2 - Arşiv ve Arayüz Optimizasyonu</h3>
@@ -312,7 +303,6 @@
                     <li>Ana sayfadaki tekrarlanan butonlar kaldırılarak özel okuma metinleri için ferah bir alan yaratıldı.</li>
                 </ul>
             </div>
-
             <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.0 - Kapsamlı Bilgi ve Arayüz Güncellemesi</h3>
@@ -326,7 +316,6 @@
                     <li>Yönetici girişi butonu ana sayfadan kaldırılarak daha gizli ve güvenli olan alt menüye taşındı.</li>
                 </ul>
             </div>
-
             <div class="surum-item">
                 <div class="surum-tarih">Mart 2026</div>
                 <h3 class="surum-baslik">v1.0.0 - Sistemin Hayata Geçirilmesi</h3>
@@ -444,21 +433,24 @@
             
             <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
             
-            <datalist id="kayitli-kisiler"></datalist>
-
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
                 <input id="in_ad" placeholder="İsim" oninput="benzerZatKontrol()">
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 10px; margin-left: 5px;">
+                    <label style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" id="oto_ra" checked style="width: auto; margin: 0;"> İsmin sonuna otomatik (ra) ekle
+                    </label>
+                </div>
                 <div id="zat-uyari" class="canli-uyari"></div>
                 
                 <div class="row">
-                    <input id="in_anne" placeholder="Anne" list="kayitli-kisiler">
-                    <input id="in_baba" placeholder="Baba" list="kayitli-kisiler">
+                    <input id="in_anne" placeholder="Anne" autocomplete="off">
+                    <input id="in_baba" placeholder="Baba" autocomplete="off">
                 </div>
-                <input id="in_es" placeholder="Eşi / Eşleri" list="kayitli-kisiler">
+                <input id="in_es" placeholder="Eşi / Eşleri" autocomplete="off">
                 
                 <div class="row" style="margin-top: 10px;">
-                    <input id="in_baglar_isim" placeholder="İsim Yaz" list="kayitli-kisiler">
+                    <input id="in_baglar_isim" placeholder="İsim Yaz" autocomplete="off">
                     <select id="in_baglar_secenek">
                         <option value="">Bağlantı Türü...</option>
                         <option value="Çocuk">Çocuk</option>
@@ -485,7 +477,9 @@
                 <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
             </div>
             <hr style="border: 1px solid #eee; margin: 30px 0;">
-            <h3>📋 Mevcut Kayıtlar</h3>
+            
+            <h3>📋 Mevcut Kayıtlar <span id="toplam-istatistik" style="font-size: 0.75em; background: #5d4037; color: white; padding: 4px 10px; border-radius: 12px; margin-left: 10px; font-weight: normal;"></span></h3>
+            
             <div id="adminList"></div>
         </div>
     </div>
@@ -530,6 +524,8 @@
     </div>
 </footer>
 
+<div id="oto-kutu" class="oto-liste"></div>
+
 <script>
     const firebaseConfig = {
         apiKey: "AIzaSyCrrD1XRInE3Er47ZRl28rUo_Pk7FZAyss",
@@ -550,6 +546,22 @@
     window.onload = function() {
         const sonSayfa = localStorage.getItem('aktifSayfa');
         if (sonSayfa) sayfaDegistir(sonSayfa);
+        
+        const otoInputs = ['in_anne', 'in_baba', 'in_es', 'in_baglar_isim'];
+        otoInputs.forEach(id => {
+            const inp = document.getElementById(id);
+            inp.addEventListener('input', () => gosterOto(inp));
+            inp.addEventListener('focus', () => gosterOto(inp));
+            inp.addEventListener('blur', () => setTimeout(() => {
+                const kutu = document.getElementById('oto-kutu');
+                if(kutu) kutu.style.display = 'none';
+            }, 250));
+        });
+        
+        window.addEventListener('scroll', () => { 
+            const kutu = document.getElementById('oto-kutu');
+            if(kutu) kutu.style.display = 'none'; 
+        });
     };
 
     auth.onAuthStateChanged(user => { 
@@ -565,21 +577,44 @@
     db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
     db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
 
+    function gosterOto(inp) {
+        const val = inp.value.toLocaleLowerCase('tr');
+        let html = '';
+        let count = 0;
+        
+        veriler.forEach(v => {
+            if(count > 40) return;
+            if(v.isim.toLocaleLowerCase('tr').includes(val)) {
+                html += `<div onclick="document.getElementById('${inp.id}').value = '${v.isim}'; document.getElementById('oto-kutu').style.display='none';">${v.isim}</div>`;
+                count++;
+            }
+        });
+        
+        const kutu = document.getElementById('oto-kutu');
+        if(html === '') { kutu.style.display = 'none'; return; }
+        
+        kutu.innerHTML = html;
+        const rect = inp.getBoundingClientRect();
+        kutu.style.left = (rect.left + window.scrollX) + 'px';
+        kutu.style.top = (rect.bottom + window.scrollY) + 'px';
+        kutu.style.width = rect.width + 'px';
+        kutu.style.display = 'block';
+    }
+
     function sayfaDegistir(id) {
         document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         localStorage.setItem('aktifSayfa', id);
         window.scrollTo(0, 0);
 
-        // Yönetici paneli ayrımı (Tasarım Değişikliği)
         if (id === 'admin') {
             document.getElementById('main-header').style.display = 'none';
             document.getElementById('main-footer').style.display = 'none';
-            document.body.style.background = '#eceff1'; // Yönetim paneline özel arka plan
+            document.body.style.background = '#eceff1'; 
         } else {
             document.getElementById('main-header').style.display = 'flex'; 
             document.getElementById('main-footer').style.display = 'block';
-            document.body.style.background = '#f4f1ea'; // Standart site arka planı
+            document.body.style.background = '#f4f1ea'; 
         }
 
         if (id !== 'arsiv') {
@@ -642,15 +677,15 @@
         const cizelge = document.getElementById('cizelgeList');
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
-        const kisiListesi = document.getElementById('kayitli-kisiler');
+        
+        // SAYAÇ GÜNCELLEMESİ BURADA YAPILIYOR
+        const istatistik = document.getElementById('toplam-istatistik');
+        if (istatistik) {
+            istatistik.innerHTML = `Toplam Zat: ${veriler.length} &nbsp;|&nbsp; Toplam Olay: ${olaylar.length}`;
+        }
 
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
         olaylar.sort((a, b) => (a.ad || "").toLocaleLowerCase('tr').localeCompare((b.ad || "").toLocaleLowerCase('tr'), 'tr'));
-
-        // Otomatik tamamlama (Datalist) içine kayıtlı tüm isimleri ekle
-        if (kisiListesi) {
-            kisiListesi.innerHTML = veriler.map(v => `<option value="${v.isim}">`).join('');
-        }
 
         let aHtml = ""; 
         
@@ -690,7 +725,6 @@
         });
         arsiv.innerHTML = aHtml; 
 
-        // Yönetici Listesi A-Z
         let admHtml = `<h4 style="color:#5d4037; margin-top:0;">👤 Zatlar</h4>`;
         const azZatlar = {};
         veriler.forEach(z => {
@@ -749,10 +783,12 @@
         let ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
         if (!ad) { alert("Lütfen bir isim girin!"); return; }
         
-        // İsmin sonunda (ra) yoksa otomatik ekle
-        const kucukAd = ad.toLocaleLowerCase('tr');
-        if (!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)")) {
-            ad += " (ra)";
+        const otoRaSeciliMi = document.getElementById('oto_ra').checked;
+        if (otoRaSeciliMi) {
+            const kucukAd = ad.toLocaleLowerCase('tr');
+            if (!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)")) {
+                ad += " (ra)";
+            }
         }
         
         const id = document.getElementById('edit-id').value;
@@ -797,6 +833,14 @@
         document.getElementById('in_bilgi').value = z.bilgi;
         document.getElementById('cancel-btn').style.display = "block";
         document.getElementById('zat-uyari').style.display = "none";
+        
+        const kucukAd = z.isim.toLocaleLowerCase('tr');
+        if (!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)")) {
+            document.getElementById('oto_ra').checked = false;
+        } else {
+            document.getElementById('oto_ra').checked = true;
+        }
+        
         window.scrollTo(0,0);
     }
 
@@ -816,6 +860,7 @@
         document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); 
         document.getElementById('cancel-btn').style.display = "none"; 
         document.getElementById('zat-uyari').style.display = "none";
+        if(document.getElementById('oto_ra')) document.getElementById('oto_ra').checked = true; 
     }
     
     function temizleOlay() { 
