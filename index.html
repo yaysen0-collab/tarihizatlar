@@ -9,13 +9,27 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <style>
         body { font-family: sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; }
-        #main-header { background: #5d4037; color: white; padding: 20px; text-align: center; }
-        .nav-btn { background: #8d6e63; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        
+        /* YENİLENEN HEADER (ÜST BİLGİ) TASARIMI */
+        #main-header { background: #5d4037; color: white; padding: 15px 30px; display: flex; align-items: center; flex-wrap: wrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        #main-header h1 { margin: 0; font-size: 1.6rem; letter-spacing: 1px; white-space: nowrap; }
+        .header-nav-container { flex-grow: 1; display: flex; justify-content: center; }
+        
+        .nav-btn { background: #8d6e63; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.3s; }
+        .nav-btn:hover { background: #795548; transform: translateY(-2px); }
+        
+        /* Mobil Uyumluluk */
+        @media (max-width: 768px) {
+            #main-header { flex-direction: column; gap: 15px; padding: 15px; text-align: center; }
+            .header-nav-container { flex-wrap: wrap; }
+        }
+
         .container { max-width: 900px; margin: 20px auto; padding: 20px; }
         .page { display: none; }
         .active { display: block !important; }
         .card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .card { background: white; padding: 40px 10px; text-align: center; border-radius: 10px; cursor: pointer; border-bottom: 5px solid #5d4037; font-weight: bold; }
+        .card { background: white; padding: 40px 10px; text-align: center; border-radius: 10px; cursor: pointer; border-bottom: 5px solid #5d4037; font-weight: bold; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .data-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; position: relative; border-left: 5px solid #5d4037; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .quote-box { background: white; padding: 35px; border-radius: 15px; text-align: center; margin-bottom: 30px; border-left: 10px solid #8d6e63; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
         .quote-box p { font-size: 1.4rem; color: #5d4037; margin: 0 0 15px 0; line-height: 1.6; font-style: italic; font-family: 'Georgia', serif; }
@@ -26,7 +40,8 @@
         .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; font-size: 15px; }
         .row { display: flex; gap: 10px; align-items: center; }
-        .btn-action { background: #5d4037; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px; margin-top: 5px; }
+        .btn-action { background: #5d4037; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px; margin-top: 5px; transition: 0.3s; }
+        .btn-action:hover { background: #4e342e; }
         .admin-controls { margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
         .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
@@ -41,8 +56,8 @@
         
         /* ALT BİLGİ (FOOTER) - Tasarım */
         #main-footer { border-top: 10px solid #5d4037; margin-top: 50px; padding: 40px 20px 20px 20px; }
-        .footer-container { max-width: 900px; margin: 0 auto; display: flex; gap: 20px; justify-content: flex-start; }
-        .footer-col { flex: 1; text-align: left; }
+        .footer-container { max-width: 900px; margin: 0 auto; display: flex; gap: 20px; justify-content: flex-start; flex-wrap: wrap; }
+        .footer-col { flex: 1; text-align: left; min-width: 200px; }
         .footer-col h4 { color: #5d4037; margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; border-bottom: 2px solid #d7ccc8; padding-bottom: 5px; font-family: 'Georgia', serif; }
         .footer-col ul { list-style: none; padding: 0; margin: 0; }
         .footer-col ul li { margin-bottom: 8px; }
@@ -50,7 +65,7 @@
         .footer-col ul li a:hover { color: #8d6e63; font-weight: bold; }
         
         /* TELİF VE SOSYAL MEDYA KISMI */
-        .footer-bottom { max-width: 900px; margin: 40px auto 0 auto; padding-top: 20px; border-top: 1px solid #d7ccc8; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #8d6e63; }
+        .footer-bottom { max-width: 900px; margin: 40px auto 0 auto; padding-top: 20px; border-top: 1px solid #d7ccc8; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #8d6e63; flex-wrap: wrap; gap: 10px; }
         .footer-bottom a { color: #8d6e63; text-decoration: none; margin-left: 15px; transition: 0.2s; }
         .footer-bottom a:hover { color: #5d4037; font-weight: bold; }
 
@@ -78,7 +93,7 @@
 
 <header id="main-header">
     <h1>ASRI SAADET PORTALI</h1>
-    <div>
+    <div class="header-nav-container">
         <button class="nav-btn" onclick="sayfaDegistir('home')">Ana Sayfa</button>
         <button class="nav-btn" onclick="sayfaDegistir('arsiv')">Arşiv</button>
         <button class="nav-btn" onclick="sayfaDegistir('cizelge')">Çizelge</button>
@@ -120,7 +135,7 @@
             <div class="sss-item"><strong>Sahabeler arası akrabalık ve sosyal ilişkiler nasıl gösterilmektedir?</strong>Sistem, sahabeler arasındaki nesep bağları, evlilikler ve sosyal ilişkileri ilişkilendirilmiş bir veri yapısı aracılığıyla sunmaktadır. Bu sayede kullanıcılar tarihsel bağları daha net bir şekilde anlayabilmektedir.</div>
             <div class="sss-item"><strong>Portal akademik çalışmalarda kaynak olarak kullanılabilir mi?</strong>Portal, akademik çalışmalar için doğrudan birincil kaynak olma iddiası taşımamakla birlikte, araştırmacılar için yardımcı ve yönlendirici bir dijital referans kaynağı olarak kullanılabilir.</div>
             <div class="sss-item"><strong>Proje kimlere hitap etmektedir?</strong>Asr-ı Saadet Portalı; öğrenciler, akademisyenler, araştırmacılar ve İslam tarihiyle ilgilenen genel kullanıcı kitlesine hitap etmektedir.</div>
-            <div class="sss-item"><strong>İçerik genel kullanıcılar için anlaşılır mıdır?</strong>Evet. İçerikler akademik temele dayanmakla birlikte sade ve anlaşılır bir dil kullanılarak hazırlanmıştır. Böylece hem akademik hem de genel kullanıcılar için erişilebilir bir yapı sunulmaktadır.</div>
+            <div class="sss-item"><strong>İçerik genel kullanıcılar için anlaşılır mıdır?</strong>Evet. İçerikler akademik temele dayanmakla birlikte sade ve anlaşılır bir dil kullanılarak hazırlanmıştır. Böylece hem akademik hem de genel kullanıcılar için erişilebilir yapı sunulmaktadır.</div>
             <div class="sss-item"><strong>Portalın gelecekte geliştirilmesi planlanmakta mıdır?</strong>Evet. Projenin ilerleyen aşamalarında içeriklerin genişletilmesi, yeni sahabelerin eklenmesi ve görselleştirme araçlarının geliştirilmesi planlanmaktadır.</div>
             <div class="sss-item"><strong>Portal eğitim amaçlı kullanılabilir mi?</strong>Portal, eğitim kurumlarında yardımcı bir kaynak olarak kullanılabilecek niteliktedir ve tarihsel bilginin dijital ortamda sunulmasına katkı sağlamayı hedeflemektedir.</div>
         </div>
@@ -149,12 +164,13 @@
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.0 - Kapsamlı Bilgi ve Arayüz Güncellemesi</h3>
                 <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Üst Menü (Header) tasarımı yenilendi; logo sola, menüler merkeze hizalandı.</li>
                     <li>Alt bilgi (Footer) alanı profesyonel ve kurumsal bir tasarımla yenilendi.</li>
                     <li>Sistemin akademik vizyonunu anlatan <strong>Proje Amacı</strong> sayfası eklendi.</li>
                     <li>Kullanıcı sorularını yanıtlayan <strong>Sıkça Sorulan Sorular (SSS)</strong> bölümü oluşturuldu.</li>
                     <li>Temel referans kaynaklarını listeleyen <strong>Kaynakça ve Eserler</strong> bölümü sisteme entegre edildi.</li>
                     <li>Kullanıcıların doğrudan e-posta gönderebilmesi için Formspree altyapılı <strong>İletişim Formu</strong> entegre edildi.</li>
-                    <li>Yönetici girişi butonu ana sayfadan kaldırılarak daha gizli ve güvenli olan alt menüye (Yönetim Sütunu) taşındı.</li>
+                    <li>Yönetici girişi butonu ana sayfadan kaldırılarak daha gizli ve güvenli olan alt menüye taşındı.</li>
                     <li>Akıllı paylaşım butonları (X, WhatsApp, E-posta) eklenerek projenin dışa aktarımı sağlandı.</li>
                 </ul>
             </div>
