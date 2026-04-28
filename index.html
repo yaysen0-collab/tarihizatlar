@@ -60,6 +60,11 @@
         .contact-form { display: flex; flex-direction: column; gap: 15px; }
         .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid #d7ccc8; border-radius: 8px; background: #faf9f6; font-size: 1rem; color: #333; box-sizing: border-box; }
         .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #8d6e63; background: #fff; }
+
+        /* SÜRÜM NOTLARI Özel Stil */
+        .surum-item { margin-bottom: 25px; border-left: 4px solid #8d6e63; padding-left: 20px; background: #fff; padding-top: 15px; padding-bottom: 15px; padding-right: 15px; border-radius: 0 8px 8px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .surum-tarih { font-size: 0.9rem; color: #999; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .surum-baslik { color: #5d4037; margin: 0 0 10px 0; font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -126,6 +131,38 @@
                 <textarea name="mesaj" placeholder="Mesajınız..." rows="6" required></textarea>
                 <button type="submit" class="btn-action" style="font-size: 1.1rem; padding: 15px;">MESAJI GÖNDER</button>
             </form>
+        </div>
+    </div>
+
+    <div id="surum" class="page">
+        <div class="admin-dashboard" style="background: #faf9f6;">
+            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
+            
+            <div class="surum-item">
+                <div class="surum-tarih">Nisan 2026</div>
+                <h3 class="surum-baslik">v1.1.0 - Kapsamlı Bilgi ve Arayüz Güncellemesi</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Alt bilgi (Footer) alanı profesyonel ve kurumsal bir tasarımla yenilendi.</li>
+                    <li>Sistemin akademik vizyonunu anlatan <strong>Proje Amacı</strong> sayfası eklendi.</li>
+                    <li>Kullanıcı sorularını yanıtlayan <strong>Sıkça Sorulan Sorular (SSS)</strong> bölümü oluşturuldu.</li>
+                    <li>Kullanıcıların doğrudan e-posta gönderebilmesi için Formspree altyapılı <strong>İletişim Formu</strong> entegre edildi.</li>
+                    <li>Yönetici girişi butonu ana sayfadan kaldırılarak daha gizli ve güvenli olan alt menüye (Yönetim Sütunu) taşındı.</li>
+                    <li>Alt menü linklerine, tıklandığında otomatik filtreleme yapan akıllı yönlendirmeler eklendi (Örn: Sadece Olaylar, Sadece Kişiler).</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Mart 2026</div>
+                <h3 class="surum-baslik">v1.0.0 - Sistemin Hayata Geçirilmesi</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Asr-ı Saadet Portalı temel veritabanı (Firebase) altyapısı kurularak ilk sürüm yayına alındı.</li>
+                    <li>Tarihi zatlar ve olaylar için gelişmiş arama ve filtreleme özelliğine sahip <strong>Arşiv</strong> sistemi oluşturuldu.</li>
+                    <li>Kişiler ve olayların tarihsel sırasını gösteren kronolojik <strong>Zaman Çizelgesi</strong> eklendi.</li>
+                    <li>Sahabeler arası akrabalık ilişkilerini ve nesep bağlarını dinamik olarak gruplayan <strong>Soyağacı</strong> modülü geliştirildi.</li>
+                    <li>Kayıt ekleme, detaylı akraba bağlama, düzenleme ve silme işlemleri için güvenli <strong>Yönetici Paneli</strong> tasarlandı.</li>
+                    <li>Sistemdeki olası mükerrer kayıtları engellemek için isim benzerliği uyarısı (Canlı Dedektör) eklendi.</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -242,7 +279,7 @@
             <h4>YÖNETİM</h4>
             <ul>
                 <li><a onclick="sayfaDegistir('login')">Yönetici Girişi</a></li>
-                <li><a>Sürüm Notları / Güncellemeler</a></li>
+                <li><a onclick="sayfaDegistir('surum')">Sürüm Notları / Güncellemeler</a></li>
             </ul>
         </div>
     </div>
