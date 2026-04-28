@@ -54,9 +54,12 @@
         .footer-bottom a { color: #8d6e63; text-decoration: none; margin-left: 15px; transition: 0.2s; }
         .footer-bottom a:hover { color: #5d4037; font-weight: bold; }
 
-        /* SSS ÖZEL STİL */
+        /* SSS & İLETİŞİM Özel Stil */
         .sss-item { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .sss-item strong { color: #5d4037; display: block; margin-bottom: 5px; font-size: 1.05rem; }
+        .contact-form { display: flex; flex-direction: column; gap: 15px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid #d7ccc8; border-radius: 8px; background: #faf9f6; font-size: 1rem; color: #333; box-sizing: border-box; }
+        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #8d6e63; background: #fff; }
     </style>
 </head>
 <body>
@@ -96,7 +99,6 @@
     <div id="sss" class="page">
         <div class="admin-dashboard" style="line-height: 1.6;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">❓ Sıkça Sorulan Sorular</h2>
-            
             <div class="sss-item"><strong>Bu projenin temel amacı nedir?</strong>Bu projenin temel amacı, Asr-ı Saadet döneminde yaşamış olan Ashab-ı Kiram’a ait biyografik bilgileri, akrabalık ve sosyal ilişkileri sistemli bir yapıda sunarak tarihsel bilginin daha anlaşılır ve erişilebilir hâle getirilmesini sağlamaktır.</div>
             <div class="sss-item"><strong>Asr-ı Saadet Portalı hangi ihtiyaca cevap vermektedir?</strong>Ashab-ı Kiram’ın sayıca fazla olması ve bilgilerin farklı kaynaklara dağılmış olması nedeniyle oluşan bilgi karmaşasını gidermeyi amaçlamaktadır. Portal, bu bilgileri tek bir dijital platformda toplayarak düzenli ve bütüncül bir yapı sunmaktadır.</div>
             <div class="sss-item"><strong>Proje hangi tarihsel dönemi kapsamaktadır?</strong>Proje, Asr-ı Saadet olarak adlandırılan ve Peygamber Efendimiz Muhammed Mustafa (s.a.v.)’ in yaşadığı dönemi kapsayan tarihsel süreci esas almaktadır.</div>
@@ -109,6 +111,21 @@
             <div class="sss-item"><strong>İçerik genel kullanıcılar için anlaşılır mıdır?</strong>Evet. İçerikler akademik temele dayanmakla birlikte sade ve anlaşılır bir dil kullanılarak hazırlanmıştır. Böylece hem akademik hem de genel kullanıcılar için erişilebilir bir yapı sunulmaktadır.</div>
             <div class="sss-item"><strong>Portalın gelecekte geliştirilmesi planlanmakta mıdır?</strong>Evet. Projenin ilerleyen aşamalarında içeriklerin genişletilmesi, yeni sahabelerin eklenmesi ve görselleştirme araçlarının geliştirilmesi planlanmaktadır.</div>
             <div class="sss-item"><strong>Portal eğitim amaçlı kullanılabilir mi?</strong>Portal, eğitim kurumlarında yardımcı bir kaynak olarak kullanılabilecek niteliktedir ve tarihsel bilginin dijital ortamda sunulmasına katkı sağlamayı hedeflemektedir.</div>
+        </div>
+    </div>
+
+    <div id="iletisim" class="page">
+        <div class="admin-dashboard">
+            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">✉️ İletişim</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 25px;">Sorularınız, önerileriniz veya katkıda bulunmak istediğiniz konular için aşağıdaki formu kullanarak bize ulaşabilirsiniz.</p>
+            
+            <form action="https://formspree.io/f/YOUR_FORM_ID_HERE" method="POST" class="contact-form">
+                <input type="text" name="isim" placeholder="Adınız Soyadınız" required>
+                <input type="email" name="email" placeholder="E-posta Adresiniz" required>
+                <input type="text" name="konu" placeholder="Mesajınızın Konusu" required>
+                <textarea name="mesaj" placeholder="Mesajınız..." rows="6" required></textarea>
+                <button type="submit" class="btn-action" style="font-size: 1.1rem; padding: 15px;">MESAJI GÖNDER</button>
+            </form>
         </div>
     </div>
 
@@ -217,7 +234,7 @@
                 <li><a onclick="sayfaDegistir('proje-amaci')">Proje Amacı</a></li>
                 <li><a>Kaynakça / Eserler</a></li>
                 <li><a onclick="sayfaDegistir('sss')">Sıkça Sorulan Sorular</a></li>
-                <li><a>İletişim</a></li>
+                <li><a onclick="sayfaDegistir('iletisim')">İletişim</a></li>
             </ul>
         </div>
         
@@ -235,7 +252,7 @@
         <div>
             <a href="#">X (Twitter)</a>
             <a href="#">WhatsApp</a>
-            <a href="#">E-posta</a>
+            <a onclick="sayfaDegistir('iletisim')">E-posta</a>
         </div>
     </div>
 </footer>
@@ -328,6 +345,7 @@
 
         let aHtml = ""; 
 
+        // 1. ARŞİV LİSTESİ OLUŞTURMA
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
@@ -348,6 +366,7 @@
         });
         arsiv.innerHTML = aHtml; 
 
+        // 2. YÖNETİCİ LİSTESİ (A-Z KLASÖRLEME SİSTEMİ)
         let admHtml = `<h4 style="color:#5d4037; margin-top:0;">👤 Zatlar</h4>`;
         const azZatlar = {};
         veriler.forEach(z => {
@@ -379,12 +398,14 @@
         });
         adminL.innerHTML = admHtml;
 
+        // 3. ÇİZELGE
         const bil = [];
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
         cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
 
+        // 4. SOYAĞACI
         const gruplar = {};
         veriler.forEach(z => { const b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler"; if (!gruplar[b]) gruplar[b] = []; gruplar[b].push(z); });
         soy.innerHTML = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr')).map(baba => {
