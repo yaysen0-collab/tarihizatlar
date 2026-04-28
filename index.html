@@ -147,7 +147,7 @@
                     <li>Kullanıcı sorularını yanıtlayan <strong>Sıkça Sorulan Sorular (SSS)</strong> bölümü oluşturuldu.</li>
                     <li>Kullanıcıların doğrudan e-posta gönderebilmesi için Formspree altyapılı <strong>İletişim Formu</strong> entegre edildi.</li>
                     <li>Yönetici girişi butonu ana sayfadan kaldırılarak daha gizli ve güvenli olan alt menüye (Yönetim Sütunu) taşındı.</li>
-                    <li>Alt menü linklerine, tıklandığında otomatik filtreleme yapan akıllı yönlendirmeler eklendi (Örn: Sadece Olaylar, Sadece Kişiler).</li>
+                    <li>Akıllı paylaşım butonları (X, WhatsApp, E-posta) eklenerek projenin dışa aktarımı sağlandı.</li>
                 </ul>
             </div>
 
@@ -287,9 +287,9 @@
     <div class="footer-bottom">
         <div>&copy; 2026 Asrı Saadet Portalı. Tüm hakları saklıdır.</div>
         <div>
-            <a href="#">X (Twitter)</a>
-            <a href="#">WhatsApp</a>
-            <a onclick="sayfaDegistir('iletisim')">E-posta</a>
+            <a href="javascript:void(0)" onclick="paylas('twitter')">X (Twitter)</a>
+            <a href="javascript:void(0)" onclick="paylas('whatsapp')">WhatsApp</a>
+            <a href="javascript:void(0)" onclick="paylas('email')">E-posta</a>
         </div>
     </div>
 </footer>
@@ -540,6 +540,16 @@
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
         btn.classList.add('active-filter');
         aramaYap();
+    }
+
+    // YENİ EKLENEN: PAYLAŞIM FONKSİYONU
+    function paylas(platform) {
+        const url = encodeURIComponent(window.location.href);
+        const metin = encodeURIComponent("Asr-ı Saadet Portalı'nı incelemelisin! Sahabeler ve tarihi olaylar hakkında harika bir dijital kaynak: ");
+        
+        if(platform === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${metin}&url=${url}`, '_blank');
+        if(platform === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${metin}%20${url}`, '_blank');
+        if(platform === 'email') window.location.href = `mailto:?subject=Asr-ı Saadet Portalı Tavsiyesi&body=${metin} ${url}`;
     }
 </script>
 </body>
