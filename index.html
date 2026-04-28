@@ -41,23 +41,20 @@
         .quote-box p { font-size: 1.4rem; color: #5d4037; margin: 0 0 15px 0; line-height: 1.6; font-style: italic; font-family: 'Georgia', serif; }
         .quote-box span { font-weight: bold; color: #8d6e63; font-size: 1.1rem; }
         
-        /* ANA SAYFA SEKME (TAB) SİSTEMİ */
-        .home-tabs { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-top: 6px solid #5d4037; margin-bottom: 30px; }
-        .tab-buttons { display: flex; background: #e7e5e4; border-bottom: 1px solid #d7ccc8; }
-        .tab-btn { flex: 1; padding: 18px 10px; border: none; background: transparent; cursor: pointer; font-weight: bold; color: #8d6e63; font-size: 1.05rem; transition: 0.3s; border-right: 1px solid #d7ccc8; }
-        .tab-btn:last-child { border-right: none; }
-        .tab-btn:hover { background: #d7ccc8; color: #5d4037; }
-        .tab-btn.active-tab { background: white; border-bottom: 3px solid #5d4037; color: #5d4037; }
-        .tab-content { display: none; padding: 35px 40px; font-size: 1.05rem; line-height: 1.8; color: #333; text-align: justify; }
-        .tab-content.active-content { display: block; }
-        .tab-content h3 { color: #5d4037; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; font-family: 'Georgia', serif; text-align: center; font-size: 1.5rem; }
-        .tab-content p { margin-bottom: 20px; }
-        
-        @media (max-width: 768px) {
-            .tab-buttons { flex-direction: column; }
-            .tab-btn { border-right: none; border-bottom: 1px solid #d7ccc8; padding: 15px; }
-            .tab-content { padding: 20px; }
-        }
+        /* ANA SAYFA MAKALE KUTULARI (YENİ TASARIM) */
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .article-card { background: white; padding: 25px; border-radius: 12px; cursor: pointer; border-top: 6px solid #5d4037; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top-color: #8d6e63; }
+        .article-card h3 { color: #5d4037; margin-top: 0; font-family: 'Georgia', serif; font-size: 1.3rem; margin-bottom: 15px; line-height: 1.4; }
+        .article-card p { color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
+        .read-more { color: #8d6e63; font-weight: bold; font-size: 0.9rem; align-self: flex-start; transition: 0.2s; background: #faf9f6; padding: 5px 10px; border-radius: 4px; border: 1px solid #eee; }
+        .article-card:hover .read-more { background: #5d4037; color: white; border-color: #5d4037; }
+
+        /* OKUMA SAYFASI ÖZEL TASARIMI */
+        .reading-page { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: justify; line-height: 1.8; font-size: 1.1rem; color: #333; }
+        .reading-page h2 { color: #5d4037; font-family: 'Georgia', serif; text-align: center; font-size: 2rem; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-top: 10px; margin-bottom: 25px; }
+        .back-btn { background: #8d6e63; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 5px; }
+        .back-btn:hover { background: #5d4037; }
 
         .filter-container { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         .filter-btn { background: #d7ccc8; color: #5d4037; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
@@ -139,33 +136,61 @@
             <span>- Peygamber Efendimiz (s.a.v.)</span>
         </div>
         
-        <div class="home-tabs">
-            <div class="tab-buttons">
-                <button class="tab-btn active-tab" onclick="anaSekmeAc('sekme1', this)">Ashab-ı Kiram'ın İzinde</button>
-                <button class="tab-btn" onclick="anaSekmeAc('sekme2', this)">2. Metin (Hazırlanıyor)</button>
-                <button class="tab-btn" onclick="anaSekmeAc('sekme3', this)">3. Metin (Hazırlanıyor)</button>
+        <div class="article-grid">
+            <div class="article-card" onclick="sayfaDegistir('makale1')">
+                <div>
+                    <h3>Ashab-ı Kiram'ın İzinde</h3>
+                    <p>İslam’ın kuvvetli olduğu zamanlarda doğduk. Kuran-ı Kerim'i bize öğretenler oldu. Maalesef ki yeni nesil elimizden kayıp gidiyor. Bunları nerede kaybettik? Hangi mezhebe ait olduğunu bilmeyen, peygamberimizi tanımayan birine nasıl namaz kıl diyebiliriz?</p>
+                </div>
+                <span class="read-more">Devamını Oku ➔</span>
             </div>
+
+            <div class="article-card" onclick="sayfaDegistir('makale2')">
+                <div>
+                    <h3>2. Bölüm (Hazırlanıyor)</h3>
+                    <p>İkinci okuma metni buraya eklendiğinde, ana sayfadaki bu alanda metnin kısa bir özeti yer alacak ve tıklayanlar tamamını okuyabilecek.</p>
+                </div>
+                <span class="read-more">Devamını Oku ➔</span>
+            </div>
+
+            <div class="article-card" onclick="sayfaDegistir('makale3')">
+                <div>
+                    <h3>3. Bölüm (Hazırlanıyor)</h3>
+                    <p>Üçüncü okuma metni buraya eklendiğinde, ana sayfadaki bu alanda metnin kısa bir özeti yer alacak ve tıklayanlar tamamını okuyabilecek.</p>
+                </div>
+                <span class="read-more">Devamını Oku ➔</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="makale1" class="page">
+        <div class="reading-page">
+            <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
+            <h2>Ashab-ı Kiram'ın İzinde</h2>
             
-            <div id="sekme1" class="tab-content active-content">
-                <h3>Ashab-ı Kiram'ın İzinde</h3>
-                <p>İslam’ın kuvvetli olduğu zamanlarda doğduk. Kuran-ı Kerim'i bize öğretenler oldu. Maalesef ki yeni nesil elimizden kayıp gidiyor. Bunları nerede kaybettik? Hangi mezhebe ait olduğunu bilmeyen, peygamberimizi tanımayan birine nasıl namaz kıl diyebiliriz?</p>
-                <p>Hangi mezhepteniz, mezhep neden var, zorunda mıyız biz? <em>"El ilmü ferizatin ala küllü müslimin ve müslimetin"</em>. İlim öğrenmek her Müslüman erkek ve kadın üzerine farzdır. Burada kastedilen nasıl amel etmesi gerektiğini öğrenmektir. İtikadını bilmektir. Herkese tek tek vaciptir. Selam verse birisi, alsa diğerlerinden hüküm kalkar ama 5 vakit namaz herkese tek tek farzdır. İtikat konusunda da herkesin tek tek, fert fert kendisinin yapması lazımdır. İman ne demek? Hz. Allah’a, O'nun peygamberine, O'nun kulu ve resulü olduğuna iman etmektir.</p>
-                <p>Amel imandan bir cüz müdür? Günümüzde çok fazla var; Müslümanım diyor, namaz kılmıyor, zekât vermiyor. Peki, biz ona "Sen Müslüman değilsin" dersek ne olur? Dinden çıkmış oluruz. Amelinde eksik vardır evet ama Allah’a iman ettim diyordur; amelinde kusur vardır bizi alakadar etmez. İman asıldır, amel onu kuvvetlendirmek içindir. Rabbim bize kâmil iman versin.</p>
-                <p>Şimdi bir tane mumu yaksak onun sönmesi kolaydır ama biz iman ettik, <em>La ilahe illallah Muhammeden rasulullah</em> dedik. Namazla, rabıtayla, hatimle, zekât ve sadakayla o ateşi güçlendireceğiz. Zayıf olan muma bir kere üflesek söner ama kuvvetli olan ateşe üflesen de su atsan da sönmez. Kimisinin ki ampul gibi, kimisinin ki projektör gibidir. Evet, imanı biliyoruz ama güçlendirmek için çabalamamız gerek. Nasıl güçlendireceğiz? Ne ile? Amel-i Saliha ile.</p>
-                <p>Peygamber efendimiz de yıllar öncesinden ehlisünnete ve bu dört mezhepten birine uyulması hususunda şöyle buyurmuştur; <em>“Din, iman sahipleri yılanın deliğine, yuvasına çekilmesi gibi elbette Hicaz’a ve Medine-i Münevvere’ye çekilir, sığınır ve toplanır. İslam dini garip olarak başlayıp, yayıldığı gibi yakın zamanda da garip olarak döner. O zaman müjde ve saadet garip olanlar içindir.”</em> Buyurmuşlardır. Bunun üzerine <em>“Ya Rasulallah garip olanlar kimlerdir?”</em> diye soruldu. <em>“Benden sonra benim sünnetimden insanların bozduğu şeyleri düzeltenlerdir.“</em> cevabını verdi. Buradaki garipler kimlerdir? Yani ehlisünnet vel cemaat mezhebi üzerine olanlardır.</p>
-                <p>Peygamber efendimiz <em>“Yakında ümmetim 73 fırkaya ayrılacaktır. Onlardan biri hariç hepsi cehennemliktir.”</em> buyurdu. Ashab-ı Kiram <em>“Ya Rasulallah onlar kimlerdir?”</em> dedi. Peygamber efendimiz <em>“Onlar benim ve Ashabımın yolu üzerine olanlardır.”</em> buyurmuşlardır.</p>
-                <p style="text-align: center; font-weight: bold; margin-top: 30px; color: #8d6e63;">Hazreti Allah bu yol üzerine bizleri daim etsin.</p>
-            </div>
+            <p>İslam’ın kuvvetli olduğu zamanlarda doğduk. Kuran-ı Kerim'i bize öğretenler oldu. Maalesef ki yeni nesil elimizden kayıp gidiyor. Bunları nerede kaybettik? Hangi mezhebe ait olduğunu bilmeyen, peygamberimizi tanımayan birine nasıl namaz kıl diyebiliriz?</p>
+            <p>Hangi mezhepteniz, mezhep neden var, zorunda mıyız biz? <em>"El ilmü ferizatin ala küllü müslimin ve müslimetin"</em>. İlim öğrenmek her Müslüman erkek ve kadın üzerine farzdır. Burada kastedilen nasıl amel etmesi gerektiğini öğrenmektir. İtikadını bilmektir. Herkese tek tek vaciptir. Selam verse birisi, alsa diğerlerinden hüküm kalkar ama 5 vakit namaz herkese tek tek farzdır. İtikat konusunda da herkesin tek tek, fert fert kendisinin yapması lazımdır. İman ne demek? Hz. Allah’a, O'nun peygamberine, O'nun kulu ve resulü olduğuna iman etmektir.</p>
+            <p>Amel imandan bir cüz müdür? Günümüzde çok fazla var; Müslümanım diyor, namaz kılmıyor, zekât vermiyor. Peki, biz ona "Sen Müslüman değilsin" dersek ne olur? Dinden çıkmış oluruz. Amelinde eksik vardır evet ama Allah’a iman ettim diyordur; amelinde kusur vardır bizi alakadar etmez. İman asıldır, amel onu kuvvetlendirmek içindir. Rabbim bize kâmil iman versin.</p>
+            <p>Şimdi bir tane mumu yaksak onun sönmesi kolaydır ama biz iman ettik, <em>La ilahe illallah Muhammeden rasulullah</em> dedik. Namazla, rabıtayla, hatimle, zekât ve sadakayla o ateşi güçlendireceğiz. Zayıf olan muma bir kere üflesek söner ama kuvvetli olan ateşe üflesen de su atsan da sönmez. Kimisinin ki ampul gibi, kimisinin ki projektör gibidir. Evet, imanı biliyoruz ama güçlendirmek için çabalamamız gerek. Nasıl güçlendireceğiz? Ne ile? Amel-i Saliha ile.</p>
+            <p>Peygamber efendimiz de yıllar öncesinden ehlisünnete ve bu dört mezhepten birine uyulması hususunda şöyle buyurmuştur; <em>“Din, iman sahipleri yılanın deliğine, yuvasına çekilmesi gibi elbette Hicaz’a ve Medine-i Münevvere’ye çekilir, sığınır ve toplanır. İslam dini garip olarak başlayıp, yayıldığı gibi yakın zamanda da garip olarak döner. O zaman müjde ve saadet garip olanlar içindir.”</em> Buyurmuşlardır. Bunun üzerine <em>“Ya Rasulallah garip olanlar kimlerdir?”</em> diye soruldu. <em>“Benden sonra benim sünnetimden insanların bozduğu şeyleri düzeltenlerdir.“</em> cevabını verdi. Buradaki garipler kimlerdir? Yani ehlisünnet vel cemaat mezhebi üzerine olanlardır.</p>
+            <p>Peygamber efendimiz <em>“Yakında ümmetim 73 fırkaya ayrılacaktır. Onlardan biri hariç hepsi cehennemliktir.”</em> buyurdu. Ashab-ı Kiram <em>“Ya Rasulallah onlar kimlerdir?”</em> dedi. Peygamber efendimiz <em>“Onlar benim ve Ashabımın yolu üzerine olanlardır.”</em> buyurmuşlardır.</p>
+            <p style="text-align: center; font-weight: bold; margin-top: 30px; color: #8d6e63; font-size: 1.2rem;">Hazreti Allah bu yol üzerine bizleri daim etsin.</p>
+        </div>
+    </div>
 
-            <div id="sekme2" class="tab-content">
-                <h3>2. Bölüm</h3>
-                <p style="text-align: center; color: #999; font-style: italic; margin-top: 40px;">İkinci okuma metni buraya eklenecektir...</p>
-            </div>
+    <div id="makale2" class="page">
+        <div class="reading-page">
+            <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
+            <h2>2. Bölüm (Hazırlanıyor)</h2>
+            <p style="text-align: center; color: #999; font-style: italic; margin-top: 40px;">İkinci okuma metni buraya eklenecektir...</p>
+        </div>
+    </div>
 
-            <div id="sekme3" class="tab-content">
-                <h3>3. Bölüm</h3>
-                <p style="text-align: center; color: #999; font-style: italic; margin-top: 40px;">Üçüncü okuma metni buraya eklenecektir...</p>
-            </div>
+    <div id="makale3" class="page">
+        <div class="reading-page">
+            <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
+            <h2>3. Bölüm (Hazırlanıyor)</h2>
+            <p style="text-align: center; color: #999; font-style: italic; margin-top: 40px;">Üçüncü okuma metni buraya eklenecektir...</p>
         </div>
     </div>
 
@@ -216,11 +241,19 @@
             
             <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
+                <h3 class="surum-baslik">v1.1.3 - Makale Okuma Sistemi (Kart Tasarımı)</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Ana sayfadaki okuma alanı sekme sisteminden "Kart/Kutu" tasarımına geçirildi.</li>
+                    <li>Yazıların rahat okunabilmesi için özel tasarıma sahip yepyeni okuma sayfaları (Geri Dön butonlu) eklendi.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.2 - Arşiv ve Arayüz Optimizasyonu</h3>
                 <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Ana sayfaya 3 sekmeli özel okuma alanı paneli eklendi, ilk makale (Ashab-ı Kiram'ın İzinde) yayınlandı.</li>
                     <li>Arşiv sayfasındaki kayıtlar açılır-kapanır (akordiyon) pencere sistemine geçirilerek daha temiz bir listeleme sağlandı.</li>
-                    <li>Sistem genelinde performans ve görünüm iyileştirmeleri yapıldı.</li>
+                    <li>Ana sayfadaki tekrarlanan butonlar kaldırılarak özel okuma metinleri için ferah bir alan yaratıldı.</li>
                 </ul>
             </div>
 
@@ -235,7 +268,6 @@
                     <li>Temel referans kaynaklarını listeleyen <strong>Kaynakça ve Eserler</strong> bölümü sisteme entegre edildi.</li>
                     <li>Kullanıcıların doğrudan e-posta gönderebilmesi için Formspree altyapılı <strong>İletişim Formu</strong> entegre edildi.</li>
                     <li>Yönetici girişi butonu ana sayfadan kaldırılarak daha gizli ve güvenli olan alt menüye taşındı.</li>
-                    <li>Akıllı paylaşım butonları (X, WhatsApp, E-posta) eklenerek projenin dışa aktarımı sağlandı.</li>
                 </ul>
             </div>
 
@@ -465,14 +497,6 @@
     db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
     db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
 
-    // ANA SAYFA SEKME (TAB) DEĞİŞTİRME FONKSİYONU
-    function anaSekmeAc(sekmeId, btn) {
-        document.querySelectorAll('.tab-content').forEach(s => s.classList.remove('active-content'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab'));
-        document.getElementById(sekmeId).classList.add('active-content');
-        btn.classList.add('active-tab');
-    }
-
     function sayfaDegistir(id) {
         document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -545,7 +569,6 @@
 
         let aHtml = ""; 
         
-        // YENİ ARŞİV LİSTESİ (AÇILIR-KAPANIR YAPI)
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
@@ -582,7 +605,7 @@
         });
         arsiv.innerHTML = aHtml; 
 
-        // Yönetici Listesi A-Z (Kişiler ve Olaylar için tam listeleme)
+        // Yönetici Listesi A-Z
         let admHtml = `<h4 style="color:#5d4037; margin-top:0;">👤 Zatlar</h4>`;
         const azZatlar = {};
         veriler.forEach(z => {
