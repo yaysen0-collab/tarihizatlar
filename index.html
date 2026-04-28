@@ -11,17 +11,25 @@
         body { font-family: sans-serif; background: #f4f1ea; color: #333; margin: 0; padding: 0; }
         
         /* YENİLENEN HEADER (ÜST BİLGİ) TASARIMI */
-        #main-header { background: #5d4037; color: white; padding: 15px 30px; display: flex; align-items: center; flex-wrap: wrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        #main-header { background: #5d4037; color: white; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         #main-header h1 { margin: 0; font-size: 1.6rem; letter-spacing: 1px; white-space: nowrap; }
         .header-nav-container { flex-grow: 1; display: flex; justify-content: center; }
         
         .nav-btn { background: #8d6e63; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.3s; }
         .nav-btn:hover { background: #795548; transform: translateY(-2px); }
         
+        /* GLOBAL ARAMA ÇUBUĞU */
+        .header-search { display: flex; align-items: center; margin-left: 15px; }
+        .header-search input { padding: 9px 15px; border-radius: 20px; border: none; outline: none; font-size: 0.95rem; width: 170px; transition: 0.3s; color: #5d4037; font-family: sans-serif; }
+        .header-search input:focus { width: 230px; box-shadow: 0 0 8px rgba(255,255,255,0.4); }
+
         /* Mobil Uyumluluk */
         @media (max-width: 768px) {
-            #main-header { flex-direction: column; gap: 15px; padding: 15px; text-align: center; }
-            .header-nav-container { flex-wrap: wrap; }
+            #main-header { flex-direction: column; gap: 12px; padding: 15px; text-align: center; }
+            .header-nav-container { flex-wrap: wrap; margin-bottom: 5px; }
+            .header-search { margin-left: 0; width: 100%; justify-content: center; }
+            .header-search input { width: 85%; }
+            .header-search input:focus { width: 95%; }
         }
 
         .container { max-width: 900px; margin: 20px auto; padding: 20px; }
@@ -99,6 +107,9 @@
         <button class="nav-btn" onclick="sayfaDegistir('cizelge')">Çizelge</button>
         <button class="nav-btn" onclick="sayfaDegistir('soy')">Soyağacı</button>
     </div>
+    <div class="header-search">
+        <input type="text" id="global-search" placeholder="🔍 Portalda Ara..." oninput="globalArama()">
+    </div>
 </header>
 
 <div class="container">
@@ -164,7 +175,7 @@
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.0 - Kapsamlı Bilgi ve Arayüz Güncellemesi</h3>
                 <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Üst Menü (Header) tasarımı yenilendi; logo sola, menüler merkeze hizalandı.</li>
+                    <li>Üst Menü (Header) tasarımı yenilendi; logo sola, menüler merkeze, küresel arama çubuğu sağa eklendi.</li>
                     <li>Alt bilgi (Footer) alanı profesyonel ve kurumsal bir tasarımla yenilendi.</li>
                     <li>Sistemin akademik vizyonunu anlatan <strong>Proje Amacı</strong> sayfası eklendi.</li>
                     <li>Kullanıcı sorularını yanıtlayan <strong>Sıkça Sorulan Sorular (SSS)</strong> bölümü oluşturuldu.</li>
@@ -409,6 +420,36 @@
         document.getElementById(id).classList.add('active');
         localStorage.setItem('aktifSayfa', id);
         window.scrollTo(0, 0);
+
+        // Global arama çubuğunu ve arşiv arama çubuğunu temizle (eğer arşive gitmiyorsa)
+        if (id !== 'arsiv') {
+            const gs = document.getElementById('global-search');
+            if (gs) gs.value = '';
+            const araInput = document.getElementById('ara');
+            if (araInput) { araInput.value = ''; aramaYap(); }
+        }
+    }
+
+    // YENİ EKLENEN: GLOBAL ARAMA FONKSİYONU
+    function globalArama() {
+        const val = document.getElementById('global-search').value;
+        
+        // Eğer arşivde değilsek arşive geç ve odağı tekrar global aramaya ver
+        if (!document.getElementById('arsiv').classList.contains('active')) {
+            sayfaDegistir('arsiv');
+            document.getElementById('global-search').focus();
+        }
+        
+        // Arşiv sayfasındaki gizli/gerçek arama çubuğuna değeri aktar
+        document.getElementById('ara').value = val;
+        
+        // Sadece arama işlemini tetikle (imleç kaymasını önlemek için)
+        const m = val.toLocaleLowerCase('tr');
+        document.querySelectorAll('.search-item').forEach(k => {
+            const uyar = k.getAttribute('data-search').includes(m);
+            const tip = k.getAttribute('data-type');
+            k.style.display = (uyar && (aktifFiltre === 'tumu' || aktifFiltre === tip)) ? 'block' : 'none';
+        });
     }
 
     async function girisYap() {
@@ -604,7 +645,15 @@
     }
 
     function aramaYap() {
-        const m = document.getElementById('ara').value.toLocaleLowerCase('tr');
+        const val = document.getElementById('ara').value;
+        const m = val.toLocaleLowerCase('tr');
+        
+        // Sadece arşiv sayfasındaki arama kullanıldığında global aramayı da senkronize et
+        const gs = document.getElementById('global-search');
+        if (gs && document.activeElement === document.getElementById('ara')) {
+            gs.value = val;
+        }
+
         document.querySelectorAll('.search-item').forEach(k => {
             const uyar = k.getAttribute('data-search').includes(m);
             const tip = k.getAttribute('data-type');
@@ -619,7 +668,7 @@
         aramaYap();
     }
 
-    // YENİ EKLENEN: PAYLAŞIM FONKSİYONU
+    // PAYLAŞIM FONKSİYONU
     function paylas(platform) {
         const url = encodeURIComponent(window.location.href);
         const metin = encodeURIComponent("Asr-ı Saadet Portalı'nı incelemelisin! Sahabeler ve tarihi olaylar hakkında harika bir dijital kaynak: ");
