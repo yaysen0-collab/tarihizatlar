@@ -443,15 +443,22 @@
             <hr style="border: 1px solid #eee; margin: 30px 0;">
             
             <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
+            
+            <datalist id="kayitli-kisiler"></datalist>
+
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
                 <input id="in_ad" placeholder="İsim" oninput="benzerZatKontrol()">
                 <div id="zat-uyari" class="canli-uyari"></div>
-                <div class="row"><input id="in_anne" placeholder="Anne"><input id="in_baba" placeholder="Baba"></div>
-                <input id="in_es" placeholder="Eşi / Eşleri">
+                
+                <div class="row">
+                    <input id="in_anne" placeholder="Anne" list="kayitli-kisiler">
+                    <input id="in_baba" placeholder="Baba" list="kayitli-kisiler">
+                </div>
+                <input id="in_es" placeholder="Eşi / Eşleri" list="kayitli-kisiler">
                 
                 <div class="row" style="margin-top: 10px;">
-                    <input id="in_baglar_isim" placeholder="İsim Yaz">
+                    <input id="in_baglar_isim" placeholder="İsim Yaz" list="kayitli-kisiler">
                     <select id="in_baglar_secenek">
                         <option value="">Bağlantı Türü...</option>
                         <option value="Çocuk">Çocuk</option>
@@ -635,9 +642,15 @@
         const cizelge = document.getElementById('cizelgeList');
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
+        const kisiListesi = document.getElementById('kayitli-kisiler');
 
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
         olaylar.sort((a, b) => (a.ad || "").toLocaleLowerCase('tr').localeCompare((b.ad || "").toLocaleLowerCase('tr'), 'tr'));
+
+        // Otomatik tamamlama (Datalist) içine kayıtlı tüm isimleri ekle
+        if (kisiListesi) {
+            kisiListesi.innerHTML = veriler.map(v => `<option value="${v.isim}">`).join('');
+        }
 
         let aHtml = ""; 
         
@@ -723,17 +736,25 @@
             gruplar[b].push(z); 
         });
         soy.innerHTML = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr')).map(baba => {
+            let babaBaslik = baba === "Soy Bilgisi Beklenenler" ? "❓ Soy Bilgisi Beklenenler" : `Baba: ${baba}`;
             const kisilerHtml = gruplar[baba].map(k => `
-                <div class="soy-kart"><strong>👤 ${k.isim}</strong><br>${k.anne && k.anne !== "?" ? `<small>🤱 Anne: ${k.anne}</small>` : ""}${k.es && k.es !== "?" ? `<br><small>💍 Eş: ${k.es}</small>` : ""}${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Bağlar: ${k.baglar}</small>` : ""}</div>`).join('');
-            return `<details class="soy-klasor"><summary class="soy-baslik">${baba}</summary><div class="soy-icerik">${kisilerHtml}</div></details>`;
+                <div class="soy-kart"><strong>👤 ${k.isim} <span style="color:#8d6e63; font-weight:normal; font-size:0.9em;">(Evladı)</span></strong><br>${k.anne && k.anne !== "?" ? `<small>🤱 Anne: ${k.anne}</small>` : ""}${k.es && k.es !== "?" ? `<br><small>💍 Eş: ${k.es}</small>` : ""}${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Diğer Bağlar: ${k.baglar}</small>` : ""}</div>`).join('');
+            return `<details class="soy-klasor"><summary class="soy-baslik">${babaBaslik}</summary><div class="soy-icerik">${kisilerHtml}</div></details>`;
         }).join('');
         aramaYap();
     }
 
     async function kaydet() {
         if (!auth.currentUser) return;
-        const ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
+        let ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
         if (!ad) { alert("Lütfen bir isim girin!"); return; }
+        
+        // İsmin sonunda (ra) yoksa otomatik ekle
+        const kucukAd = ad.toLocaleLowerCase('tr');
+        if (!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)")) {
+            ad += " (ra)";
+        }
+        
         const id = document.getElementById('edit-id').value;
         const obj = { isim: ad, anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?", es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?", baglar: document.getElementById('in_baglar_liste').value || "?", d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?", v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?", bilgi: document.getElementById('in_bilgi').value || "" };
         if(id) await db.collection("zatlar").doc(id).update(obj); else await db.collection("zatlar").add(obj);
