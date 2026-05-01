@@ -41,7 +41,7 @@
         .quote-box p { font-size: 1.4rem; color: #5d4037; margin: 0 0 15px 0; line-height: 1.6; font-style: italic; font-family: 'Georgia', serif; }
         .quote-box span { font-weight: bold; color: #8d6e63; font-size: 1.1rem; }
         
-        /* ANA SAYFA MAKALE KUTULARI (KART TASARIMI) */
+        /* ANA SAYFA MAKALE KUTULARI */
         .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .article-card { background: white; padding: 25px; border-radius: 12px; cursor: pointer; border-top: 6px solid #5d4037; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
         .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top-color: #8d6e63; }
@@ -50,7 +50,7 @@
         .read-more { color: #8d6e63; font-weight: bold; font-size: 0.9rem; align-self: flex-start; transition: 0.2s; background: #faf9f6; padding: 5px 10px; border-radius: 4px; border: 1px solid #eee; }
         .article-card:hover .read-more { background: #5d4037; color: white; border-color: #5d4037; }
 
-        /* OKUMA SAYFASI ÖZEL TASARIMI */
+        /* OKUMA SAYFASI */
         .reading-page { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: justify; line-height: 1.8; font-size: 1.1rem; color: #333; }
         .reading-page h2 { color: #5d4037; font-family: 'Georgia', serif; text-align: center; font-size: 2rem; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-top: 10px; margin-bottom: 25px; }
         .back-btn { background: #8d6e63; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 5px; }
@@ -69,9 +69,17 @@
         .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
         .admin-dashboard { background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.15); border-top: 8px solid #5d4037; }
         
-        /* ADMİN HEADER GÜNCELLEMESİ */
         .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
         
+        /* DASHBOARD İSTATİSTİK KARTLARI (YENİ EKLENDİ) */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #faf9f6; padding: 20px; border-radius: 10px; border-top: 4px solid #8d6e63; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: center; }
+        .stat-card h4 { margin: 0 0 10px 0; color: #666; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-card .stat-num { font-size: 2.2rem; font-weight: bold; color: #5d4037; margin: 0; }
+        .stat-card .stat-desc { font-size: 0.8rem; color: #999; margin-top: 5px; margin-bottom: 15px; }
+        .progress-bar-bg { background: #e0e0e0; height: 8px; border-radius: 4px; overflow: hidden; }
+        .progress-bar-fill { background: #8d6e63; height: 100%; width: 0%; transition: width 1s ease-in-out; }
+
         details.soy-klasor { background: white; border-radius: 8px; margin-bottom: 12px; border: 1px solid #d7ccc8; }
         summary.soy-baslik { cursor: pointer; padding: 15px; font-weight: bold; color: #5d4037; list-style: none; display: flex; align-items: center; }
         summary.soy-baslik::before { content: "📂"; margin-right: 10px; font-size: 1.2rem; }
@@ -152,7 +160,6 @@
             <span>- Peygamber Efendimiz (s.a.v.)</span>
         </div>
         
-        <!-- MAKALE KUTULARI (KART SİSTEMİ) -->
         <div class="article-grid">
             <div class="article-card" onclick="sayfaDegistir('makale1')">
                 <div>
@@ -178,7 +185,7 @@
         </div>
     </div>
 
-    <!-- OKUMA SAYFASI 1: ASHABI KİRAMIN İZİNDE -->
+    <!-- OKUMA SAYFALARI (1, 2, 3) -->
     <div id="makale1" class="page">
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
@@ -193,7 +200,6 @@
         </div>
     </div>
 
-    <!-- OKUMA SAYFASI 2: NEDEN BU İLİMLERİ ÖĞRENİYORUZ? -->
     <div id="makale2" class="page">
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
@@ -215,7 +221,6 @@
         </div>
     </div>
 
-    <!-- OKUMA SAYFASI 3: RASULULLAH SEVGİSİ VE KUR'AN KERİM EĞİTİMİ -->
     <div id="makale3" class="page">
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
@@ -250,7 +255,7 @@
         <div class="admin-dashboard" style="line-height: 1.6;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">❓ Sıkça Sorulan Sorular</h2>
             <div class="sss-item"><strong>Bu projenin temel amacı nedir?</strong>Bu projenin temel amacı, Asr-ı Saadet döneminde yaşamış olan Ashab-ı Kiram’a ait biyografik bilgileri, akrabalık ve sosyal ilişkileri sistemli bir yapıda sunarak tarihsel bilginin daha anlaşılır ve erişilebilir hâle getirilmesini sağlamaktır.</div>
-            <div class="sss-item"><strong>Asr-ı Saadet Portalı hangi ihtiyaca cevap vermektedir?</strong>Ashab-ı Kiram’ın sayıca fazla olması ve bilgilerin farklı kaynaklara dağılmış olması nedeniyle oluşan bilgi karmaşasını gidermeyi amaçlamaktadır. Portal, bu bilgileri tek bir dijital platformda toplayarak düzenli ve bütüncül yapı sunmaktadır.</div>
+            <div class="sss-item"><strong>Asr-ı Saadet Portalı hangi ihtiyaca cevap vermektedir?</strong>Ashab-ı Kiram’ın sayıca fazla olması ve bilgilerin farklı kaynaklara dağılmış olması nedeniyle oluşan bilgi karmaşasını gidermeyi amaçlamaktadır. Portal, bu bilgileri tek bir dijital platformda toplayarak düzenli ve bütüncül bir yapı sunmaktadır.</div>
             <div class="sss-item"><strong>Proje hangi tarihsel dönemi kapsamaktadır?</strong>Proje, Asr-ı Saadet olarak adlandırılan ve Peygamber Efendimiz Muhammed Mustafa (s.a.v.)’ in yaşadığı dönemi kapsayan tarihsel süreci esas almaktadır.</div>
             <div class="sss-item"><strong>Portalda yer alan bilgiler hangi kaynaklara dayanmaktadır?</strong>Portalda yer alan bilgiler, klasik İslam tarihi eserleri, siyer kaynakları ve güvenilir akademik çalışmalara dayanmaktadır. Kullanılan veriler titizlikle seçilmiş kaynaklardan derlenmiştir.</div>
             <div class="sss-item"><strong>Kullanılan bilgilerin doğruluğu nasıl sağlanmaktadır?</strong>Bilgilerin doğruluğu, birden fazla güvenilir kaynaktan karşılaştırmalı olarak incelenmesi yoluyla sağlanmaktadır. Şüpheli veya kesinlik içermeyen bilgiler, akademik yaklaşım gereği dikkatle ele alınmaktadır.</div>
@@ -283,6 +288,16 @@
     <div id="surum" class="page">
         <div class="admin-dashboard" style="background: #faf9f6;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
+            
+            <div class="surum-item">
+                <div class="surum-tarih">Nisan 2026</div>
+                <h3 class="surum-baslik">v1.2.0 - İstatistiksel Dashboard</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Yönetim paneline toplam kayıt, soy bağları ve veri tarihlendirme oranlarını gösteren otomatik analiz grafikleri (dashboard) eklendi.</li>
+                    <li>Sistemdeki "Gizli Üzerine Yazma" hatası tamamen düzeltildi. Artık veriler birbirine karışmıyor.</li>
+                </ul>
+            </div>
+            
             <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.1.5 - Üçüncü Makale Eklendi</h3>
@@ -432,6 +447,33 @@
                 </div>
             </div>
             
+            <!-- İSTATİSTİKSEL DASHBOARD BURADA -->
+            <h2 style="color: #5d4037; margin-bottom: 15px; margin-top: 0; font-size: 1.4rem;">📊 Sistem İstatistikleri</h2>
+            <div class="dashboard-grid">
+                <!-- KART 1 -->
+                <div class="stat-card">
+                    <h4>Toplam Kayıt</h4>
+                    <div class="stat-num" id="stat-toplam">0</div>
+                    <div class="stat-desc">Zat ve Olay Sayısı</div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-toplam" style="width: 100%; background: #1565c0;"></div></div>
+                </div>
+                <!-- KART 2 -->
+                <div class="stat-card">
+                    <h4>Bağlantılı Kişiler</h4>
+                    <div class="stat-num" id="stat-bag">0</div>
+                    <div class="stat-desc">Soy/Akraba verisi girilenler</div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-bag"></div></div>
+                </div>
+                <!-- KART 3 -->
+                <div class="stat-card">
+                    <h4>Tarihi Veri</h4>
+                    <div class="stat-num" id="stat-tarih">0</div>
+                    <div class="stat-desc">Yılı bilinen olay ve kişiler</div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-tarih"></div></div>
+                </div>
+            </div>
+            <hr style="border: 1px solid #eee; margin: 30px 0;">
+
             <div class="admin-section" style="border-left-color: #8d6e63;">
                 <h3 id="olay-form-baslik">📜 Olay Ekle / Düzenle</h3>
                 <input type="hidden" id="edit-olay-id">
@@ -693,10 +735,36 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
         
+        // --- İSTATİSTİKSEL DASHBOARD HESAPLAMALARI ---
         const istatistik = document.getElementById('toplam-istatistik');
         if (istatistik) {
             istatistik.innerHTML = `Toplam Zat: ${veriler.length} &nbsp;|&nbsp; Toplam Olay: ${olaylar.length}`;
         }
+
+        const statToplam = veriler.length + olaylar.length;
+        let bagliKisi = 0;
+        let tarihliVeri = 0;
+
+        veriler.forEach(z => {
+            if((z.baba && z.baba !== "?") || (z.anne && z.anne !== "?") || (z.baglar && z.baglar !== "?")) bagliKisi++;
+            if((z.d_miladi && z.d_miladi !== "?") || (z.v_miladi && z.v_miladi !== "?") || (z.d_hicri && z.d_hicri !== "?") || (z.v_hicri && z.v_hicri !== "?")) tarihliVeri++;
+        });
+        olaylar.forEach(o => {
+            if((o.miladi && o.miladi !== "?") || (o.hicri && o.hicri !== "?")) tarihliVeri++;
+        });
+
+        const bagOran = veriler.length ? (bagliKisi / veriler.length) * 100 : 0;
+        const tarihOran = statToplam ? (tarihliVeri / statToplam) * 100 : 0;
+
+        if(document.getElementById('stat-toplam')) {
+            document.getElementById('stat-toplam').innerText = statToplam;
+            document.getElementById('stat-bag').innerText = bagliKisi;
+            document.getElementById('stat-tarih').innerText = tarihliVeri;
+            
+            document.getElementById('bar-bag').style.width = bagOran + '%';
+            document.getElementById('bar-tarih').style.width = tarihOran + '%';
+        }
+        // ----------------------------------------------
 
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
         olaylar.sort((a, b) => (a.ad || "").toLocaleLowerCase('tr').localeCompare((b.ad || "").toLocaleLowerCase('tr'), 'tr'));
@@ -872,10 +940,7 @@
 
     function temizle() { 
         document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); 
-        
-        // GİZLİ KİMLİKLERİ SIFIRLIYORUZ Kİ ÜZERİNE YAZMASIN
         document.getElementById('edit-id').value = ""; 
-        
         document.getElementById('cancel-btn').style.display = "none"; 
         document.getElementById('zat-uyari').style.display = "none";
         if(document.getElementById('oto_ra')) document.getElementById('oto_ra').checked = true; 
@@ -883,10 +948,7 @@
     
     function temizleOlay() { 
         document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); 
-        
-        // OLAYLAR İÇİN DE GİZLİ KİMLİĞİ SIFIRLIYORUZ
         document.getElementById('edit-olay-id').value = ""; 
-        
         document.getElementById('olay-cancel-btn').style.display = "none"; 
         document.getElementById('olay-uyari').style.display = "none";
     }
