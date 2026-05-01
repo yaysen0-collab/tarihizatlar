@@ -299,6 +299,15 @@
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
             
             <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v1.3.0 - Akıllı Sekme (Hash Routing) ve Geri Butonu Desteği</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Sisteme URL yönlendirmesi eklendi. Artık her sayfanın kendine ait bir linki var (örn: /#arsiv).</li>
+                    <li>Tarayıcılardaki ve telefonlardaki "Geri" butonunun siteyi kapatması engellendi, artık bir önceki sekmeye kusursuz dönülüyor.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.2.5 - Akıllı Navigasyon (Smart Links)</h3>
                 <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
@@ -617,9 +626,24 @@
     let olaylar = [];
     let aktifFiltre = 'tumu';
 
+    // GERİ BUTONU DİNLEYİCİSİ (POPSTATE)
+    window.addEventListener('popstate', function(event) {
+        let hashId = window.location.hash.substring(1);
+        if (!hashId) hashId = 'home';
+        
+        // Sadece geçiş yap, URL'yi tekrar güncelleme (false gönderiyoruz)
+        sayfaDegistir(hashId, false);
+    });
+
     window.onload = function() {
-        const sonSayfa = localStorage.getItem('aktifSayfa');
-        if (sonSayfa) sayfaDegistir(sonSayfa);
+        // İLK YÜKLEMEDE URL HASH KONTROLÜ
+        let baslangicSayfasi = 'home';
+        if (window.location.hash) {
+            baslangicSayfasi = window.location.hash.substring(1);
+        } else if (localStorage.getItem('aktifSayfa')) {
+            baslangicSayfasi = localStorage.getItem('aktifSayfa');
+        }
+        sayfaDegistir(baslangicSayfasi, false); // URL'ye tekrar push atmaması için false verdik
         
         const otoInputs = ['in_anne', 'in_baba', 'in_es', 'in_baglar_isim'];
         otoInputs.forEach(id => {
@@ -684,13 +708,22 @@
         kutu.style.display = 'block';
     }
 
-    function sayfaDegistir(id) {
+    // SAYFA DEĞİŞTİRME VE URL YÖNLENDİRME (ROUTING) FONKSİYONU
+    function sayfaDegistir(id, urlGuncelle = true) {
+        const hedefSayfa = document.getElementById(id);
+        if (!hedefSayfa) id = 'home'; // Hatalı bir link girilirse ana sayfaya atsın
+
         document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         localStorage.setItem('aktifSayfa', id);
         window.scrollTo(0, 0);
 
-        // --- DİNAMİK META AÇIKLAMASI KONTROLÜ ---
+        // HASH URL GÜNCELLEMESİ YAPILIYOR (Sayfa yenilenmeden!)
+        if (urlGuncelle) {
+            history.pushState({ sayfa: id }, null, '#' + id);
+        }
+
+        // DİNAMİK META AÇIKLAMASI
         const metaDesc = document.getElementById('meta-desc');
         if (metaDesc) {
             switch(id) {
@@ -701,7 +734,6 @@
                 default: metaDesc.content = "Asr-ı Saadet Portalı: İslam tarihi, Ashab-ı Kiram'ın hayatları, nesep bağları ve kronolojik olayların derlendiği dijital arşiv.";
             }
         }
-        // ----------------------------------------
 
         if (id === 'admin') {
             document.getElementById('main-header').style.display = 'none';
