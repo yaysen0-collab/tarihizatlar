@@ -71,7 +71,7 @@
         
         .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
         
-        /* DASHBOARD İSTATİSTİK KARTLARI (YENİ EKLENDİ) */
+        /* DASHBOARD İSTATİSTİK KARTLARI */
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .stat-card { background: #faf9f6; padding: 20px; border-radius: 10px; border-top: 4px solid #8d6e63; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: center; }
         .stat-card h4 { margin: 0 0 10px 0; color: #666; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
@@ -79,6 +79,10 @@
         .stat-card .stat-desc { font-size: 0.8rem; color: #999; margin-top: 5px; margin-bottom: 15px; }
         .progress-bar-bg { background: #e0e0e0; height: 8px; border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { background: #8d6e63; height: 100%; width: 0%; transition: width 1s ease-in-out; }
+
+        /* AKILLI LİNK STİLİ (YENİ) */
+        .smart-link { color: #1565c0; cursor: pointer; text-decoration: underline; font-weight: bold; transition: 0.2s; }
+        .smart-link:hover { color: #0d47a1; background: #e3f2fd; padding: 0 2px; border-radius: 3px; }
 
         details.soy-klasor { background: white; border-radius: 8px; margin-bottom: 12px; border: 1px solid #d7ccc8; }
         summary.soy-baslik { cursor: pointer; padding: 15px; font-weight: bold; color: #5d4037; list-style: none; display: flex; align-items: center; }
@@ -289,6 +293,14 @@
         <div class="admin-dashboard" style="background: #faf9f6;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
             
+            <div class="surum-item">
+                <div class="surum-tarih">Nisan 2026</div>
+                <h3 class="surum-baslik">v1.2.5 - Akıllı Navigasyon (Smart Links)</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Arşiv, Çizelge ve Soyağacı bölümlerindeki kayıtlı isimler artık tıklanabilir hale getirildi. Bir isme tıklandığında sistem otomatik olarak o kişiyi arşivde bularak ekrana getiriyor.</li>
+                </ul>
+            </div>
+
             <div class="surum-item">
                 <div class="surum-tarih">Nisan 2026</div>
                 <h3 class="surum-baslik">v1.2.0 - İstatistiksel Dashboard</h3>
@@ -534,7 +546,7 @@
             </div>
             <hr style="border: 1px solid #eee; margin: 30px 0;">
             
-            <h3>📋 Mevcut Kayıtlar <span id="toplam-istatistik" style="font-size: 0.75em; background: #5d4037; color: white; padding: 4px 10px; border-radius: 12px; margin-left: 10px; font-weight: normal;"></span></h3>
+            <h3>📋 Mevcut Kayıtlar</h3>
             
             <div id="adminList"></div>
         </div>
@@ -633,6 +645,15 @@
 
     db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
     db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
+
+    // AKILLI NAVİGASYON FONKSİYONU
+    function arsiveGitVeBul(isim) {
+        if(!isim || isim === "?") return;
+        const temizIsim = isim.split('(')[0].trim();
+        sayfaDegistir('arsiv');
+        document.getElementById('ara').value = temizIsim;
+        aramaYap();
+    }
 
     function gosterOto(inp) {
         const val = inp.value.toLocaleLowerCase('tr');
@@ -736,11 +757,6 @@
         const adminL = document.getElementById('adminList');
         
         // --- İSTATİSTİKSEL DASHBOARD HESAPLAMALARI ---
-        const istatistik = document.getElementById('toplam-istatistik');
-        if (istatistik) {
-            istatistik.innerHTML = `Toplam Zat: ${veriler.length} &nbsp;|&nbsp; Toplam Olay: ${olaylar.length}`;
-        }
-
         const statToplam = veriler.length + olaylar.length;
         let bagliKisi = 0;
         let tarihliVeri = 0;
@@ -781,11 +797,24 @@
             let vMil = (z.v_miladi && z.v_miladi !== "?") ? " (M. " + z.v_miladi + ")" : "";
             let tarihText = (dH || dMil || vH || vMil) ? `D: ${dH}${dMil} | V: ${vH}${vMil}` : "";
             
+            // --- AKILLI LİNK DÖNÜŞÜMLERİ ---
+            let babaEki = (z.baba && z.baba !== "?") ? `<div style="margin-top:5px; font-size:0.95em;"><b>Baba:</b> <span class="smart-link" onclick="arsiveGitVeBul('${z.baba.replace(/'/g, "\\'")}')">${z.baba}</span></div>` : "";
+            let anneEki = (z.anne && z.anne !== "?") ? `<div style="margin-top:3px; font-size:0.95em;"><b>Anne:</b> <span class="smart-link" onclick="arsiveGitVeBul('${z.anne.replace(/'/g, "\\'")}')">${z.anne}</span></div>` : "";
+            let esEki = (z.es && z.es !== "?") ? `<div style="margin-top:3px; font-size:0.95em;"><b>Eş:</b> ` + z.es.split(',').map(e => `<span class="smart-link" onclick="arsiveGitVeBul('${e.trim().replace(/'/g, "\\'")}')">${e.trim()}</span>`).join(', ') + `</div>` : "";
+            let baglarEki = (z.baglar && z.baglar !== "?") ? `<div style="margin-top:3px; font-size:0.95em;"><b>Bağlar:</b> ` + z.baglar.split(',').map(b => {
+                let isimKismi = b.split('(')[0].trim();
+                return `<span class="smart-link" onclick="arsiveGitVeBul('${isimKismi.replace(/'/g, "\\'")}')">${b.trim()}</span>`;
+            }).join(', ') + `</div>` : "";
+            
             aHtml += `
             <details class="data-box search-item arsiv-detay" data-search="${aramaMetni}" data-type="zat">
                 <summary><strong>${z.isim}</strong> ${yasStr}</summary>
                 <div class="arsiv-icerik">
-                    <small style="color:#666;">${tarihText}</small>
+                    <small style="color:#666; display:block; margin-bottom: 5px;">${tarihText}</small>
+                    ${babaEki}
+                    ${anneEki}
+                    ${esEki}
+                    ${baglarEki}
                     <p style="margin-top:8px; margin-bottom:0; line-height:1.5;">${z.bilgi}</p>
                 </div>
             </details>`;
@@ -842,7 +871,9 @@
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
-        cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: ${i.ad} <small>[${i.t}]</small></div>`).join('');
+        
+        // ÇİZELGE İÇİN AKILLI LİNKLER
+        cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: <span class="smart-link" onclick="arsiveGitVeBul('${i.ad.replace(/'/g, "\\'")}')">${i.ad}</span> <small>[${i.t}]</small></div>`).join('');
 
         const gruplar = {};
         veriler.forEach(z => { 
@@ -851,12 +882,22 @@
             if (!gruplar[b]) gruplar[b] = []; 
             gruplar[b].push(z); 
         });
+        
+        // SOYAĞACI İÇİN AKILLI LİNKLER
         soy.innerHTML = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr')).map(baba => {
-            let babaBaslik = baba === "Soy Bilgisi Beklenenler" ? "❓ Soy Bilgisi Beklenenler" : `Baba: ${baba}`;
+            let babaBaslik = baba === "Soy Bilgisi Beklenenler" ? "❓ Soy Bilgisi Beklenenler" : `Baba: <span class="smart-link" onclick="event.stopPropagation(); arsiveGitVeBul('${baba.replace(/'/g, "\\'")}')">${baba}</span>`;
+            
             const kisilerHtml = gruplar[baba].map(k => `
-                <div class="soy-kart"><strong>👤 ${k.isim} <span style="color:#8d6e63; font-weight:normal; font-size:0.9em;">(Evladı)</span></strong><br>${k.anne && k.anne !== "?" ? `<small>🤱 Anne: ${k.anne}</small>` : ""}${k.es && k.es !== "?" ? `<br><small>💍 Eş: ${k.es}</small>` : ""}${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Diğer Bağlar: ${k.baglar}</small>` : ""}</div>`).join('');
+                <div class="soy-kart">
+                    <strong>👤 <span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span> <span style="color:#8d6e63; font-weight:normal; font-size:0.9em;">(Evladı)</span></strong><br>
+                    ${k.anne && k.anne !== "?" ? `<small>🤱 Anne: <span class="smart-link" onclick="arsiveGitVeBul('${k.anne.replace(/'/g, "\\'")}')">${k.anne}</span></small>` : ""}
+                    ${k.es && k.es !== "?" ? `<br><small>💍 Eş: ` + k.es.split(',').map(e => `<span class="smart-link" onclick="arsiveGitVeBul('${e.trim().replace(/'/g, "\\'")}')">${e.trim()}</span>`).join(', ') + `</small>` : ""}
+                    ${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Diğer Bağlar: ` + k.baglar.split(',').map(b => `<span class="smart-link" onclick="arsiveGitVeBul('${b.split('(')[0].trim().replace(/'/g, "\\'")}')">${b.trim()}</span>`).join(', ') + `</small>` : ""}
+                </div>`).join('');
+                
             return `<details class="soy-klasor"><summary class="soy-baslik">${babaBaslik}</summary><div class="soy-icerik">${kisilerHtml}</div></details>`;
         }).join('');
+        
         aramaYap();
     }
 
