@@ -80,7 +80,7 @@
         .progress-bar-bg { background: #e0e0e0; height: 8px; border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { background: #8d6e63; height: 100%; width: 0%; transition: width 1s ease-in-out; }
 
-        /* AKILLI LİNK STİLİ (YENİ) */
+        /* AKILLI LİNK STİLİ */
         .smart-link { color: #1565c0; cursor: pointer; text-decoration: underline; font-weight: bold; transition: 0.2s; }
         .smart-link:hover { color: #0d47a1; background: #e3f2fd; padding: 0 2px; border-radius: 3px; }
 
@@ -875,10 +875,21 @@
         // ÇİZELGE İÇİN AKILLI LİNKLER
         cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: <span class="smart-link" onclick="arsiveGitVeBul('${i.ad.replace(/'/g, "\\'")}')">${i.ad}</span> <small>[${i.t}]</small></div>`).join('');
 
+        // --- AKILLI TEMİZLEYİCİ VE STANDARTLAŞTIRICI ---
         const gruplar = {};
         veriler.forEach(z => { 
-            let b = (z.baba && z.baba !== "?") ? z.baba : "Soy Bilgisi Beklenenler"; 
+            // 1. Önce veriyi al ve başındaki/sonundaki gizli boşlukları temizle (.trim())
+            let b = (z.baba && z.baba.trim() !== "" && z.baba.trim() !== "?") ? z.baba.trim() : "Soy Bilgisi Beklenenler"; 
+            
+            // 2. Eski kayıtlardaki büyük/küçük harf tutarsızlıklarını zorla standartlaştır
+            if (b !== "Soy Bilgisi Beklenenler") {
+                b = b.split(' ').map(k => k.charAt(0).toLocaleUpperCase('tr') + k.slice(1).toLocaleLowerCase('tr')).join(' ');
+            }
+
+            // 3. Çoklu yazım varyasyonlarını tek çatı altında topla
             if(b === "Abdülmuttalip" || b === "Abdulmuttalib" || b === "Abdülmuttalib") b = "Abdulmuttalip";
+            if(b === "Ebu Talib" || b === "Ebutalip") b = "Ebu Talip";
+            
             if (!gruplar[b]) gruplar[b] = []; 
             gruplar[b].push(z); 
         });
