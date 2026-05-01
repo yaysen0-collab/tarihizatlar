@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ANA META AÇIKLAMASI (DİNAMİK OLARAK DEĞİŞECEK) -->
+    <meta name="description" id="meta-desc" content="Asr-ı Saadet Portalı: İslam tarihi, Ashab-ı Kiram'ın hayatları, nesep bağları ve kronolojik olayların derlendiği kapsamlı dijital arşiv.">
     <title>ASRI SAADET PORTALI</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -687,6 +689,19 @@
         document.getElementById(id).classList.add('active');
         localStorage.setItem('aktifSayfa', id);
         window.scrollTo(0, 0);
+
+        // --- DİNAMİK META AÇIKLAMASI KONTROLÜ ---
+        const metaDesc = document.getElementById('meta-desc');
+        if (metaDesc) {
+            switch(id) {
+                case 'arsiv': metaDesc.content = "Ashab-ı Kiram'ın detaylı biyografileri ve İslam tarihindeki önemli olayların listelendiği kapsamlı arşiv."; break;
+                case 'cizelge': metaDesc.content = "İslam tarihindeki önemli olayların ve sahabelerin yaşam sürelerinin kronolojik olarak sıralandığı zaman çizelgesi."; break;
+                case 'soy': metaDesc.content = "Sahabeler arası nesep bağları, aile kökleri ve evlilik ilişkilerini gösteren detaylı soyağacı."; break;
+                case 'proje-amaci': metaDesc.content = "Asr-ı Saadet Portalı'nın kuruluş amacı, hedefleri ve akademik vizyonu."; break;
+                default: metaDesc.content = "Asr-ı Saadet Portalı: İslam tarihi, Ashab-ı Kiram'ın hayatları, nesep bağları ve kronolojik olayların derlendiği dijital arşiv.";
+            }
+        }
+        // ----------------------------------------
 
         if (id === 'admin') {
             document.getElementById('main-header').style.display = 'none';
