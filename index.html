@@ -136,6 +136,7 @@
         <button class="nav-btn" onclick="sayfaDegistir('arsiv')">Arşiv</button>
         <button class="nav-btn" onclick="sayfaDegistir('cizelge')">Çizelge</button>
         <button class="nav-btn" onclick="sayfaDegistir('soy')">Soyağacı</button>
+        <!-- GİZLİ YÖNETİM BUTONU -->
         <button class="nav-btn" id="nav-admin-btn" style="display:none; background:#1565c0;" onclick="sayfaDegistir('admin')">⚙️ Panel</button>
     </div>
     <div class="header-search">
@@ -144,12 +145,14 @@
 </header>
 
 <div class="container">
+    <!-- ANA SAYFA -->
     <div id="home" class="page active">
         <div class="quote-box">
             <p>"Ashabım, yıldızlar gibidir. Hangisine tabi olursanız hidayete eresiniz."</p>
             <span>- Peygamber Efendimiz (s.a.v.)</span>
         </div>
         
+        <!-- MAKALE KUTULARI (KART SİSTEMİ) -->
         <div class="article-grid">
             <div class="article-card" onclick="sayfaDegistir('makale1')">
                 <div>
@@ -175,6 +178,7 @@
         </div>
     </div>
 
+    <!-- OKUMA SAYFASI 1: ASHABI KİRAMIN İZİNDE -->
     <div id="makale1" class="page">
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
@@ -189,6 +193,7 @@
         </div>
     </div>
 
+    <!-- OKUMA SAYFASI 2: NEDEN BU İLİMLERİ ÖĞRENİYORUZ? -->
     <div id="makale2" class="page">
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
@@ -210,6 +215,7 @@
         </div>
     </div>
 
+    <!-- OKUMA SAYFASI 3: RASULULLAH SEVGİSİ VE KUR'AN KERİM EĞİTİMİ -->
     <div id="makale3" class="page">
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
@@ -229,6 +235,7 @@
         </div>
     </div>
 
+    <!-- PROJE AMACI -->
     <div id="proje-amaci" class="page">
         <div class="admin-dashboard" style="text-align: justify; line-height: 1.8; font-size: 1.05rem;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🎯 Proje Amacı</h2>
@@ -238,11 +245,12 @@
         </div>
     </div>
 
+    <!-- SSS -->
     <div id="sss" class="page">
         <div class="admin-dashboard" style="line-height: 1.6;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">❓ Sıkça Sorulan Sorular</h2>
             <div class="sss-item"><strong>Bu projenin temel amacı nedir?</strong>Bu projenin temel amacı, Asr-ı Saadet döneminde yaşamış olan Ashab-ı Kiram’a ait biyografik bilgileri, akrabalık ve sosyal ilişkileri sistemli bir yapıda sunarak tarihsel bilginin daha anlaşılır ve erişilebilir hâle getirilmesini sağlamaktır.</div>
-            <div class="sss-item"><strong>Asr-ı Saadet Portalı hangi ihtiyaca cevap vermektedir?</strong>Ashab-ı Kiram’ın sayıca fazla olması ve bilgilerin farklı kaynaklara dağılmış olması nedeniyle oluşan bilgi karmaşasını gidermeyi amaçlamaktadır. Portal, bu bilgileri tek bir dijital platformda toplayarak düzenli ve bütüncül bir yapı sunmaktadır.</div>
+            <div class="sss-item"><strong>Asr-ı Saadet Portalı hangi ihtiyaca cevap vermektedir?</strong>Ashab-ı Kiram’ın sayıca fazla olması ve bilgilerin farklı kaynaklara dağılmış olması nedeniyle oluşan bilgi karmaşasını gidermeyi amaçlamaktadır. Portal, bu bilgileri tek bir dijital platformda toplayarak düzenli ve bütüncül yapı sunmaktadır.</div>
             <div class="sss-item"><strong>Proje hangi tarihsel dönemi kapsamaktadır?</strong>Proje, Asr-ı Saadet olarak adlandırılan ve Peygamber Efendimiz Muhammed Mustafa (s.a.v.)’ in yaşadığı dönemi kapsayan tarihsel süreci esas almaktadır.</div>
             <div class="sss-item"><strong>Portalda yer alan bilgiler hangi kaynaklara dayanmaktadır?</strong>Portalda yer alan bilgiler, klasik İslam tarihi eserleri, siyer kaynakları ve güvenilir akademik çalışmalara dayanmaktadır. Kullanılan veriler titizlikle seçilmiş kaynaklardan derlenmiştir.</div>
             <div class="sss-item"><strong>Kullanılan bilgilerin doğruluğu nasıl sağlanmaktadır?</strong>Bilgilerin doğruluğu, birden fazla güvenilir kaynaktan karşılaştırmalı olarak incelenmesi yoluyla sağlanmaktadır. Şüpheli veya kesinlik içermeyen bilgiler, akademik yaklaşım gereği dikkatle ele alınmaktadır.</div>
@@ -256,6 +264,7 @@
         </div>
     </div>
 
+    <!-- İLETİŞİM -->
     <div id="iletisim" class="page">
         <div class="admin-dashboard">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">✉️ İletişim</h2>
@@ -270,6 +279,7 @@
         </div>
     </div>
 
+    <!-- SÜRÜM NOTLARI -->
     <div id="surum" class="page">
         <div class="admin-dashboard" style="background: #faf9f6;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
@@ -331,6 +341,7 @@
         </div>
     </div>
 
+    <!-- KAYNAKÇA -->
     <div id="kaynakca" class="page">
         <div class="admin-dashboard">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">📚 Kaynakça ve Temel Eserler</h2>
@@ -384,6 +395,7 @@
         </div>
     </div>
 
+    <!-- YÖNETİCİ GİRİŞİ -->
     <div id="login" class="page">
         <div class="admin-dashboard" style="max-width: 400px; margin: auto;">
             <h2 style="text-align: center; color: #5d4037;">🔐 Yönetici Girişi</h2>
@@ -394,6 +406,7 @@
         </div>
     </div>
 
+    <!-- ARŞİV -->
     <div id="arsiv" class="page">
         <h2>📚 Kayıtlar</h2>
         <div class="filter-container">
@@ -408,6 +421,7 @@
     <div id="cizelge" class="page"><h2>⏳ Zaman Çizelgesi</h2><div id="cizelgeList"></div></div>
     <div id="soy" class="page"><h2>🌳 Soyağacı (Soy Grupları)</h2><div id="soyList"></div></div>
 
+    <!-- YÖNETİM PANELİ -->
     <div id="admin" class="page">
         <div class="admin-dashboard">
             <div class="admin-header">
@@ -524,6 +538,7 @@
     </div>
 </footer>
 
+<!-- BİZİM ÖZEL AKILLI LİSTE KUTUMUZ -->
 <div id="oto-kutu" class="oto-liste"></div>
 
 <script>
@@ -678,7 +693,6 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
         
-        // SAYAÇ GÜNCELLEMESİ BURADA YAPILIYOR
         const istatistik = document.getElementById('toplam-istatistik');
         if (istatistik) {
             istatistik.innerHTML = `Toplam Zat: ${veriler.length} &nbsp;|&nbsp; Toplam Olay: ${olaylar.length}`;
@@ -858,6 +872,10 @@
 
     function temizle() { 
         document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); 
+        
+        // GİZLİ KİMLİKLERİ SIFIRLIYORUZ Kİ ÜZERİNE YAZMASIN
+        document.getElementById('edit-id').value = ""; 
+        
         document.getElementById('cancel-btn').style.display = "none"; 
         document.getElementById('zat-uyari').style.display = "none";
         if(document.getElementById('oto_ra')) document.getElementById('oto_ra').checked = true; 
@@ -865,6 +883,10 @@
     
     function temizleOlay() { 
         document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); 
+        
+        // OLAYLAR İÇİN DE GİZLİ KİMLİĞİ SIFIRLIYORUZ
+        document.getElementById('edit-olay-id').value = ""; 
+        
         document.getElementById('olay-cancel-btn').style.display = "none"; 
         document.getElementById('olay-uyari').style.display = "none";
     }
