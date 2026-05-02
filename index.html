@@ -132,6 +132,21 @@
         details.arsiv-detay summary::after { content: '▼'; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 0.8em; color: #8d6e63; }
         details.arsiv-detay[open] summary::after { content: '▲'; }
         .arsiv-icerik { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #d7ccc8; color: #444; font-size: 0.95rem; }
+
+        /* SSS VE DİĞER SAYFA BİÇİMLENDİRMELERİ İÇİN */
+        .sss-item { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .sss-item strong { color: #5d4037; display: block; margin-bottom: 5px; font-size: 1.05rem; }
+        .contact-form { display: flex; flex-direction: column; gap: 15px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid #d7ccc8; border-radius: 8px; background: #faf9f6; font-size: 1rem; color: #333; box-sizing: border-box; }
+        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #8d6e63; background: #fff; }
+        .surum-item { margin-bottom: 25px; border-left: 4px solid #8d6e63; padding-left: 20px; background: #fff; padding-top: 15px; padding-bottom: 15px; padding-right: 15px; border-radius: 0 8px 8px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .surum-tarih { font-size: 0.9rem; color: #999; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .surum-baslik { color: #5d4037; margin: 0 0 10px 0; font-size: 1.2rem; }
+        .kaynakca-liste { list-style: none; padding-left: 0; margin-top: 5px; }
+        .kaynakca-liste li { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d7ccc8; color: #444; }
+        .kaynakca-liste li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .kaynak-eser { font-weight: bold; color: #5d4037; font-style: italic; }
+        .kaynak-yazar { color: #8d6e63; font-size: 0.95em; }
     </style>
 </head>
 <body>
@@ -183,10 +198,10 @@
         <!-- YENİ: DİNAMİK OLAYLAR (ANA SAYFA VİTRİNİ) -->
         <h2 style="text-align: center; color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">📜 Son Eklenen Tarihi Olaylar</h2>
         <div class="article-grid" id="home-olaylar-grid">
-            <!-- Sisteme eklenen son 3 olay buraya JS ile otomatik gelecek -->
+            <!-- Sisteme panelden eklediğin son 3 olay buraya otomatik gelecek -->
         </div>
         
-        <!-- MEVCUT SABİT MAKALELER (YENİ rozetleri kaldırıldı) -->
+        <!-- MEVCUT SABİT MAKALELER -->
         <h2 style="text-align: center; color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">Temel Okumalar</h2>
         <div class="article-grid">
             <div class="article-card" onclick="sayfaDegistir('makale1')">
@@ -273,19 +288,38 @@
         </div>
     </div>
 
-    <!-- KURUMSAL SAYFALAR -->
+    <!-- EKSİKSİZ KURUMSAL SAYFALAR -->
     <div id="proje-amaci" class="page">
         <div class="admin-dashboard" style="text-align: justify; line-height: 1.8; font-size: 1.05rem;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🎯 Proje Amacı</h2>
-            <p>Asr-ı Saadet dönemi, İslam tarihinin temelini oluşturan ve sosyal, kültürel ve dini açıdan büyük önem taşıyan bir zaman dilimidir...</p>
+            <p>Asr-ı Saadet dönemi, İslam tarihinin temelini oluşturan ve sosyal, kültürel ve dini açıdan büyük önem taşıyan bir zaman dilimidir. Bu dönemde yaşamış olan Ashab-ı Kiram, İslam’ın yayılmasında ve temel ilkelerinin sonraki nesillere aktarılmasında belirleyici bir role sahiptir. Ancak Ashab-ı Kiram’ın sayıca fazla olması, tarihsel kaynakların dağınık yapısı ve bilgilerin farklı eserlerde yer alması nedeniyle, sahabelerin isimleri, biyografileri ve aralarındaki akrabalık ile sosyal ilişkiler günümüzde yeterince sistematik ve bütüncül bir şekilde ele alınamamaktadır.</p>
+            <p>Asr-ı Saadet Portalı projesinin temel amacı; Ashab-ı Kiram’a ait biyografik verileri, nesep bilgilerini ve sosyal ilişkileri güvenilir kaynaklara dayalı olarak bir araya getirmek ve bu bilgileri dijital bir platform aracılığıyla düzenli, erişilebilir ve analiz edilebilir hâle getirmektir. Bu kapsamda geliştirilecek sistem, sahabelerin yalnızca bireysel özelliklerini değil; aynı zamanda aile bağları, kabile ilişkileri, evlilikler ve toplumsal etkileşimler gibi çok boyutlu ilişkileri de görselleştirerek sunmayı hedeflemektedir.</p>
+            <p>Proje, kullanıcıların Asr-ı Saadet döneminin sosyal yapısını daha iyi kavrayabilmesine katkı sağlamayı, akademik çalışmalar için referans niteliğinde bir veri kaynağı oluşturmayı ve tarihsel bilginin dijital ortamda sürdürülebilir bir şekilde korunmasını amaçlamaktadır. Bu yönüyle Asr-ı Saadet Portalı, hem akademik araştırmacılara hem de konuya ilgi duyan genel kullanıcılara yönelik kapsamlı ve bilimsel bir bilgi sistemi sunmayı hedeflemektedir.</p>
         </div>
     </div>
-    
-    <div id="sss" class="page"><div class="admin-dashboard" style="line-height: 1.6;"><h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">❓ Sıkça Sorulan Sorular</h2><p>İçerikler eklenebilir...</p></div></div>
-    
+
+    <div id="sss" class="page">
+        <div class="admin-dashboard" style="line-height: 1.6;">
+            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">❓ Sıkça Sorulan Sorular</h2>
+            <div class="sss-item"><strong>Bu projenin temel amacı nedir?</strong>Bu projenin temel amacı, Asr-ı Saadet döneminde yaşamış olan Ashab-ı Kiram’a ait biyografik bilgileri, akrabalık ve sosyal ilişkileri sistemli bir yapıda sunarak tarihsel bilginin daha anlaşılır ve erişilebilir hâle getirilmesini sağlamaktır.</div>
+            <div class="sss-item"><strong>Asr-ı Saadet Portalı hangi ihtiyaca cevap vermektedir?</strong>Ashab-ı Kiram’ın sayıca fazla olması ve bilgilerin farklı kaynaklara dağılmış olması nedeniyle oluşan bilgi karmaşasını gidermeyi amaçlamaktadır. Portal, bu bilgileri tek bir dijital platformda toplayarak düzenli ve bütüncül bir yapı sunmaktadır.</div>
+            <div class="sss-item"><strong>Proje hangi tarihsel dönemi kapsamaktadır?</strong>Proje, Asr-ı Saadet olarak adlandırılan ve Peygamber Efendimiz Muhammed Mustafa (s.a.v.)’ in yaşadığı dönemi kapsayan tarihsel süreci esas almaktadır.</div>
+            <div class="sss-item"><strong>Portalda yer alan bilgiler hangi kaynaklara dayanmaktadır?</strong>Portalda yer alan bilgiler, klasik İslam tarihi eserleri, siyer kaynakları ve güvenilir akademik çalışmalara dayanmaktadır. Kullanılan veriler titizlikle seçilmiş kaynaklardan derlenmiştir.</div>
+            <div class="sss-item"><strong>Kullanılan bilgilerin doğruluğu nasıl sağlanmaktadır?</strong>Bilgilerin doğruluğu, birden fazla güvenilir kaynaktan karşılaştırmalı olarak incelenmesi yoluyla sağlanmaktadır. Şüpheli veya kesinlik içermeyen bilgiler, akademik yaklaşım gereği dikkatle ele alınmaktadır.</div>
+            <div class="sss-item"><strong>Portal nasıl kullanılmaktadır?</strong>Kullanıcılar portal üzerinden sahabelerin isimlerine erişebilir, biyografik bilgilerini inceleyebilir ve aralarındaki akrabalık ya da sosyal ilişkileri görsel ve metinsel olarak görüntüleyebilir.</div>
+            <div class="sss-item"><strong>Sahabeler arası akrabalık ve sosyal ilişkiler nasıl gösterilmektedir?</strong>Sistem, sahabeler arasındaki nesep bağları, evlilikler ve sosyal ilişkileri ilişkilendirilmiş bir veri yapısı aracılığıyla sunmaktadır. Bu sayede kullanıcılar tarihsel bağları daha net bir şekilde anlayabilmektedir.</div>
+            <div class="sss-item"><strong>Portal akademik çalışmalarda kaynak olarak kullanılabilir mi?</strong>Portal, akademik çalışmalar için doğrudan birincil kaynak olma iddiası taşımamakla birlikte, araştırmacılar için yardımcı ve yönlendirici bir dijital referans kaynağı olarak kullanılabilir.</div>
+            <div class="sss-item"><strong>Proje kimlere hitap etmektedir?</strong>Asr-ı Saadet Portalı; öğrenciler, akademisyenler, araştırmacılar ve İslam tarihiyle ilgilenen genel kullanıcı kitlesine hitap etmektedir.</div>
+            <div class="sss-item"><strong>İçerik genel kullanıcılar için anlaşılır mıdır?</strong>Evet. İçerikler akademik temele dayanmakla birlikte sade ve anlaşılır bir dil kullanılarak hazırlanmıştır. Böylece hem akademik hem de genel kullanıcılar için erişilebilir bir yapı sunulmaktadır.</div>
+            <div class="sss-item"><strong>Portalın gelecekte geliştirilmesi planlanmakta mıdır?</strong>Evet. Projenin ilerleyen aşamalarında içeriklerin genişletilmesi, yeni sahabelerin eklenmesi ve görselleştirme araçlarının geliştirilmesi planlanmaktadır.</div>
+            <div class="sss-item"><strong>Portal eğitim amaçlı kullanılabilir mi?</strong>Portal, eğitim kurumlarında yardımcı bir kaynak olarak kullanılabilecek niteliktedir ve tarihsel bilginin dijital ortamda sunulmasına katkı sağlamayı hedeflemektedir.</div>
+        </div>
+    </div>
+
     <div id="iletisim" class="page">
         <div class="admin-dashboard">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">✉️ İletişim</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 25px;">Sorularınız, önerileriniz veya katkıda bulunmak istediğiniz konular için aşağıdaki formu kullanarak bize ulaşabilirsiniz.</p>
             <form action="https://formspree.io/f/YOUR_FORM_ID_HERE" method="POST" class="contact-form">
                 <input type="text" name="isim" placeholder="Adınız Soyadınız" required>
                 <input type="email" name="email" placeholder="E-posta Adresiniz" required>
@@ -296,11 +330,156 @@
         </div>
     </div>
     
-    <div id="katkida-bulun" class="page"><div class="admin-dashboard"><h2 style="color: #5d4037; text-align: center;">🤝 Katkıda Bulun</h2></div></div>
-    <div id="gizlilik" class="page"><div class="admin-dashboard"><h2 style="color: #5d4037; text-align: center;">🛡️ Gizlilik Politikası</h2></div></div>
-    <div id="surum" class="page"><div class="admin-dashboard"><h2 style="color: #5d4037; text-align: center;">🚀 Sürüm Notları</h2></div></div>
-    <div id="kaynakca" class="page"><div class="admin-dashboard"><h2 style="color: #5d4037; text-align: center;">📚 Kaynakça</h2></div></div>
+    <div id="katkida-bulun" class="page">
+        <div class="admin-dashboard" style="text-align: justify; line-height: 1.8; font-size: 1.05rem;">
+            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🤝 Katkıda Bulun</h2>
+            <p>Asr-ı Saadet Portalı, İslam tarihini, Ashab-ı Kiram'ın eşsiz hayatlarını ve bu döneme ait kıymetli bilgileri dijital ortamda herkes için erişilebilir kılmayı amaçlayan gönüllü bir projedir. Bu değerli arşivi büyütmek ve daha kapsamlı hale getirmek için sizlerin desteğine her zaman açığız.</p>
+            
+            <h4 style="color: #5d4037; margin-bottom: 5px;">Nasıl Katkı Sağlayabilirsiniz?</h4>
+            <ul style="color: #444; margin-top: 0;">
+                <li><strong>Bilgi ve Belge Desteği:</strong> Arşivimizde eksik olduğunu düşündüğünüz tarihi şahsiyetler, soyağacı bilgileri veya önemli olaylar hakkında kaynak belirterek bize bilgi gönderebilirsiniz.</li>
+                <li><strong>Hata Bildirimi:</strong> Portalımızda karşılaştığınız yazım hatalarını, tarihsel uyuşmazlıkları veya teknik sorunları bize bildirerek sistemin kusursuzlaşmasına yardımcı olabilirsiniz.</li>
+                <li><strong>Akademik İnceleme:</strong> Eğer tarih alanında akademik çalışmalar yürütüyorsanız, mevcut verilerimizin doğruluğunu teyit etme konusunda gönüllü danışmanımız olabilirsiniz.</li>
+            </ul>
+            <p style="margin-top: 20px;">Destek olmak veya fikirlerinizi paylaşmak için <span class="smart-link" onclick="sayfaDegistir('iletisim')">İletişim Formu</span> üzerinden bizimle irtibata geçebilirsiniz. Katkılarınız, bu dijital mirasın gelecek nesillere aktarılmasında büyük bir rol oynayacaktır.</p>
+        </div>
+    </div>
 
+    <div id="gizlilik" class="page">
+        <div class="admin-dashboard" style="text-align: justify; line-height: 1.8; font-size: 1.05rem;">
+            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🛡️ Gizlilik Politikası</h2>
+            <p>Asr-ı Saadet Portalı olarak, sitemizi ziyaret eden tüm kullanıcılarımızın gizliliğine ve kişisel verilerinin güvenliğine büyük önem vermekteyiz. Bu portal, temel olarak genel kullanıma açık tarihi bilgilerin sunulduğu bir eğitim ve araştırma platformudur.</p>
+            
+            <ul style="color: #444; margin-top: 15px;">
+                <li><strong>Veri Toplama:</strong> Sitemiz, normal ziyaretleriniz sırasında sizi kişisel olarak tanımlayabilecek hiçbir veriyi (isim, adres, telefon vb.) otomatik olarak toplamaz. Yalnızca İletişim Formu'nu kullandığınızda, size geri dönüş yapabilmemiz için kendi isteğinizle paylaştığınız ad, soyad ve e-posta bilgileriniz alınır.</li>
+                <li><strong>Çerezler (Cookies):</strong> Sistemimiz, sadece sitedeki kullanıcı deneyimini iyileştirmek (örneğin son kalınan sayfayı hatırlamak) amacıyla tarayıcınızda geçici yerel veriler (localStorage) kullanabilir. Sitemiz üzerinden reklam veya izleme amaçlı üçüncü taraf çerezleri kullanılmamaktadır.</li>
+                <li><strong>Veri Paylaşımı:</strong> İletişim formu aracılığıyla bize ilettiğiniz hiçbir bilgi, üçüncü şahıslarla, kurumlarla veya reklam şirketleriyle kesinlikle paylaşılmaz.</li>
+                <li><strong>Yönetici Paneli Güvenliği:</strong> Veritabanına kayıt ekleme yetkisi bulunan yöneticilerin giriş işlemleri, Google Firebase'in üst düzey güvenlik altyapısı ile korunmaktadır. Şifreler sistemimizde açık metin olarak tutulmaz.</li>
+            </ul>
+            <p style="margin-top: 20px;">Gizlilik politikamız veya verilerinizle ilgili her türlü sorunuz için <span class="smart-link" onclick="sayfaDegistir('iletisim')">İletişim</span> bölümünden bizimle iletişime geçebilirsiniz.</p>
+        </div>
+    </div>
+
+    <div id="surum" class="page">
+        <div class="admin-dashboard" style="background: #faf9f6;">
+            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
+            
+            <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v1.3.3 - Dinamik Olay Okuma ve Vitrin</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Olayların detaylı ve uzun makaleler şeklinde okunabilmesi için "Akıllı Okuma Sayfası" altyapısı geliştirildi.</li>
+                    <li>Sisteme yeni eklenen son 3 olayın anında görüntülendiği "Son Eklenen Tarihi Olaylar" vitrini ana sayfaya entegre edildi.</li>
+                    <li>Arşivdeki kartlara 7 gün boyunca otomatik olarak kendini imha eden "YENİ" rozeti sistemi eklendi.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v1.3.2 - Ana Sayfa İstatistikleri</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Veritabanına girilen toplam zat, olay ve soy bağlarını ziyaretçilere canlı olarak sunan istatistik alanı ana sayfaya eklendi.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v1.3.1 - Kurumsal Sayfa Eklemeleri</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Kullanıcı güvenliği ve katılımını sağlamak amacıyla "Gizlilik Politikası" ve "Katkıda Bulun" sayfaları sisteme entegre edildi.</li>
+                </ul>
+            </div>
+            
+            <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v1.3.0 - Akıllı Sekme (Hash Routing) ve Geri Butonu Desteği</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Sisteme URL yönlendirmesi eklendi. Artık her sayfanın kendine ait bir linki var.</li>
+                    <li>Tarayıcılardaki ve telefonlardaki "Geri" butonunun siteyi kapatması engellendi.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Nisan 2026</div>
+                <h3 class="surum-baslik">v1.2.5 - Akıllı Navigasyon (Smart Links)</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Arşiv, Çizelge ve Soyağacı bölümlerindeki kayıtlı isimler artık tıklanabilir hale getirildi.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Nisan 2026</div>
+                <h3 class="surum-baslik">v1.2.0 - İstatistiksel Dashboard</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Yönetim paneline toplam kayıt, soy bağları ve veri tarihlendirme oranlarını gösteren otomatik analiz grafikleri eklendi.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Mart 2026</div>
+                <h3 class="surum-baslik">v1.0.0 - Sistemin Hayata Geçirilmesi</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Asr-ı Saadet Portalı temel veritabanı (Firebase) altyapısı kurularak ilk sürüm yayına alındı.</li>
+                    <li>Tarihi zatlar ve olaylar için Arşiv, Zaman Çizelgesi ve Soyağacı modülleri oluşturuldu.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="kaynakca" class="page">
+        <div class="admin-dashboard">
+            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">📚 Kaynakça ve Temel Eserler</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 25px;">Portalımızda yer alan bilgilerin doğrulanmasında ve derlenmesinde temel alınan başlıca eserler aşağıda sınıflandırılmıştır.</p>
+
+            <details class="soy-klasor">
+                <summary class="soy-baslik">Temel Siyer ve İslam Tarihi Kaynakları</summary>
+                <div class="soy-icerik">
+                    <ul class="kaynakca-liste">
+                        <li><span class="kaynak-eser">Sîretü İbn Hişâm</span> - <span class="kaynak-yazar">İbn Hişâm (ö. 218/833)</span></li>
+                        <li><span class="kaynak-eser">Târîhu'r-Rusül ve'l-Mülûk (Taberî Tarihi)</span> - <span class="kaynak-yazar">İbn Cerîr et-Taberî (ö. 310/923)</span></li>
+                        <li><span class="kaynak-eser">El-Kâmil fi't-Târîh</span> - <span class="kaynak-yazar">İbnü'l-Esîr (ö. 630/1233)</span></li>
+                        <li><span class="kaynak-eser">El-Bidâye ve'n-Nihâye</span> - <span class="kaynak-yazar">İbn Kesîr (ö. 774/1373)</span></li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="soy-klasor">
+                <summary class="soy-baslik">Tabakat ve Sahabe Biyografisi (Ricâl) Eserleri</summary>
+                <div class="soy-icerik">
+                    <ul class="kaynakca-liste">
+                        <li><span class="kaynak-eser">Kitâbü't-Tabakâti'l-Kebîr (Tabakât-ı İbn Sa'd)</span> - <span class="kaynak-yazar">İbn Sa'd (ö. 230/845)</span></li>
+                        <li><span class="kaynak-eser">El-İstiâb fî Ma'rifeti'l-Ashâb</span> - <span class="kaynak-yazar">İbn Abdülber (ö. 463/1071)</span></li>
+                        <li><span class="kaynak-eser">Üsdü'l-Gâbe fî Ma'rifeti's-Sahâbe</span> - <span class="kaynak-yazar">İbnü'l-Esîr (ö. 630/1233)</span></li>
+                        <li><span class="kaynak-eser">El-İsâbe fî Temyîzi's-Sahâbe</span> - <span class="kaynak-yazar">İbn Hacer el-Askalânî (ö. 852/1449)</span></li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="soy-klasor">
+                <summary class="soy-baslik">Nesep (Soyağacı) ve Coğrafya Kaynakları</summary>
+                <div class="soy-icerik">
+                    <ul class="kaynakca-liste">
+                        <li><span class="kaynak-eser">Cemheretü Ensâbi'l-Arab</span> - <span class="kaynak-yazar">İbn Hazm (ö. 456/1064)</span></li>
+                        <li><span class="kaynak-eser">Ensâbü'l-Eşrâf</span> - <span class="kaynak-yazar">Belâzürî (ö. 279/892)</span></li>
+                        <li><span class="kaynak-eser">Mu'cemü'l-Büldân</span> - <span class="kaynak-yazar">Yâkut el-Hamevî (ö. 626/1229)</span></li>
+                    </ul>
+                </div>
+            </details>
+
+             <details class="soy-klasor">
+                <summary class="soy-baslik">Modern Akademik ve Ansiklopedik Çalışmalar</summary>
+                <div class="soy-icerik">
+                    <ul class="kaynakca-liste">
+                        <li><span class="kaynak-eser">Türkiye Diyanet Vakfı İslam Ansiklopedisi (DİA)</span> - <span class="kaynak-yazar">TDV Yayınları</span></li>
+                        <li><span class="kaynak-eser">İslam Peygamberi</span> - <span class="kaynak-yazar">Muhammed Hamidullah</span></li>
+                        <li><span class="kaynak-eser">Asr-ı Saadet Tarihi (Çeşitli Makale ve Tahliller)</span> - <span class="kaynak-yazar">Akademik Yayınlar</span></li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- YÖNETİCİ GİRİŞİ -->
     <div id="login" class="page">
         <div class="admin-dashboard" style="max-width: 400px; margin: auto;">
             <h2 style="text-align: center; color: #5d4037;">🔐 Yönetici Girişi</h2>
@@ -350,7 +529,6 @@
                 <input id="ol_ad" placeholder="Olay Başlığı" oninput="benzerOlayKontrol()">
                 <div id="olay-uyari" class="canli-uyari"></div>
                 <div class="row"><input id="ol_hicri" placeholder="Hicri (Örn: H. 2)"><input id="ol_miladi" placeholder="Miladi (Örn: M. 624)"></div>
-                <!-- UZUN YAZILAR İÇİN TEXTAREA -->
                 <textarea id="ol_bilgi" placeholder="Olayın tam metnini buraya yazın... (Enter ile paragraf yapabilirsiniz)" rows="8"></textarea>
                 <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET VE MAKALE OLARAK YAYINLA</button>
                 <button class="btn-action" id="olay-cancel-btn" onclick="temizleOlay()" style="background:#999; display:none;">İPTAL</button>
@@ -374,6 +552,10 @@
                     <input id="in_baglar_isim" placeholder="İsim Yaz" autocomplete="off">
                     <select id="in_baglar_secenek">
                         <option value="">Bağlantı Türü...</option><option value="Çocuk">Çocuk</option><option value="Kardeş">Kardeş</option>
+                        <option value="Dede">Dede</option><option value="Nine">Nine</option><option value="Torun">Torun</option>
+                        <option value="Amca">Amca</option><option value="Hala">Hala</option><option value="Dayı">Dayı</option>
+                        <option value="Teyze">Teyze</option><option value="Yeğen">Yeğen</option><option value="Kayınvalide">Kayınvalide</option>
+                        <option value="Kayınpeder">Kayınpeder</option><option value="Damat">Damat</option>
                     </select>
                     <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer;">➕ Ekle</button>
                 </div>
@@ -399,6 +581,8 @@
                 <li><a onclick="sayfaDegistir('home')">Ana Sayfa</a></li>
                 <li><a onclick="sayfaDegistir('arsiv'); filtreDegistir('zat', document.querySelectorAll('.filter-btn')[1])">Tüm Zatlar (Kişiler)</a></li>
                 <li><a onclick="sayfaDegistir('arsiv'); filtreDegistir('olay', document.querySelectorAll('.filter-btn')[2])">Tarihi Olaylar</a></li>
+                <li><a onclick="sayfaDegistir('cizelge')">Zaman Çizelgesi</a></li>
+                <li><a onclick="sayfaDegistir('soy')">Soyağaçları</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -406,11 +590,26 @@
             <ul>
                 <li><a onclick="sayfaDegistir('proje-amaci')">Proje Amacı</a></li>
                 <li><a onclick="sayfaDegistir('kaynakca')">Kaynakça / Eserler</a></li>
+                <li><a onclick="sayfaDegistir('sss')">Sıkça Sorulan Sorular</a></li>
+                <li><a onclick="sayfaDegistir('iletisim')">İletişim</a></li>
+                <li><a onclick="sayfaDegistir('katkida-bulun')">Katkıda Bulun</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>YÖNETİM</h4>
+            <ul>
+                <li><a onclick="sayfaDegistir('login')">Yönetici Girişi</a></li>
+                <li><a onclick="sayfaDegistir('surum')">Sürüm Notları</a></li>
             </ul>
         </div>
     </div>
     <div class="footer-bottom">
-        <div>&copy; 2026 Asrı Saadet Portalı. Tüm hakları saklıdır.</div>
+        <div>&copy; 2026 Asrı Saadet Portalı. Tüm hakları saklıdır. &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="sayfaDegistir('gizlilik')">Gizlilik Politikası</a></div>
+        <div>
+            <a href="javascript:void(0)" onclick="paylas('twitter')">X (Twitter)</a>
+            <a href="javascript:void(0)" onclick="paylas('whatsapp')">WhatsApp</a>
+            <a href="javascript:void(0)" onclick="paylas('email')">E-posta</a>
+        </div>
     </div>
 </footer>
 
@@ -515,6 +714,16 @@
         window.scrollTo(0, 0);
 
         if (urlGuncelle) history.pushState({ sayfa: id }, null, '#' + id);
+
+        const metaDesc = document.getElementById('meta-desc');
+        if (metaDesc) {
+            switch(id) {
+                case 'arsiv': metaDesc.content = "Ashab-ı Kiram'ın detaylı biyografileri ve İslam tarihindeki önemli olayların listelendiği kapsamlı arşiv."; break;
+                case 'cizelge': metaDesc.content = "İslam tarihindeki önemli olayların ve sahabelerin yaşam sürelerinin kronolojik olarak sıralandığı zaman çizelgesi."; break;
+                case 'soy': metaDesc.content = "Sahabeler arası nesep bağları, aile kökleri ve evlilik ilişkilerini gösteren detaylı soyağacı."; break;
+                default: metaDesc.content = "Asr-ı Saadet Portalı: İslam tarihi, Ashab-ı Kiram'ın hayatları, nesep bağları ve kronolojik olayların derlendiği dijital arşiv.";
+            }
+        }
 
         if (id === 'admin') {
             document.getElementById('main-header').style.display = 'none';
@@ -629,7 +838,6 @@
 
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
 
-        // ŞAHSİYETLER (ZATLAR) HTML
         let aHtml = ""; 
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
@@ -655,11 +863,9 @@
             </details>`;
         });
 
-        // OLAYLAR İÇİN DİNAMİK HTML OLUŞTURMA
-        let aOlayHtml = ""; // Arşiv sayfası için
-        let hOlayHtml = ""; // Ana sayfa vitrini için
+        let aOlayHtml = ""; 
+        let hOlayHtml = ""; 
 
-        // Olayları eklenme tarihine göre sırala (en yeni en üstte)
         let siraliOlaylar = [...olaylar].sort((a, b) => (b.eklenmeTarihi || 0) - (a.eklenmeTarihi || 0));
 
         siraliOlaylar.forEach((o, index) => {
@@ -668,7 +874,6 @@
             let oM = (o.miladi && o.miladi !== "?") ? " M. " + o.miladi : "";
             let kisaBilgi = (o.bilgi && o.bilgi.length > 150) ? o.bilgi.substring(0, 150) + "..." : (o.bilgi || "Detaylı bilgi için tıklayın.");
             
-            // YENİ ETİKETİ: Son 7 gün (604800000 ms) içinde eklendiyse YENİ yaz
             let yeniEtiketi = "";
             if (o.eklenmeTarihi && (Date.now() - o.eklenmeTarihi < 604800000)) {
                 yeniEtiketi = `<span class="new-badge">YENİ</span>`;
@@ -690,19 +895,23 @@
                 </div>
             </div>`;
 
-            aOlayHtml += kartHtml; // Arşiv sayfasına tüm olayları ekle
+            aOlayHtml += kartHtml; 
             if (index < 3) {
-                hOlayHtml += kartHtml; // Ana sayfaya sadece son 3 olayı ekle
+                hOlayHtml += kartHtml; 
             }
         });
 
-        arsiv.innerHTML = aHtml + aOlayHtml; // Şahsiyetleri ve Olayları arşive bas
+        arsiv.innerHTML = aHtml + aOlayHtml; 
         
-        // Ana Sayfa vitrinine son eklenenleri bas
         const homeOlaylarGrid = document.getElementById('home-olaylar-grid');
-        if(homeOlaylarGrid) homeOlaylarGrid.innerHTML = hOlayHtml;
+        if(homeOlaylarGrid) {
+             if (hOlayHtml === "") {
+                 homeOlaylarGrid.innerHTML = `<p style="text-align: center; color: #999; font-style: italic; width: 100%;">Henüz eklenen tarihi bir olay bulunmuyor. Yönetim panelinden yeni bir olay eklendiğinde burada görünecektir.</p>`;
+             } else {
+                 homeOlaylarGrid.innerHTML = hOlayHtml;
+             }
+        }
 
-        // Yönetim Listesi Kodu
         let admHtml = `<h4 style="color:#5d4037; margin-top:0;">👤 Zatlar</h4>`;
         const azZatlar = {};
         veriler.forEach(z => { let harf = (z.isim || "İ").charAt(0).toLocaleUpperCase('tr'); if (!azZatlar[harf]) azZatlar[harf] = []; azZatlar[harf].push(z); });
@@ -764,17 +973,15 @@
         if (!ad) { alert("Lütfen bir olay ismi girin!"); return; }
         const id = document.getElementById('edit-olay-id').value;
         
-        // YENİ EKLENEN KISIM: eklenmeTarihi
         const obj = { 
             ad: ad, 
             hicri: document.getElementById('ol_hicri').value || "?", 
             miladi: document.getElementById('ol_miladi').value || "?", 
             bilgi: document.getElementById('ol_bilgi').value || "",
-            eklenmeTarihi: Date.now() // O anki tarihi milisaniye olarak kaydeder
+            eklenmeTarihi: Date.now() 
         };
         
         if(id) {
-            // Eğer sadece güncelleniyorsa, eski eklenme tarihini ezmesin diye kontrol
             const mevcutOlay = olaylar.find(v => v.id === id);
             if (mevcutOlay && mevcutOlay.eklenmeTarihi) obj.eklenmeTarihi = mevcutOlay.eklenmeTarihi;
             await db.collection("olaylar").doc(id).update(obj); 
@@ -783,7 +990,7 @@
         }
         
         temizleOlay();
-        alert("Tarihi Olay Başarıyla Kaydedildi!");
+        alert("Tarihi Olay Başarıyla Kaydedildi! Ana sayfaya düşmesi birkaç saniye sürebilir.");
     }
 
     function bagEkle() {
@@ -834,6 +1041,14 @@
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
         btn.classList.add('active-filter');
         aramaYap();
+    }
+    
+    function paylas(platform) {
+        const url = encodeURIComponent(window.location.href);
+        const metin = encodeURIComponent("Asr-ı Saadet Portalı'nı incelemelisin! Sahabeler ve tarihi olaylar hakkında harika bir dijital kaynak: ");
+        if(platform === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${metin}&url=${url}`, '_blank');
+        if(platform === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${metin}%20${url}`, '_blank');
+        if(platform === 'email') window.location.href = `mailto:?subject=Asr-ı Saadet Portalı Tavsiyesi&body=${metin} ${url}`;
     }
 </script>
 </body>
