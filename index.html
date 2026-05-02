@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ANA META AÇIKLAMASI (DİNAMİK OLARAK DEĞİŞECEK) -->
     <meta name="description" id="meta-desc" content="Asr-ı Saadet Portalı: İslam tarihi, Ashab-ı Kiram'ın hayatları, nesep bağları ve kronolojik olayların derlendiği kapsamlı dijital arşiv.">
     <title>ASRI SAADET PORTALI</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -43,19 +42,18 @@
         .quote-box p { font-size: 1.4rem; color: #5d4037; margin: 0 0 15px 0; line-height: 1.6; font-style: italic; font-family: 'Georgia', serif; }
         .quote-box span { font-weight: bold; color: #8d6e63; font-size: 1.1rem; }
         
-        /* ANA SAYFA İSTATİSTİK KUTULARI (YENİ) */
+        /* ANA SAYFA İSTATİSTİK KUTULARI */
         .home-stats-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
         .home-stat-box { background: white; padding: 25px 20px; border-radius: 12px; text-align: center; border-bottom: 4px solid #8d6e63; box-shadow: 0 5px 15px rgba(0,0,0,0.05); min-width: 160px; flex: 1; max-width: 250px; transition: 0.3s; }
         .home-stat-box:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-bottom-color: #5d4037; }
         .home-stat-num { display: block; font-size: 2.8rem; font-weight: bold; color: #5d4037; font-family: 'Georgia', serif; line-height: 1; margin-bottom: 8px; }
         .home-stat-label { display: block; font-size: 0.85rem; color: #8d6e63; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* ANA SAYFA MAKALE KUTULARI */
+        /* MAKALE VE OLAY KARTLARI */
         .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .article-card { background: white; padding: 25px; border-radius: 12px; cursor: pointer; border-top: 6px solid #5d4037; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
         .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top-color: #8d6e63; }
         
-        /* MAKALE İÇİ YENİ ROZET VE ETİKET TASARIMLARI */
         .card-meta-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .category-tag { background: #f4ece1; color: #5d4037; font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
         .new-badge { background: #d32f2f; color: white; font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px; }
@@ -69,26 +67,26 @@
 
         /* OKUMA SAYFASI */
         .reading-page { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: justify; line-height: 1.8; font-size: 1.1rem; color: #333; }
-        .reading-page h2 { color: #5d4037; font-family: 'Georgia', serif; text-align: center; font-size: 2rem; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-top: 10px; margin-bottom: 25px; }
+        .reading-page h2 { color: #5d4037; font-family: 'Georgia', serif; text-align: center; font-size: 2rem; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-top: 10px; margin-bottom: 15px; }
         .back-btn { background: #8d6e63; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 5px; }
         .back-btn:hover { background: #5d4037; }
 
         .filter-container { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         .filter-btn { background: #d7ccc8; color: #5d4037; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .filter-btn.active-filter { background: #5d4037; color: white; }
+        
         .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; font-size: 15px; }
         .row { display: flex; gap: 10px; align-items: center; }
         .btn-action { background: #5d4037; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 5px; margin-top: 5px; transition: 0.3s; }
         .btn-action:hover { background: #4e342e; }
+        
         .admin-controls { margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         .del-btn { background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
         .edit-btn { background: #1565c0; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
         .admin-dashboard { background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.15); border-top: 8px solid #5d4037; }
-        
         .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
         
-        /* DASHBOARD İSTATİSTİK KARTLARI */
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .stat-card { background: #faf9f6; padding: 20px; border-radius: 10px; border-top: 4px solid #8d6e63; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: center; }
         .stat-card h4 { margin: 0 0 10px 0; color: #666; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
@@ -97,7 +95,6 @@
         .progress-bar-bg { background: #e0e0e0; height: 8px; border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { background: #8d6e63; height: 100%; width: 0%; transition: width 1s ease-in-out; }
 
-        /* AKILLI LİNK STİLİ */
         .smart-link { color: #1565c0; cursor: pointer; text-decoration: underline; font-weight: bold; transition: 0.2s; }
         .smart-link:hover { color: #0d47a1; background: #e3f2fd; padding: 0 2px; border-radius: 3px; }
 
@@ -108,17 +105,14 @@
         .soy-kart { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         .canli-uyari { color: #c62828; font-size: 0.85em; font-weight: bold; margin: -2px 0 8px 5px; display: none; }
         
-        /* ÖZEL AKILLI LİSTE (AUTOCOMPLETE) TASARIMI */
         .oto-liste {
             position: absolute; display: none; background: #fff; border: 1px solid #d7ccc8;
             max-height: 160px; overflow-y: auto; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.15);
             border-radius: 6px; font-size: 0.95rem; font-family: sans-serif; box-sizing: border-box;
         }
         .oto-liste div { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #eee; color: #5d4037; transition: 0.2s; }
-        .oto-liste div:last-child { border-bottom: none; }
         .oto-liste div:hover { background: #f4f1ea; font-weight: bold; }
 
-        /* FOOTER */
         #main-footer { border-top: 10px solid #5d4037; margin-top: 50px; padding: 40px 20px 20px 20px; }
         .footer-container { max-width: 900px; margin: 0 auto; display: flex; gap: 20px; justify-content: flex-start; flex-wrap: wrap; }
         .footer-col { flex: 1; text-align: left; min-width: 200px; }
@@ -132,23 +126,7 @@
         .footer-bottom a { color: #8d6e63; text-decoration: none; margin-left: 15px; transition: 0.2s; }
         .footer-bottom a:hover { color: #5d4037; font-weight: bold; }
 
-        .sss-item { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .sss-item strong { color: #5d4037; display: block; margin-bottom: 5px; font-size: 1.05rem; }
-        .contact-form { display: flex; flex-direction: column; gap: 15px; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid #d7ccc8; border-radius: 8px; background: #faf9f6; font-size: 1rem; color: #333; box-sizing: border-box; }
-        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #8d6e63; background: #fff; }
-
-        .surum-item { margin-bottom: 25px; border-left: 4px solid #8d6e63; padding-left: 20px; background: #fff; padding-top: 15px; padding-bottom: 15px; padding-right: 15px; border-radius: 0 8px 8px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .surum-tarih { font-size: 0.9rem; color: #999; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .surum-baslik { color: #5d4037; margin: 0 0 10px 0; font-size: 1.2rem; }
-
-        .kaynakca-liste { list-style: none; padding-left: 0; margin-top: 5px; }
-        .kaynakca-liste li { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d7ccc8; color: #444; }
-        .kaynakca-liste li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .kaynak-eser { font-weight: bold; color: #5d4037; font-style: italic; }
-        .kaynak-yazar { color: #8d6e63; font-size: 0.95em; }
-
-        /* ARŞİV AÇILIR PENCERE (AKORDİYON) ÖZEL STİLİ */
+        /* ARŞİV KİŞİ KUTULARI İÇİN DETAY STİLİ */
         details.arsiv-detay summary { cursor: pointer; outline: none; list-style: none; position: relative; padding-right: 20px; font-size: 1.05rem; color: #5d4037; }
         details.arsiv-detay summary::-webkit-details-marker { display: none; }
         details.arsiv-detay summary::after { content: '▼'; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 0.8em; color: #8d6e63; }
@@ -165,10 +143,9 @@
     </div>
     <div class="header-nav-container">
         <button class="nav-btn" onclick="sayfaDegistir('home')">Ana Sayfa</button>
-        <button class="nav-btn" onclick="sayfaDegistir('arsiv')">Arşiv</button>
+        <button class="nav-btn" onclick="sayfaDegistir('arsiv')">Arşiv & Olaylar</button>
         <button class="nav-btn" onclick="sayfaDegistir('cizelge')">Çizelge</button>
         <button class="nav-btn" onclick="sayfaDegistir('soy')">Soyağacı</button>
-        <!-- GİZLİ YÖNETİM BUTONU -->
         <button class="nav-btn" id="nav-admin-btn" style="display:none; background:#1565c0;" onclick="sayfaDegistir('admin')">⚙️ Panel</button>
     </div>
     <div class="header-search">
@@ -184,7 +161,6 @@
             <span>- Peygamber Efendimiz (s.a.v.)</span>
         </div>
         
-        <!-- YENİ: ANA SAYFA CANLI İSTATİSTİKLERİ -->
         <div class="home-stats-container">
             <div class="home-stat-box">
                 <span class="home-stat-num" id="home-stat-zat">0</span>
@@ -205,59 +181,37 @@
         </p>
         
         <div class="article-grid">
-            
-            <!-- MAKALE 1 -->
             <div class="article-card" onclick="sayfaDegistir('makale1')">
-                <div class="card-meta-top">
-                    <span class="category-tag">🕌 İtikat</span>
-                    <span class="new-badge">YENİ</span>
-                </div>
-                <div>
-                    <h3>Ashab-ı Kiram'ın İzinde</h3>
-                    <p>İslam’ın kuvvetli olduğu zamanlarda doğduk. Kuran-ı Kerim'i bize öğretenler oldu. Maalesef ki yeni nesil elimizden kayıp gidiyor. Bunları nerede kaybettik? Hangi mezhebe ait olduğunu bilmeyen, peygamberimizi tanımayan birine nasıl namaz kıl diyebiliriz?</p>
-                </div>
-                <div class="card-meta-bottom">
-                    <span class="read-time">⏳ 4 dk okuma</span>
-                    <span class="read-more">Devamını Oku ➔</span>
-                </div>
+                <div class="card-meta-top"><span class="category-tag">🕌 İtikat</span><span class="new-badge">YENİ</span></div>
+                <div><h3>Ashab-ı Kiram'ın İzinde</h3><p>İslam’ın kuvvetli olduğu zamanlarda doğduk. Kuran-ı Kerim'i bize öğretenler oldu. Maalesef ki yeni nesil elimizden kayıp gidiyor...</p></div>
+                <div class="card-meta-bottom"><span class="read-time">⏳ 4 dk okuma</span><span class="read-more">Devamını Oku ➔</span></div>
             </div>
-
-            <!-- MAKALE 2 -->
             <div class="article-card" onclick="sayfaDegistir('makale2')">
-                <div class="card-meta-top">
-                    <span class="category-tag">📚 İlim</span>
-                    <span class="new-badge">YENİ</span>
-                </div>
-                <div>
-                    <h3>Neden Bu İlimleri Öğreniyoruz?</h3>
-                    <p>İslam dini, okuyup ilim sahibi olmaya çok önem vermiştir. Hatta Peygamber Efendimize indirilen ilk ayeti kerime “Oku” emri ile başlar. Cenabı Hak Kuran-ı Keriminde; “Ey Habibim! Yaratan Rabbinin adı ile oku” buyurmuştur.</p>
-                </div>
-                <div class="card-meta-bottom">
-                    <span class="read-time">⏳ 3 dk okuma</span>
-                    <span class="read-more">Devamını Oku ➔</span>
-                </div>
+                <div class="card-meta-top"><span class="category-tag">📚 İlim</span><span class="new-badge">YENİ</span></div>
+                <div><h3>Neden Bu İlimleri Öğreniyoruz?</h3><p>İslam dini, okuyup ilim sahibi olmaya çok önem vermiştir. Hatta Peygamber Efendimize indirilen ilk ayeti kerime “Oku” emri ile başlar...</p></div>
+                <div class="card-meta-bottom"><span class="read-time">⏳ 3 dk okuma</span><span class="read-more">Devamını Oku ➔</span></div>
             </div>
-
-            <!-- MAKALE 3 -->
             <div class="article-card" onclick="sayfaDegistir('makale3')">
-                <div class="card-meta-top">
-                    <span class="category-tag">📖 Siyer</span>
-                    <span class="new-badge">YENİ</span>
-                </div>
-                <div>
-                    <h3>Rasulullah Sevgisi ve Kur'an Eğitimi</h3>
-                    <p>Resulullah efendimiz bir hadisi şeriflerinde şöyle buyuruyor; "Evlatlarınızı üç haslet üzerine edeplendiriniz: Rasulullah sevgisi, Rasulullah’ın ehlibeytinin sevgisi ve Kur'an-ı Kerim okumak..."</p>
-                </div>
-                <div class="card-meta-bottom">
-                    <span class="read-time">⏳ 5 dk okuma</span>
-                    <span class="read-more">Devamını Oku ➔</span>
-                </div>
+                <div class="card-meta-top"><span class="category-tag">📖 Siyer</span><span class="new-badge">YENİ</span></div>
+                <div><h3>Rasulullah Sevgisi ve Kur'an Eğitimi</h3><p>Resulullah efendimiz bir hadisi şeriflerinde şöyle buyuruyor; "Evlatlarınızı üç haslet üzerine edeplendiriniz: Rasulullah sevgisi..."</p></div>
+                <div class="card-meta-bottom"><span class="read-time">⏳ 5 dk okuma</span><span class="read-more">Devamını Oku ➔</span></div>
             </div>
-
         </div>
     </div>
 
-    <!-- OKUMA SAYFALARI (1, 2, 3) -->
+    <!-- SİSTEM TARAFINDAN OTOMATİK DOLDURULACAK YENİ OLAY OKUMA SAYFASI -->
+    <div id="olay-okuma" class="page">
+        <div class="reading-page">
+            <button class="back-btn" onclick="sayfaDegistir('arsiv')">⬅ Arşive Geri Dön</button>
+            <h2 id="okuma-baslik">Olay Başlığı</h2>
+            <div style="text-align: center; color: #8d6e63; font-weight: bold; margin-bottom: 25px; font-size: 1.1rem; border-bottom: 1px dashed #d7ccc8; padding-bottom: 15px;" id="okuma-tarih">Tarih Bilgisi</div>
+            <div id="okuma-icerik" style="line-height: 1.8; color: #444;">
+                <!-- Olayın uzun metni buraya JavaScript ile gelecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MEVCUT STATİK OKUMA SAYFALARI (1, 2, 3) -->
     <div id="makale1" class="page">
         <div class="reading-page">
             <button class="back-btn" onclick="sayfaDegistir('home')">⬅ Ana Sayfaya Dön</button>
@@ -308,44 +262,22 @@
             <h3 style="color: #5d4037; margin-top: 40px; border-bottom: 2px dashed #eee; padding-bottom: 10px;">Kur'an-ı Kerim ilk olarak nerede ve nasıl öğretilmeye başlandı?</h3>
             <p>Peygamber Efendimiz (s.a.v.), nübüvvetin ilk yıllarında Müslümanlar ile Safa tepesi eteklerindeki Hazret-i Erkam’ın (r.a.) evinde gizlice toplanır, onlara İslâm’ın emir ve hükümlerini bildirir, Kur’an-ı Kerim'in nazil olan Ayet-i Kerimelerini okur ve öğretirlerdi. <strong>Dârü'l-Erkam</strong> ismi verilen bu hane, İslam tarihinde ilk eğitim-öğretim yapılan ilim müessesesi olarak kabul edilir.</p>
             <p>Rasulullah Efendimiz (s.a.v.), Medine-i Münevvere‘ye hicretlerinin ardından Mescid-i Nebevi ve ona bitişik olarak da Hücre-i Saadet'i inşa ettirdiler. Mescidin kuzey tarafına, bir suffa (gölgelik) yaptırdılar. Sahabe-i Kiramdan burada ikamet edenlere <strong>Ashab-ı Suffe</strong> denilirdi. Onların ihtiyaçlarıyla bizzat Efendimiz (s.a.v.) ilgilenir, eğitimiyle de yine kendileri alakadar olurlardı. Ayrıca onlara yazı yazmayı ve Kur’an-ı Kerim okumayı öğretmek üzere Ubâde b. Sâmit, Mus'ab bin Umeyr (r.anhüma) gibi hocalar tayin etmişlerdi.</p>
-            <p>Diğer Sahabe-i Kiram, geçimlerini temin için ticaret ve ziraatla uğraştıkları için vakit namazlarının ardından kendi işleriyle meşgul oluyorlardı. Fakat Ashab-ı Suffe, bütün vakitlerini ilim öğrenmeye ve ibadete ayırdıkları için Peygamber Efendimiz‘in (s.a.v.) yanından ayrılmazlardı.</p>
         </div>
     </div>
 
-    <!-- PROJE AMACI -->
+    <!-- KURUMSAL SAYFALAR -->
     <div id="proje-amaci" class="page">
         <div class="admin-dashboard" style="text-align: justify; line-height: 1.8; font-size: 1.05rem;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🎯 Proje Amacı</h2>
-            <p>Asr-ı Saadet dönemi, İslam tarihinin temelini oluşturan ve sosyal, kültürel ve dini açıdan büyük önem taşıyan bir zaman dilimidir. Bu dönemde yaşamış olan Ashab-ı Kiram, İslam’ın yayılmasında ve temel ilkelerinin sonraki nesillere aktarılmasında belirleyici bir role sahiptir. Ancak Ashab-ı Kiram’ın sayıca fazla olması, tarihsel kaynakların dağınık yapısı ve bilgilerin farklı eserlerde yer alması nedeniyle, sahabelerin isimleri, biyografileri ve aralarındaki akrabalık ile sosyal ilişkiler günümüzde yeterince sistematik ve bütüncül bir şekilde ele alınamamaktadır.</p>
-            <p>Asr-ı Saadet Portalı projesinin temel amacı; Ashab-ı Kiram’a ait biyografik verileri, nesep bilgilerini ve sosyal ilişkileri güvenilir kaynaklara dayalı olarak bir araya getirmek ve bu bilgileri dijital bir platform aracılığıyla düzenli, erişilebilir ve analiz edilebilir hâle getirmektir. Bu kapsamda geliştirilecek sistem, sahabelerin yalnızca bireysel özelliklerini değil; aynı zamanda aile bağları, kabile ilişkileri, evlilikler ve toplumsal etkileşimler gibi çok boyutlu ilişkileri de görselleştirerek sunmayı hedeflemektedir.</p>
-            <p>Proje, kullanıcıların Asr-ı Saadet döneminin sosyal yapısını daha iyi kavrayabilmesine katkı sağlamayı, akademik çalışmalar için referans niteliğinde bir veri kaynağı oluşturmayı ve tarihsel bilginin dijital ortamda sürdürülebilir bir şekilde korunmasını amaçlamaktadır. Bu yönüyle Asr-ı Saadet Portalı, hem akademik araştırmacılara hem de konuya ilgi duyan genel kullanıcılara yönelik kapsamlı ve bilimsel bir bilgi sistemi sunmayı hedeflemektedir.</p>
+            <p>Asr-ı Saadet dönemi, İslam tarihinin temelini oluşturan ve sosyal, kültürel ve dini açıdan büyük önem taşıyan bir zaman dilimidir...</p>
         </div>
     </div>
-
-    <!-- SSS -->
-    <div id="sss" class="page">
-        <div class="admin-dashboard" style="line-height: 1.6;">
-            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">❓ Sıkça Sorulan Sorular</h2>
-            <div class="sss-item"><strong>Bu projenin temel amacı nedir?</strong>Bu projenin temel amacı, Asr-ı Saadet döneminde yaşamış olan Ashab-ı Kiram’a ait biyografik bilgileri, akrabalık ve sosyal ilişkileri sistemli bir yapıda sunarak tarihsel bilginin daha anlaşılır ve erişilebilir hâle getirilmesini sağlamaktır.</div>
-            <div class="sss-item"><strong>Asr-ı Saadet Portalı hangi ihtiyaca cevap vermektedir?</strong>Ashab-ı Kiram’ın sayıca fazla olması ve bilgilerin farklı kaynaklara dağılmış olması nedeniyle oluşan bilgi karmaşasını gidermeyi amaçlamaktadır. Portal, bu bilgileri tek bir dijital platformda toplayarak düzenli ve bütüncül bir yapı sunmaktadır.</div>
-            <div class="sss-item"><strong>Proje hangi tarihsel dönemi kapsamaktadır?</strong>Proje, Asr-ı Saadet olarak adlandırılan ve Peygamber Efendimiz Muhammed Mustafa (s.a.v.)’ in yaşadığı dönemi kapsayan tarihsel süreci esas almaktadır.</div>
-            <div class="sss-item"><strong>Portalda yer alan bilgiler hangi kaynaklara dayanmaktadır?</strong>Portalda yer alan bilgiler, klasik İslam tarihi eserleri, siyer kaynakları ve güvenilir akademik çalışmalara dayanmaktadır. Kullanılan veriler titizlikle seçilmiş kaynaklardan derlenmiştir.</div>
-            <div class="sss-item"><strong>Kullanılan bilgilerin doğruluğu nasıl sağlanmaktadır?</strong>Bilgilerin doğruluğu, birden fazla güvenilir kaynaktan karşılaştırmalı olarak incelenmesi yoluyla sağlanmaktadır. Şüpheli veya kesinlik içermeyen bilgiler, akademik yaklaşım gereği dikkatle ele alınmaktadır.</div>
-            <div class="sss-item"><strong>Portal nasıl kullanılmaktadır?</strong>Kullanıcılar portal üzerinden sahabelerin isimlerine erişebilir, biyografik bilgilerini inceleyebilir ve aralarındaki akrabalık ya da sosyal ilişkileri görsel ve metinsel olarak görüntüleyebilir.</div>
-            <div class="sss-item"><strong>Sahabeler arası akrabalık ve sosyal ilişkiler nasıl gösterilmektedir?</strong>Sistem, sahabeler arasındaki nesep bağları, evlilikler ve sosyal ilişkileri ilişkilendirilmiş bir veri yapısı aracılığıyla sunmaktadır. Bu sayede kullanıcılar tarihsel bağları daha net bir şekilde anlayabilmektedir.</div>
-            <div class="sss-item"><strong>Portal akademik çalışmalarda kaynak olarak kullanılabilir mi?</strong>Portal, akademik çalışmalar için doğrudan birincil kaynak olma iddiası taşımamakla birlikte, araştırmacılar için yardımcı ve yönlendirici bir dijital referans kaynağı olarak kullanılabilir.</div>
-            <div class="sss-item"><strong>Proje kimlere hitap etmektedir?</strong>Asr-ı Saadet Portalı; öğrenciler, akademisyenler, araştırmacılar ve İslam tarihiyle ilgilenen genel kullanıcı kitlesine hitap etmektedir.</div>
-            <div class="sss-item"><strong>İçerik genel kullanıcılar için anlaşılır mıdır?</strong>Evet. İçerikler akademik temele dayanmakla birlikte sade ve anlaşılır bir dil kullanılarak hazırlanmıştır. Böylece hem akademik hem de genel kullanıcılar için erişilebilir bir yapı sunulmaktadır.</div>
-            <div class="sss-item"><strong>Portalın gelecekte geliştirilmesi planlanmakta mıdır?</strong>Evet. Projenin ilerleyen aşamalarında içeriklerin genişletilmesi, yeni sahabelerin eklenmesi ve görselleştirme araçlarının geliştirilmesi planlanmaktadır.</div>
-            <div class="sss-item"><strong>Portal eğitim amaçlı kullanılabilir mi?</strong>Portal, eğitim kurumlarında yardımcı bir kaynak olarak kullanılabilecek niteliktedir ve tarihsel bilginin dijital ortamda sunulmasına katkı sağlamayı hedeflemektedir.</div>
-        </div>
-    </div>
-
-    <!-- İLETİŞİM -->
+    
+    <div id="sss" class="page"><div class="admin-dashboard" style="line-height: 1.6;"><h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">❓ Sıkça Sorulan Sorular</h2><p>İçerikler eklenebilir...</p></div></div>
+    
     <div id="iletisim" class="page">
         <div class="admin-dashboard">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">✉️ İletişim</h2>
-            <p style="text-align: center; color: #666; margin-bottom: 25px;">Sorularınız, önerileriniz veya katkıda bulunmak istediğiniz konular için aşağıdaki formu kullanarak bize ulaşabilirsiniz.</p>
             <form action="https://formspree.io/f/YOUR_FORM_ID_HERE" method="POST" class="contact-form">
                 <input type="text" name="isim" placeholder="Adınız Soyadınız" required>
                 <input type="email" name="email" placeholder="E-posta Adresiniz" required>
@@ -356,216 +288,27 @@
         </div>
     </div>
     
-    <!-- KATKIDA BULUN -->
-    <div id="katkida-bulun" class="page">
-        <div class="admin-dashboard" style="text-align: justify; line-height: 1.8; font-size: 1.05rem;">
-            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🤝 Katkıda Bulun</h2>
-            <p>Asr-ı Saadet Portalı, İslam tarihini, Ashab-ı Kiram'ın eşsiz hayatlarını ve bu döneme ait kıymetli bilgileri dijital ortamda herkes için erişilebilir kılmayı amaçlayan gönüllü bir projedir. Bu değerli arşivi büyütmek ve daha kapsamlı hale getirmek için sizlerin desteğine her zaman açığız.</p>
-            
-            <h4 style="color: #5d4037; margin-bottom: 5px;">Nasıl Katkı Sağlayabilirsiniz?</h4>
-            <ul style="color: #444; margin-top: 0;">
-                <li><strong>Bilgi ve Belge Desteği:</strong> Arşivimizde eksik olduğunu düşündüğünüz tarihi şahsiyetler, soyağacı bilgileri veya önemli olaylar hakkında kaynak belirterek bize bilgi gönderebilirsiniz.</li>
-                <li><strong>Hata Bildirimi:</strong> Portalımızda karşılaştığınız yazım hatalarını, tarihsel uyuşmazlıkları veya teknik sorunları bize bildirerek sistemin kusursuzlaşmasına yardımcı olabilirsiniz.</li>
-                <li><strong>Akademik İnceleme:</strong> Eğer tarih alanında akademik çalışmalar yürütüyorsanız, mevcut verilerimizin doğruluğunu teyit etme konusunda gönüllü danışmanımız olabilirsiniz.</li>
-            </ul>
-            
-            <p style="margin-top: 20px;">Destek olmak veya fikirlerinizi paylaşmak için <span class="smart-link" onclick="sayfaDegistir('iletisim')">İletişim Formu</span> üzerinden bizimle irtibata geçebilirsiniz. Katkılarınız, bu dijital mirasın gelecek nesillere aktarılmasında büyük bir rol oynayacaktır.</p>
-        </div>
-    </div>
+    <div id="katkida-bulun" class="page"><div class="admin-dashboard"><h2 style="color: #5d4037; text-align: center;">🤝 Katkıda Bulun</h2></div></div>
+    <div id="gizlilik" class="page"><div class="admin-dashboard"><h2 style="color: #5d4037; text-align: center;">🛡️ Gizlilik Politikası</h2></div></div>
+    <div id="surum" class="page"><div class="admin-dashboard"><h2 style="color: #5d4037; text-align: center;">🚀 Sürüm Notları</h2></div></div>
+    <div id="kaynakca" class="page"><div class="admin-dashboard"><h2 style="color: #5d4037; text-align: center;">📚 Kaynakça</h2></div></div>
 
-    <!-- GİZLİLİK POLİTİKASI -->
-    <div id="gizlilik" class="page">
-        <div class="admin-dashboard" style="text-align: justify; line-height: 1.8; font-size: 1.05rem;">
-            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🛡️ Gizlilik Politikası</h2>
-            <p>Asr-ı Saadet Portalı olarak, sitemizi ziyaret eden tüm kullanıcılarımızın gizliliğine ve kişisel verilerinin güvenliğine büyük önem vermekteyiz. Bu portal, temel olarak genel kullanıma açık tarihi bilgilerin sunulduğu bir eğitim ve araştırma platformudur.</p>
-            
-            <ul style="color: #444; margin-top: 15px;">
-                <li><strong>Veri Toplama:</strong> Sitemiz, normal ziyaretleriniz sırasında sizi kişisel olarak tanımlayabilecek hiçbir veriyi (isim, adres, telefon vb.) otomatik olarak toplamaz. Yalnızca İletişim Formu'nu kullandığınızda, size geri dönüş yapabilmemiz için kendi isteğinizle paylaştığınız ad, soyad ve e-posta bilgileriniz alınır.</li>
-                <li><strong>Çerezler (Cookies):</strong> Sistemimiz, sadece sitedeki kullanıcı deneyimini iyileştirmek (örneğin son kalınan sayfayı hatırlamak) amacıyla tarayıcınızda geçici yerel veriler (localStorage) kullanabilir. Sitemiz üzerinden reklam veya izleme amaçlı üçüncü taraf çerezleri kullanılmamaktadır.</li>
-                <li><strong>Veri Paylaşımı:</strong> İletişim formu aracılığıyla bize ilettiğiniz hiçbir bilgi, üçüncü şahıslarla, kurumlarla veya reklam şirketleriyle kesinlikle paylaşılmaz.</li>
-                <li><strong>Yönetici Paneli Güvenliği:</strong> Veritabanına kayıt ekleme yetkisi bulunan yöneticilerin giriş işlemleri, Google Firebase'in üst düzey güvenlik altyapısı ile korunmaktadır. Şifreler sistemimizde açık metin olarak tutulmaz.</li>
-            </ul>
-            <p style="margin-top: 20px;">Gizlilik politikamız veya verilerinizle ilgili her türlü sorunuz için <span class="smart-link" onclick="sayfaDegistir('iletisim')">İletişim</span> bölümünden bizimle iletişime geçebilirsiniz.</p>
-        </div>
-    </div>
-
-    <!-- SÜRÜM NOTLARI -->
-    <div id="surum" class="page">
-        <div class="admin-dashboard" style="background: #faf9f6;">
-            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
-            
-            <div class="surum-item">
-                <div class="surum-tarih">Mayıs 2026</div>
-                <h3 class="surum-baslik">v1.3.2 - Ana Sayfa İstatistikleri</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Veritabanına girilen toplam zat, olay ve soy bağlarını ziyaretçilere canlı olarak sunan istatistik alanı ana sayfaya eklendi.</li>
-                </ul>
-            </div>
-
-            <div class="surum-item">
-                <div class="surum-tarih">Mayıs 2026</div>
-                <h3 class="surum-baslik">v1.3.1 - Kurumsal Sayfa Eklemeleri</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Kullanıcı güvenliği ve katılımını sağlamak amacıyla "Gizlilik Politikası" ve "Katkıda Bulun" sayfaları sisteme entegre edildi.</li>
-                </ul>
-            </div>
-            
-            <div class="surum-item">
-                <div class="surum-tarih">Mayıs 2026</div>
-                <h3 class="surum-baslik">v1.3.0 - Akıllı Sekme (Hash Routing) ve Geri Butonu Desteği</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Sisteme URL yönlendirmesi eklendi. Artık her sayfanın kendine ait bir linki var (örn: /#arsiv).</li>
-                    <li>Tarayıcılardaki ve telefonlardaki "Geri" butonunun siteyi kapatması engellendi, artık bir önceki sekmeye kusursuz dönülüyor.</li>
-                </ul>
-            </div>
-
-            <div class="surum-item">
-                <div class="surum-tarih">Nisan 2026</div>
-                <h3 class="surum-baslik">v1.2.5 - Akıllı Navigasyon (Smart Links)</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Arşiv, Çizelge ve Soyağacı bölümlerindeki kayıtlı isimler artık tıklanabilir hale getirildi. Bir isme tıklandığında sistem otomatik olarak o kişiyi arşivde bularak ekrana getiriyor.</li>
-                </ul>
-            </div>
-
-            <div class="surum-item">
-                <div class="surum-tarih">Nisan 2026</div>
-                <h3 class="surum-baslik">v1.2.0 - İstatistiksel Dashboard</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Yönetim paneline toplam kayıt, soy bağları ve veri tarihlendirme oranlarını gösteren otomatik analiz grafikleri (dashboard) eklendi.</li>
-                    <li>Sistemdeki "Gizli Üzerine Yazma" hatası tamamen düzeltildi. Artık veriler birbirine karışmıyor.</li>
-                </ul>
-            </div>
-            
-            <div class="surum-item">
-                <div class="surum-tarih">Nisan 2026</div>
-                <h3 class="surum-baslik">v1.1.5 - Üçüncü Makale Eklendi</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Dârü'l-Erkam ve Ashab-ı Suffe'yi anlatan üçüncü okuma metni (Rasulullah Sevgisi ve Kur'an Kerim Eğitimi) sisteme başarıyla entegre edildi.</li>
-                </ul>
-            </div>
-            <div class="surum-item">
-                <div class="surum-tarih">Nisan 2026</div>
-                <h3 class="surum-baslik">v1.1.4 - İkinci Makale Eklendi</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>İlmin önemini anlatan ikinci okuma metni (Neden Bu İlimleri Öğreniyoruz?) sisteme eklendi ve diyalog yapısına uygun formatlandı.</li>
-                </ul>
-            </div>
-            <div class="surum-item">
-                <div class="surum-tarih">Nisan 2026</div>
-                <h3 class="surum-baslik">v1.1.3 - Makale Okuma Sistemi (Kart Tasarımı)</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Ana sayfadaki okuma alanı sekme sisteminden "Kart/Kutu" tasarımına geçirildi.</li>
-                    <li>Yazıların rahat okunabilmesi için özel tasarıma sahip yepyeni okuma sayfaları (Geri Dön butonlu) eklendi.</li>
-                </ul>
-            </div>
-            <div class="surum-item">
-                <div class="surum-tarih">Nisan 2026</div>
-                <h3 class="surum-baslik">v1.1.2 - Arşiv ve Arayüz Optimizasyonu</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Arşiv sayfasındaki kayıtlar açılır-kapanır (akordiyon) pencere sistemine geçirilerek daha temiz bir listeleme sağlandı.</li>
-                    <li>Ana sayfadaki tekrarlanan butonlar kaldırılarak özel okuma metinleri için ferah bir alan yaratıldı.</li>
-                </ul>
-            </div>
-            <div class="surum-item">
-                <div class="surum-tarih">Nisan 2026</div>
-                <h3 class="surum-baslik">v1.1.0 - Kapsamlı Bilgi ve Arayüz Güncellemesi</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Üst Menü (Header) tasarımı yenilendi; logo sola, menüler merkeze, akıllı global arama çubuğu sağa eklendi.</li>
-                    <li>Alt bilgi (Footer) alanı profesyonel ve kurumsal bir tasarımla yenilendi.</li>
-                    <li>Sistemin akademik vizyonunu anlatan <strong>Proje Amacı</strong> sayfası eklendi.</li>
-                    <li>Kullanıcı sorularını yanıtlayan <strong>Sıkça Sorulan Sorular (SSS)</strong> bölümü oluşturuldu.</li>
-                    <li>Temel referans kaynaklarını listeleyen <strong>Kaynakça ve Eserler</strong> bölümü sisteme entegre edildi.</li>
-                    <li>Kullanıcıların doğrudan e-posta gönderebilmesi için Formspree altyapılı <strong>İletişim Formu</strong> entegre edildi.</li>
-                    <li>Yönetici girişi butonu ana sayfadan kaldırılarak daha gizli ve güvenli olan alt menüye taşındı.</li>
-                </ul>
-            </div>
-            <div class="surum-item">
-                <div class="surum-tarih">Mart 2026</div>
-                <h3 class="surum-baslik">v1.0.0 - Sistemin Hayata Geçirilmesi</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Asr-ı Saadet Portalı temel veritabanı (Firebase) altyapısı kurularak ilk sürüm yayına alındı.</li>
-                    <li>Tarihi zatlar ve olaylar için gelişmiş arama ve filtreleme özelliğine sahip <strong>Arşiv</strong> sistemi oluşturuldu.</li>
-                    <li>Kişiler ve olayların tarihsel sırasını gösteren kronolojik <strong>Zaman Çizelgesi</strong> eklendi.</li>
-                    <li>Sahabeler arası akrabalık ilişkilerini ve nesep bağlarını dinamik olarak gruplayan <strong>Soyağacı</strong> modülü geliştirildi.</li>
-                    <li>Kayıt ekleme, detaylı akraba bağlama, düzenleme ve silme işlemleri için güvenli <strong>Yönetici Paneli</strong> tasarlandı.</li>
-                    <li>Sistemdeki olası mükerrer kayıtları engellemek için isim benzerliği uyarısı (Canlı Dedektör) eklendi.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- KAYNAKÇA -->
-    <div id="kaynakca" class="page">
-        <div class="admin-dashboard">
-            <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">📚 Kaynakça ve Temel Eserler</h2>
-            <p style="text-align: center; color: #666; margin-bottom: 25px;">Portalımızda yer alan bilgilerin doğrulanmasında ve derlenmesinde temel alınan başlıca eserler aşağıda sınıflandırılmıştır.</p>
-
-            <details class="soy-klasor">
-                <summary class="soy-baslik">Temel Siyer ve İslam Tarihi Kaynakları</summary>
-                <div class="soy-icerik">
-                    <ul class="kaynakca-liste">
-                        <li><span class="kaynak-eser">Sîretü İbn Hişâm</span> - <span class="kaynak-yazar">İbn Hişâm (ö. 218/833)</span></li>
-                        <li><span class="kaynak-eser">Târîhu'r-Rusül ve'l-Mülûk (Taberî Tarihi)</span> - <span class="kaynak-yazar">İbn Cerîr et-Taberî (ö. 310/923)</span></li>
-                        <li><span class="kaynak-eser">El-Kâmil fi't-Târîh</span> - <span class="kaynak-yazar">İbnü'l-Esîr (ö. 630/1233)</span></li>
-                        <li><span class="kaynak-eser">El-Bidâye ve'n-Nihâye</span> - <span class="kaynak-yazar">İbn Kesîr (ö. 774/1373)</span></li>
-                    </ul>
-                </div>
-            </details>
-
-            <details class="soy-klasor">
-                <summary class="soy-baslik">Tabakat ve Sahabe Biyografisi (Ricâl) Eserleri</summary>
-                <div class="soy-icerik">
-                    <ul class="kaynakca-liste">
-                        <li><span class="kaynak-eser">Kitâbü't-Tabakâti'l-Kebîr (Tabakât-ı İbn Sa'd)</span> - <span class="kaynak-yazar">İbn Sa'd (ö. 230/845)</span></li>
-                        <li><span class="kaynak-eser">El-İstiâb fî Ma'rifeti'l-Ashâb</span> - <span class="kaynak-yazar">İbn Abdülber (ö. 463/1071)</span></li>
-                        <li><span class="kaynak-eser">Üsdü'l-Gâbe fî Ma'rifeti's-Sahâbe</span> - <span class="kaynak-yazar">İbnü'l-Esîr (ö. 630/1233)</span></li>
-                        <li><span class="kaynak-eser">El-İsâbe fî Temyîzi's-Sahâbe</span> - <span class="kaynak-yazar">İbn Hacer el-Askalânî (ö. 852/1449)</span></li>
-                    </ul>
-                </div>
-            </details>
-
-            <details class="soy-klasor">
-                <summary class="soy-baslik">Nesep (Soyağacı) ve Coğrafya Kaynakları</summary>
-                <div class="soy-icerik">
-                    <ul class="kaynakca-liste">
-                        <li><span class="kaynak-eser">Cemheretü Ensâbi'l-Arab</span> - <span class="kaynak-yazar">İbn Hazm (ö. 456/1064)</span></li>
-                        <li><span class="kaynak-eser">Ensâbü'l-Eşrâf</span> - <span class="kaynak-yazar">Belâzürî (ö. 279/892)</span></li>
-                        <li><span class="kaynak-eser">Mu'cemü'l-Büldân</span> - <span class="kaynak-yazar">Yâkut el-Hamevî (ö. 626/1229)</span></li>
-                    </ul>
-                </div>
-            </details>
-
-             <details class="soy-klasor">
-                <summary class="soy-baslik">Modern Akademik ve Ansiklopedik Çalışmalar</summary>
-                <div class="soy-icerik">
-                    <ul class="kaynakca-liste">
-                        <li><span class="kaynak-eser">Türkiye Diyanet Vakfı İslam Ansiklopedisi (DİA)</span> - <span class="kaynak-yazar">TDV Yayınları</span></li>
-                        <li><span class="kaynak-eser">İslam Peygamberi</span> - <span class="kaynak-yazar">Muhammed Hamidullah</span></li>
-                        <li><span class="kaynak-eser">Asr-ı Saadet Tarihi (Çeşitli Makale ve Tahliller)</span> - <span class="kaynak-yazar">Akademik Yayınlar</span></li>
-                    </ul>
-                </div>
-            </details>
-        </div>
-    </div>
-
-    <!-- YÖNETİCİ GİRİŞİ -->
     <div id="login" class="page">
         <div class="admin-dashboard" style="max-width: 400px; margin: auto;">
             <h2 style="text-align: center; color: #5d4037;">🔐 Yönetici Girişi</h2>
             <input type="email" id="login-email" placeholder="E-posta Adresiniz" onkeypress="if(event.key === 'Enter') girisYap();">
             <input type="password" id="login-pass" placeholder="Şifreniz" onkeypress="if(event.key === 'Enter') girisYap();">
             <button class="btn-action" onclick="girisYap()">GİRİŞ YAP</button>
-            <button class="btn-action" onclick="sayfaDegistir('home')" style="background: #999;">VAZGEÇ</button>
         </div>
     </div>
 
-    <!-- ARŞİV -->
+    <!-- ARŞİV VE OLAYLAR -->
     <div id="arsiv" class="page">
-        <h2>📚 Kayıtlar</h2>
+        <h2>📚 Arşiv ve Olaylar</h2>
         <div class="filter-container">
             <button class="filter-btn active-filter" onclick="filtreDegistir('tumu', this)">Tümü</button>
-            <button class="filter-btn" onclick="filtreDegistir('zat', this)">Sadece Kişiler</button>
-            <button class="filter-btn" onclick="filtreDegistir('olay', this)">Sadece Olaylar</button>
+            <button class="filter-btn" onclick="filtreDegistir('zat', this)">Sadece Şahsiyetler</button>
+            <button class="filter-btn" onclick="filtreDegistir('olay', this)">Tarihi Olaylar (Makaleler)</button>
         </div>
         <input type="text" id="ara" placeholder="İsim veya içerik ara..." onkeyup="aramaYap()">
         <div id="arsivList"></div>
@@ -585,48 +328,29 @@
                 </div>
             </div>
             
-            <!-- İSTATİSTİKSEL DASHBOARD BURADA -->
             <h2 style="color: #5d4037; margin-bottom: 15px; margin-top: 0; font-size: 1.4rem;">📊 Sistem İstatistikleri</h2>
             <div class="dashboard-grid">
-                <!-- KART 1 -->
-                <div class="stat-card">
-                    <h4>Toplam Kayıt</h4>
-                    <div class="stat-num" id="stat-toplam">0</div>
-                    <div class="stat-desc">Zat ve Olay Sayısı</div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-toplam" style="width: 100%; background: #1565c0;"></div></div>
-                </div>
-                <!-- KART 2 -->
-                <div class="stat-card">
-                    <h4>Bağlantılı Kişiler</h4>
-                    <div class="stat-num" id="stat-bag">0</div>
-                    <div class="stat-desc">Soy/Akraba verisi girilenler</div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-bag"></div></div>
-                </div>
-                <!-- KART 3 -->
-                <div class="stat-card">
-                    <h4>Tarihi Veri</h4>
-                    <div class="stat-num" id="stat-tarih">0</div>
-                    <div class="stat-desc">Yılı bilinen olay ve kişiler</div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-tarih"></div></div>
-                </div>
+                <div class="stat-card"><h4>Toplam Kayıt</h4><div class="stat-num" id="stat-toplam">0</div><div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-toplam" style="width: 100%; background: #1565c0;"></div></div></div>
+                <div class="stat-card"><h4>Bağlantılı Kişiler</h4><div class="stat-num" id="stat-bag">0</div><div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-bag"></div></div></div>
+                <div class="stat-card"><h4>Tarihi Veri</h4><div class="stat-num" id="stat-tarih">0</div><div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-tarih"></div></div></div>
             </div>
             <hr style="border: 1px solid #eee; margin: 30px 0;">
 
             <div class="admin-section" style="border-left-color: #8d6e63;">
-                <h3 id="olay-form-baslik">📜 Olay Ekle / Düzenle</h3>
+                <h3 id="olay-form-baslik">📜 Olay Ekle / Düzenle (Makale Formatı)</h3>
                 <input type="hidden" id="edit-olay-id">
-                <input id="ol_ad" placeholder="Olay İsmi" oninput="benzerOlayKontrol()">
+                <input id="ol_ad" placeholder="Olay Başlığı" oninput="benzerOlayKontrol()">
                 <div id="olay-uyari" class="canli-uyari"></div>
-                <div class="row"><input id="ol_hicri" placeholder="Hicri"><input id="ol_miladi" placeholder="Miladi"></div>
-                <textarea id="ol_bilgi" placeholder="Hakkında Bilgi" rows="2"></textarea>
-                <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET</button>
+                <div class="row"><input id="ol_hicri" placeholder="Hicri (Örn: H. 2)"><input id="ol_miladi" placeholder="Miladi (Örn: M. 624)"></div>
+                <!-- YENİ: UZUN YAZILAR İÇİN TEXTAREA BÜYÜTÜLDÜ -->
+                <textarea id="ol_bilgi" placeholder="Olayın tam metnini buraya yazın... (Enter ile paragraf yapabilirsiniz)" rows="8"></textarea>
+                <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET VE MAKALE OLARAK YAYINLA</button>
                 <button class="btn-action" id="olay-cancel-btn" onclick="temizleOlay()" style="background:#999; display:none;">İPTAL</button>
             </div>
             
             <hr style="border: 1px solid #eee; margin: 30px 0;">
             
             <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
-            
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
                 <input id="in_ad" placeholder="İsim" oninput="benzerZatKontrol()">
@@ -636,32 +360,14 @@
                     </label>
                 </div>
                 <div id="zat-uyari" class="canli-uyari"></div>
-                
-                <div class="row">
-                    <input id="in_anne" placeholder="Anne" autocomplete="off">
-                    <input id="in_baba" placeholder="Baba" autocomplete="off">
-                </div>
+                <div class="row"><input id="in_anne" placeholder="Anne" autocomplete="off"><input id="in_baba" placeholder="Baba" autocomplete="off"></div>
                 <input id="in_es" placeholder="Eşi / Eşleri" autocomplete="off">
-                
                 <div class="row" style="margin-top: 10px;">
                     <input id="in_baglar_isim" placeholder="İsim Yaz" autocomplete="off">
                     <select id="in_baglar_secenek">
-                        <option value="">Bağlantı Türü...</option>
-                        <option value="Çocuk">Çocuk</option>
-                        <option value="Kardeş">Kardeş</option>
-                        <option value="Dede">Dede</option>
-                        <option value="Nine">Nine</option>
-                        <option value="Torun">Torun</option>
-                        <option value="Amca">Amca</option>
-                        <option value="Hala">Hala</option>
-                        <option value="Dayı">Dayı</option>
-                        <option value="Teyze">Teyze</option>
-                        <option value="Yeğen">Yeğen</option>
-                        <option value="Kayınvalide">Kayınvalide</option>
-                        <option value="Kayınpeder">Kayınpeder</option>
-                        <option value="Damat">Damat</option>
+                        <option value="">Bağlantı Türü...</option><option value="Çocuk">Çocuk</option><option value="Kardeş">Kardeş</option>
                     </select>
-                    <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">➕ Ekle</button>
+                    <button type="button" onclick="bagEkle()" style="background: #1565c0; color: white; border: none; padding: 11px 15px; border-radius: 4px; cursor: pointer;">➕ Ekle</button>
                 </div>
                 <textarea id="in_baglar_liste" placeholder="Eklenen Bağlar" rows="2"></textarea>
                 <div class="row"><input id="in_d_hicri" placeholder="Doğum Hicri"><input id="in_d_miladi" placeholder="Doğum Miladi"></div>
@@ -671,9 +377,7 @@
                 <button class="btn-action" id="cancel-btn" onclick="temizle()" style="background:#999; display:none;">İPTAL</button>
             </div>
             <hr style="border: 1px solid #eee; margin: 30px 0;">
-            
             <h3>📋 Mevcut Kayıtlar</h3>
-            
             <div id="adminList"></div>
         </div>
     </div>
@@ -687,8 +391,6 @@
                 <li><a onclick="sayfaDegistir('home')">Ana Sayfa</a></li>
                 <li><a onclick="sayfaDegistir('arsiv'); filtreDegistir('zat', document.querySelectorAll('.filter-btn')[1])">Tüm Zatlar (Kişiler)</a></li>
                 <li><a onclick="sayfaDegistir('arsiv'); filtreDegistir('olay', document.querySelectorAll('.filter-btn')[2])">Tarihi Olaylar</a></li>
-                <li><a onclick="sayfaDegistir('cizelge')">Zaman Çizelgesi</a></li>
-                <li><a onclick="sayfaDegistir('soy')">Soyağaçları</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -696,30 +398,14 @@
             <ul>
                 <li><a onclick="sayfaDegistir('proje-amaci')">Proje Amacı</a></li>
                 <li><a onclick="sayfaDegistir('kaynakca')">Kaynakça / Eserler</a></li>
-                <li><a onclick="sayfaDegistir('sss')">Sıkça Sorulan Sorular</a></li>
-                <li><a onclick="sayfaDegistir('iletisim')">İletişim</a></li>
-                <li><a onclick="sayfaDegistir('katkida-bulun')">Katkıda Bulun</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>YÖNETİM</h4>
-            <ul>
-                <li><a onclick="sayfaDegistir('login')">Yönetici Girişi</a></li>
-                <li><a onclick="sayfaDegistir('surum')">Sürüm Notları / Güncellemeler</a></li>
             </ul>
         </div>
     </div>
     <div class="footer-bottom">
-        <div>&copy; 2026 Asrı Saadet Portalı. Tüm hakları saklıdır. &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="sayfaDegistir('gizlilik')">Gizlilik Politikası</a></div>
-        <div>
-            <a href="javascript:void(0)" onclick="paylas('twitter')">X (Twitter)</a>
-            <a href="javascript:void(0)" onclick="paylas('whatsapp')">WhatsApp</a>
-            <a href="javascript:void(0)" onclick="paylas('email')">E-posta</a>
-        </div>
+        <div>&copy; 2026 Asrı Saadet Portalı. Tüm hakları saklıdır.</div>
     </div>
 </footer>
 
-<!-- BİZİM ÖZEL AKILLI LİSTE KUTUMUZ -->
 <div id="oto-kutu" class="oto-liste"></div>
 
 <script>
@@ -734,37 +420,35 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const auth = firebase.auth();
+    
+    let veriler = [];
+    let olaylar = [];
+    let aktifFiltre = 'tumu';
 
-    // GERİ BUTONU DİNLEYİCİSİ (POPSTATE)
     window.addEventListener('popstate', function(event) {
         let hashId = window.location.hash.substring(1);
         if (!hashId) hashId = 'home';
-        
-        // Sadece geçiş yap, URL'yi tekrar güncelleme (false gönderiyoruz)
         sayfaDegistir(hashId, false);
     });
 
     window.onload = function() {
-        // İLK YÜKLEMEDE URL HASH KONTROLÜ
         let baslangicSayfasi = 'home';
-        if (window.location.hash) {
-            baslangicSayfasi = window.location.hash.substring(1);
-        } else if (localStorage.getItem('aktifSayfa')) {
-            baslangicSayfasi = localStorage.getItem('aktifSayfa');
-        }
-        sayfaDegistir(baslangicSayfasi, false); // URL'ye tekrar push atmaması için false verdik
+        if (window.location.hash) baslangicSayfasi = window.location.hash.substring(1);
+        else if (localStorage.getItem('aktifSayfa')) baslangicSayfasi = localStorage.getItem('aktifSayfa');
+        sayfaDegistir(baslangicSayfasi, false); 
         
         const otoInputs = ['in_anne', 'in_baba', 'in_es', 'in_baglar_isim'];
         otoInputs.forEach(id => {
             const inp = document.getElementById(id);
-            inp.addEventListener('input', () => gosterOto(inp));
-            inp.addEventListener('focus', () => gosterOto(inp));
-            inp.addEventListener('blur', () => setTimeout(() => {
-                const kutu = document.getElementById('oto-kutu');
-                if(kutu) kutu.style.display = 'none';
-            }, 250));
+            if(inp) {
+                inp.addEventListener('input', () => gosterOto(inp));
+                inp.addEventListener('focus', () => gosterOto(inp));
+                inp.addEventListener('blur', () => setTimeout(() => {
+                    const kutu = document.getElementById('oto-kutu');
+                    if(kutu) kutu.style.display = 'none';
+                }, 250));
+            }
         });
-        
         window.addEventListener('scroll', () => { 
             const kutu = document.getElementById('oto-kutu');
             if(kutu) kutu.style.display = 'none'; 
@@ -784,7 +468,6 @@
     db.collection("zatlar").onSnapshot(s => { veriler = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
     db.collection("olaylar").onSnapshot(s => { olaylar = s.docs.map(d => ({ id: d.id, ...d.data() })); ekranaBas(); });
 
-    // AKILLI NAVİGASYON FONKSİYONU
     function arsiveGitVeBul(isim) {
         if(!isim || isim === "?") return;
         const temizIsim = isim.split('(')[0].trim();
@@ -797,7 +480,6 @@
         const val = inp.value.toLocaleLowerCase('tr');
         let html = '';
         let count = 0;
-        
         veriler.forEach(v => {
             if(count > 40) return;
             if(v.isim.toLocaleLowerCase('tr').includes(val)) {
@@ -805,10 +487,8 @@
                 count++;
             }
         });
-        
         const kutu = document.getElementById('oto-kutu');
         if(html === '') { kutu.style.display = 'none'; return; }
-        
         kutu.innerHTML = html;
         const rect = inp.getBoundingClientRect();
         kutu.style.left = (rect.left + window.scrollX) + 'px';
@@ -817,34 +497,16 @@
         kutu.style.display = 'block';
     }
 
-    // SAYFA DEĞİŞTİRME VE URL YÖNLENDİRME (ROUTING) FONKSİYONU
     function sayfaDegistir(id, urlGuncelle = true) {
         const hedefSayfa = document.getElementById(id);
-        if (!hedefSayfa) id = 'home'; // Hatalı bir link girilirse ana sayfaya atsın
+        if (!hedefSayfa) id = 'home';
 
         document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         localStorage.setItem('aktifSayfa', id);
         window.scrollTo(0, 0);
 
-        // HASH URL GÜNCELLEMESİ YAPILIYOR (Sayfa yenilenmeden!)
-        if (urlGuncelle) {
-            history.pushState({ sayfa: id }, null, '#' + id);
-        }
-
-        // DİNAMİK META AÇIKLAMASI
-        const metaDesc = document.getElementById('meta-desc');
-        if (metaDesc) {
-            switch(id) {
-                case 'arsiv': metaDesc.content = "Ashab-ı Kiram'ın detaylı biyografileri ve İslam tarihindeki önemli olayların listelendiği kapsamlı arşiv."; break;
-                case 'cizelge': metaDesc.content = "İslam tarihindeki önemli olayların ve sahabelerin yaşam sürelerinin kronolojik olarak sıralandığı zaman çizelgesi."; break;
-                case 'soy': metaDesc.content = "Sahabeler arası nesep bağları, aile kökleri ve evlilik ilişkilerini gösteren detaylı soyağacı."; break;
-                case 'proje-amaci': metaDesc.content = "Asr-ı Saadet Portalı'nın kuruluş amacı, hedefleri ve akademik vizyonu."; break;
-                case 'gizlilik': metaDesc.content = "Asr-ı Saadet Portalı gizlilik politikası ve veri kullanım şartları."; break;
-                case 'katkida-bulun': metaDesc.content = "Asr-ı Saadet Portalı'na bilgi, belge veya geri bildirim ile katkıda bulunma rehberi."; break;
-                default: metaDesc.content = "Asr-ı Saadet Portalı: İslam tarihi, Ashab-ı Kiram'ın hayatları, nesep bağları ve kronolojik olayların derlendiği dijital arşiv.";
-            }
-        }
+        if (urlGuncelle) history.pushState({ sayfa: id }, null, '#' + id);
 
         if (id === 'admin') {
             document.getElementById('main-header').style.display = 'none';
@@ -862,6 +524,28 @@
             const araInput = document.getElementById('ara');
             if (araInput) { araInput.value = ''; aramaYap(); }
         }
+    }
+
+    // YENİ: DİNAMİK OLAY OKUMA FONKSİYONU
+    function olayOku(id) {
+        const o = olaylar.find(v => v.id === id);
+        if(!o) return;
+        
+        // Başlığı yerleştir
+        document.getElementById('okuma-baslik').innerText = o.ad;
+        
+        // Tarihi birleştir ve yerleştir
+        let oH = (o.hicri && o.hicri !== "?") ? "H. " + o.hicri : "";
+        let oM = (o.miladi && o.miladi !== "?") ? " M. " + o.miladi : "";
+        let tamTarih = (oH || oM) ? `📅 ${oH} ${oM}` : "Tarih Belirtilmemiş";
+        document.getElementById('okuma-tarih').innerText = tamTarih;
+
+        // Enter tuşuyla yapılan satır atlamalarını HTML paragrafına (<br>) çevir
+        let formatliBilgi = o.bilgi ? o.bilgi.replace(/\n/g, '<br><br>') : "İçerik bulunamadı.";
+        document.getElementById('okuma-icerik').innerHTML = formatliBilgi;
+
+        // Okuma sayfasına geçiş yap
+        sayfaDegistir('olay-okuma');
     }
 
     function globalArama() {
@@ -917,20 +601,15 @@
         const soy = document.getElementById('soyList');
         const adminL = document.getElementById('adminList');
         
-        // --- İSTATİSTİKSEL DASHBOARD VE ANA SAYFA HESAPLAMALARI ---
         const statToplam = veriler.length + olaylar.length;
-        let bagliKisi = 0;
-        let tarihliVeri = 0;
+        let bagliKisi = 0; let tarihliVeri = 0;
 
         veriler.forEach(z => {
             if((z.baba && z.baba !== "?") || (z.anne && z.anne !== "?") || (z.baglar && z.baglar !== "?")) bagliKisi++;
             if((z.d_miladi && z.d_miladi !== "?") || (z.v_miladi && z.v_miladi !== "?") || (z.d_hicri && z.d_hicri !== "?") || (z.v_hicri && z.v_hicri !== "?")) tarihliVeri++;
         });
-        olaylar.forEach(o => {
-            if((o.miladi && o.miladi !== "?") || (o.hicri && o.hicri !== "?")) tarihliVeri++;
-        });
+        olaylar.forEach(o => { if((o.miladi && o.miladi !== "?") || (o.hicri && o.hicri !== "?")) tarihliVeri++; });
 
-        // ANA SAYFA İSTATİSTİKLERİNİ GÜNCELLEME (YENİ EKLENEN KISIM)
         if(document.getElementById('home-stat-zat')) document.getElementById('home-stat-zat').innerText = veriler.length;
         if(document.getElementById('home-stat-olay')) document.getElementById('home-stat-olay').innerText = olaylar.length;
         if(document.getElementById('home-stat-bag')) document.getElementById('home-stat-bag').innerText = bagliKisi;
@@ -938,98 +617,89 @@
         const bagOran = veriler.length ? (bagliKisi / veriler.length) * 100 : 0;
         const tarihOran = statToplam ? (tarihliVeri / statToplam) * 100 : 0;
 
-        // YÖNETİM PANELİ İSTATİSTİKLERİNİ GÜNCELLEME
         if(document.getElementById('stat-toplam')) {
             document.getElementById('stat-toplam').innerText = statToplam;
             document.getElementById('stat-bag').innerText = bagliKisi;
             document.getElementById('stat-tarih').innerText = tarihliVeri;
-            
             document.getElementById('bar-bag').style.width = bagOran + '%';
             document.getElementById('bar-tarih').style.width = tarihOran + '%';
         }
-        // ----------------------------------------------
 
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
+        // YENİ EKLENENLER ÜSTTE ÇIKSIN DİYE OLAYLARI TERS ÇEVİREBİLİRİZ, AMA ŞİMDİLİK ALFABETİK:
         olaylar.sort((a, b) => (a.ad || "").toLocaleLowerCase('tr').localeCompare((b.ad || "").toLocaleLowerCase('tr'), 'tr'));
 
         let aHtml = ""; 
         
+        // ŞAHSİYETLER (Açılır-kapanır Kutu)
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
             let yasStr = (!isNaN(dM) && !isNaN(vM)) ? `<span style="color:#8d6e63; font-weight:normal; font-size:0.9em;">(Yaş: ${vM - dM})</span>` : "";
-            let dH = (z.d_hicri && z.d_hicri !== "?") ? "H. " + z.d_hicri : "";
-            let dMil = (z.d_miladi && z.d_miladi !== "?") ? " (M. " + z.d_miladi + ")" : "";
-            let vH = (z.v_hicri && z.v_hicri !== "?") ? "H. " + z.v_hicri : "";
-            let vMil = (z.v_miladi && z.v_miladi !== "?") ? " (M. " + z.v_miladi + ")" : "";
+            let dH = (z.d_hicri && z.d_hicri !== "?") ? "H. " + z.d_hicri : ""; let dMil = (z.d_miladi && z.d_miladi !== "?") ? " (M. " + z.d_miladi + ")" : "";
+            let vH = (z.v_hicri && z.v_hicri !== "?") ? "H. " + z.v_hicri : ""; let vMil = (z.v_miladi && z.v_miladi !== "?") ? " (M. " + z.v_miladi + ")" : "";
             let tarihText = (dH || dMil || vH || vMil) ? `D: ${dH}${dMil} | V: ${vH}${vMil}` : "";
             
-            // --- AKILLI LİNK DÖNÜŞÜMLERİ ---
             let babaEki = (z.baba && z.baba !== "?") ? `<div style="margin-top:5px; font-size:0.95em;"><b>Baba:</b> <span class="smart-link" onclick="arsiveGitVeBul('${z.baba.replace(/'/g, "\\'")}')">${z.baba}</span></div>` : "";
             let anneEki = (z.anne && z.anne !== "?") ? `<div style="margin-top:3px; font-size:0.95em;"><b>Anne:</b> <span class="smart-link" onclick="arsiveGitVeBul('${z.anne.replace(/'/g, "\\'")}')">${z.anne}</span></div>` : "";
             let esEki = (z.es && z.es !== "?") ? `<div style="margin-top:3px; font-size:0.95em;"><b>Eş:</b> ` + z.es.split(',').map(e => `<span class="smart-link" onclick="arsiveGitVeBul('${e.trim().replace(/'/g, "\\'")}')">${e.trim()}</span>`).join(', ') + `</div>` : "";
-            let baglarEki = (z.baglar && z.baglar !== "?") ? `<div style="margin-top:3px; font-size:0.95em;"><b>Bağlar:</b> ` + z.baglar.split(',').map(b => {
-                let isimKismi = b.split('(')[0].trim();
-                return `<span class="smart-link" onclick="arsiveGitVeBul('${isimKismi.replace(/'/g, "\\'")}')">${b.trim()}</span>`;
-            }).join(', ') + `</div>` : "";
+            let baglarEki = (z.baglar && z.baglar !== "?") ? `<div style="margin-top:3px; font-size:0.95em;"><b>Bağlar:</b> ` + z.baglar.split(',').map(b => `<span class="smart-link" onclick="arsiveGitVeBul('${b.split('(')[0].trim().replace(/'/g, "\\'")}')">${b.trim()}</span>`).join(', ') + `</div>` : "";
             
             aHtml += `
             <details class="data-box search-item arsiv-detay" data-search="${aramaMetni}" data-type="zat">
                 <summary><strong>${z.isim}</strong> ${yasStr}</summary>
                 <div class="arsiv-icerik">
                     <small style="color:#666; display:block; margin-bottom: 5px;">${tarihText}</small>
-                    ${babaEki}
-                    ${anneEki}
-                    ${esEki}
-                    ${baglarEki}
+                    ${babaEki}${anneEki}${esEki}${baglarEki}
                     <p style="margin-top:8px; margin-bottom:0; line-height:1.5;">${z.bilgi}</p>
                 </div>
             </details>`;
         });
         
+        // YENİ: OLAYLAR (Makale Kartı Şeklinde)
         olaylar.forEach(o => {
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
             let oH = (o.hicri && o.hicri !== "?") ? "H. " + o.hicri : "";
-            let oM = (o.miladi && o.miladi !== "?") ? " (M. " + o.miladi + ")" : "";
+            let oM = (o.miladi && o.miladi !== "?") ? " M. " + o.miladi : "";
+            
+            // Eğer yazı çok uzunsa kart üzerinde kısa halini (ilk 150 harfi) gösterelim
+            let kisaBilgi = (o.bilgi && o.bilgi.length > 150) ? o.bilgi.substring(0, 150) + "..." : (o.bilgi || "Detaylı bilgi için tıklayın.");
             
             aHtml += `
-            <details class="data-box search-item arsiv-detay" style="background:#fbf8f3; border-left-color:#8d6e63;" data-search="${aramaMetniOlay}" data-type="olay">
-                <summary><strong>${o.ad}</strong> <span style="color:#8d6e63; font-weight:normal; font-size:0.9em;">(Olay)</span></summary>
-                <div class="arsiv-icerik">
-                    <small style="color:#666;">${oH}${oM}</small>
-                    <p style="margin-top:8px; margin-bottom:0; line-height:1.5;">${o.bilgi}</p>
+            <div class="article-card search-item" style="border-top-color:#8d6e63; margin-bottom: 15px;" data-search="${aramaMetniOlay}" data-type="olay" onclick="olayOku('${o.id}')">
+                <div class="card-meta-top">
+                    <span class="category-tag">📜 Tarihi Olay</span>
+                    <span class="new-badge">YENİ</span>
                 </div>
-            </details>`;
+                <div>
+                    <h3>${o.ad}</h3>
+                    <p>${kisaBilgi}</p>
+                </div>
+                <div class="card-meta-bottom">
+                    <span class="read-time">⏳ ${oH}${oM}</span>
+                    <span class="read-more">Makaleyi Oku ➔</span>
+                </div>
+            </div>`;
         });
+        
         arsiv.innerHTML = aHtml; 
 
+        // Yönetim Listesi Kodu
         let admHtml = `<h4 style="color:#5d4037; margin-top:0;">👤 Zatlar</h4>`;
         const azZatlar = {};
-        veriler.forEach(z => {
-            let harf = (z.isim || "İ").charAt(0).toLocaleUpperCase('tr');
-            if (!azZatlar[harf]) azZatlar[harf] = [];
-            azZatlar[harf].push(z);
-        });
+        veriler.forEach(z => { let harf = (z.isim || "İ").charAt(0).toLocaleUpperCase('tr'); if (!azZatlar[harf]) azZatlar[harf] = []; azZatlar[harf].push(z); });
         Object.keys(azZatlar).sort((a,b) => a.localeCompare(b, 'tr')).forEach(h => {
             admHtml += `<details class="soy-klasor" style="margin-bottom:5px;"><summary class="soy-baslik" style="padding:10px;">${h} Harfi (${azZatlar[h].length} Kayıt)</summary><div class="soy-icerik" style="padding:10px;">`;
-            azZatlar[h].forEach(z => {
-                admHtml += `<div class="data-box" style="padding:10px; margin-bottom:5px;"><strong>${z.isim}</strong><div class="admin-controls" style="margin-top:5px; padding-top:5px;"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`;
-            });
+            azZatlar[h].forEach(z => { admHtml += `<div class="data-box" style="padding:10px; margin-bottom:5px;"><strong>${z.isim}</strong><div class="admin-controls" style="margin-top:5px; padding-top:5px;"><button class="edit-btn" onclick="duzenle('${z.id}')">Düzenle</button><button class="del-btn" onclick="sil('${z.id}', 'zatlar')">Sil</button></div></div>`; });
             admHtml += `</div></details>`;
         });
 
         admHtml += `<h4 style="color:#5d4037; margin-top:20px;">📜 Olaylar</h4>`;
         const azOlaylar = {};
-        olaylar.forEach(o => {
-            let harf = (o.ad || "İ").charAt(0).toLocaleUpperCase('tr');
-            if (!azOlaylar[harf]) azOlaylar[harf] = [];
-            azOlaylar[harf].push(o);
-        });
+        olaylar.forEach(o => { let harf = (o.ad || "İ").charAt(0).toLocaleUpperCase('tr'); if (!azOlaylar[harf]) azOlaylar[harf] = []; azOlaylar[harf].push(o); });
         Object.keys(azOlaylar).sort((a,b) => a.localeCompare(b, 'tr')).forEach(h => {
             admHtml += `<details class="soy-klasor" style="margin-bottom:5px;"><summary class="soy-baslik" style="padding:10px;">${h} Harfi (${azOlaylar[h].length} Kayıt)</summary><div class="soy-icerik" style="padding:10px; background:#fbf8f3;">`;
-            azOlaylar[h].forEach(o => {
-                admHtml += `<div class="data-box" style="padding:10px; margin-bottom:5px; background:#fbf8f3;"><strong>${o.ad}</strong><div class="admin-controls" style="margin-top:5px; padding-top:5px;"><button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`;
-            });
+            azOlaylar[h].forEach(o => { admHtml += `<div class="data-box" style="padding:10px; margin-bottom:5px; background:#fbf8f3;"><strong>${o.ad}</strong><div class="admin-controls" style="margin-top:5px; padding-top:5px;"><button class="edit-btn" onclick="duzenleOlay('${o.id}')">Düzenle</button><button class="del-btn" onclick="sil('${o.id}', 'olaylar')">Sil</button></div></div>`; });
             admHtml += `</div></details>`;
         });
         adminL.innerHTML = admHtml;
@@ -1038,44 +708,23 @@
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
-        
-        // ÇİZELGE İÇİN AKILLI LİNKLER
         cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: <span class="smart-link" onclick="arsiveGitVeBul('${i.ad.replace(/'/g, "\\'")}')">${i.ad}</span> <small>[${i.t}]</small></div>`).join('');
 
-        // --- AKILLI TEMİZLEYİCİ VE STANDARTLAŞTIRICI ---
         const gruplar = {};
         veriler.forEach(z => { 
-            // 1. Önce veriyi al ve başındaki/sonundaki gizli boşlukları temizle (.trim())
             let b = (z.baba && z.baba.trim() !== "" && z.baba.trim() !== "?") ? z.baba.trim() : "Soy Bilgisi Beklenenler"; 
-            
-            // 2. Eski kayıtlardaki büyük/küçük harf tutarsızlıklarını zorla standartlaştır
-            if (b !== "Soy Bilgisi Beklenenler") {
-                b = b.split(' ').map(k => k.charAt(0).toLocaleUpperCase('tr') + k.slice(1).toLocaleLowerCase('tr')).join(' ');
-            }
-
-            // 3. Çoklu yazım varyasyonlarını tek çatı altında topla
+            if (b !== "Soy Bilgisi Beklenenler") b = b.split(' ').map(k => k.charAt(0).toLocaleUpperCase('tr') + k.slice(1).toLocaleLowerCase('tr')).join(' ');
             if(b === "Abdülmuttalip" || b === "Abdulmuttalib" || b === "Abdülmuttalib") b = "Abdulmuttalip";
             if(b === "Ebu Talib" || b === "Ebutalip") b = "Ebu Talip";
-            
             if (!gruplar[b]) gruplar[b] = []; 
             gruplar[b].push(z); 
         });
         
-        // SOYAĞACI İÇİN AKILLI LİNKLER
         soy.innerHTML = Object.keys(gruplar).sort((a, b) => a.toLocaleLowerCase('tr').localeCompare(b.toLocaleLowerCase('tr'), 'tr')).map(baba => {
             let babaBaslik = baba === "Soy Bilgisi Beklenenler" ? "❓ Soy Bilgisi Beklenenler" : `Baba: <span class="smart-link" onclick="event.stopPropagation(); arsiveGitVeBul('${baba.replace(/'/g, "\\'")}')">${baba}</span>`;
-            
-            const kisilerHtml = gruplar[baba].map(k => `
-                <div class="soy-kart">
-                    <strong>👤 <span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span> <span style="color:#8d6e63; font-weight:normal; font-size:0.9em;">(Evladı)</span></strong><br>
-                    ${k.anne && k.anne !== "?" ? `<small>🤱 Anne: <span class="smart-link" onclick="arsiveGitVeBul('${k.anne.replace(/'/g, "\\'")}')">${k.anne}</span></small>` : ""}
-                    ${k.es && k.es !== "?" ? `<br><small>💍 Eş: ` + k.es.split(',').map(e => `<span class="smart-link" onclick="arsiveGitVeBul('${e.trim().replace(/'/g, "\\'")}')">${e.trim()}</span>`).join(', ') + `</small>` : ""}
-                    ${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Diğer Bağlar: ` + k.baglar.split(',').map(b => `<span class="smart-link" onclick="arsiveGitVeBul('${b.split('(')[0].trim().replace(/'/g, "\\'")}')">${b.trim()}</span>`).join(', ') + `</small>` : ""}
-                </div>`).join('');
-                
+            const kisilerHtml = gruplar[baba].map(k => `<div class="soy-kart"><strong>👤 <span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span> <span style="color:#8d6e63; font-weight:normal; font-size:0.9em;">(Evladı)</span></strong><br>${k.anne && k.anne !== "?" ? `<small>🤱 Anne: <span class="smart-link" onclick="arsiveGitVeBul('${k.anne.replace(/'/g, "\\'")}')">${k.anne}</span></small>` : ""}${k.es && k.es !== "?" ? `<br><small>💍 Eş: ` + k.es.split(',').map(e => `<span class="smart-link" onclick="arsiveGitVeBul('${e.trim().replace(/'/g, "\\'")}')">${e.trim()}</span>`).join(', ') + `</small>` : ""}${k.baglar && k.baglar !== "?" ? `<br><small>🔗 Diğer Bağlar: ` + k.baglar.split(',').map(b => `<span class="smart-link" onclick="arsiveGitVeBul('${b.split('(')[0].trim().replace(/'/g, "\\'")}')">${b.trim()}</span>`).join(', ') + `</small>` : ""}</div>`).join('');
             return `<details class="soy-klasor"><summary class="soy-baslik">${babaBaslik}</summary><div class="soy-icerik">${kisilerHtml}</div></details>`;
         }).join('');
-        
         aramaYap();
     }
 
@@ -1083,14 +732,7 @@
         if (!auth.currentUser) return;
         let ad = kelimeBaslariniBuyut(document.getElementById('in_ad').value.trim());
         if (!ad) { alert("Lütfen bir isim girin!"); return; }
-        
-        const otoRaSeciliMi = document.getElementById('oto_ra').checked;
-        if (otoRaSeciliMi) {
-            const kucukAd = ad.toLocaleLowerCase('tr');
-            if (!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)")) {
-                ad += " (ra)";
-            }
-        }
+        if (document.getElementById('oto_ra').checked) { const kucukAd = ad.toLocaleLowerCase('tr'); if (!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)")) ad += " (ra)"; }
         
         const id = document.getElementById('edit-id').value;
         const obj = { isim: ad, anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?", es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?", baglar: document.getElementById('in_baglar_liste').value || "?", d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?", v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?", bilgi: document.getElementById('in_bilgi').value || "" };
@@ -1106,6 +748,7 @@
         const obj = { ad: ad, hicri: document.getElementById('ol_hicri').value || "?", miladi: document.getElementById('ol_miladi').value || "?", bilgi: document.getElementById('ol_bilgi').value || "" };
         if(id) await db.collection("olaylar").doc(id).update(obj); else await db.collection("olaylar").add(obj);
         temizleOlay();
+        alert("Tarihi Olay Başarıyla Kaydedildi!");
     }
 
     function bagEkle() {
@@ -1121,56 +764,22 @@
 
     function duzenle(id) {
         const z = veriler.find(v => v.id === id);
-        document.getElementById('edit-id').value = id;
-        document.getElementById('in_ad').value = z.isim;
-        document.getElementById('in_anne').value = z.anne;
-        document.getElementById('in_baba').value = z.baba;
-        document.getElementById('in_es').value = z.es;
-        document.getElementById('in_baglar_liste').value = z.baglar;
-        document.getElementById('in_d_hicri').value = z.d_hicri;
-        document.getElementById('in_d_miladi').value = z.d_miladi;
-        document.getElementById('in_v_hicri').value = z.v_hicri;
-        document.getElementById('in_v_miladi').value = z.v_miladi;
-        document.getElementById('in_bilgi').value = z.bilgi;
-        document.getElementById('cancel-btn').style.display = "block";
-        document.getElementById('zat-uyari').style.display = "none";
-        
+        document.getElementById('edit-id').value = id; document.getElementById('in_ad').value = z.isim; document.getElementById('in_anne').value = z.anne; document.getElementById('in_baba').value = z.baba; document.getElementById('in_es').value = z.es; document.getElementById('in_baglar_liste').value = z.baglar; document.getElementById('in_d_hicri').value = z.d_hicri; document.getElementById('in_d_miladi').value = z.d_miladi; document.getElementById('in_v_hicri').value = z.v_hicri; document.getElementById('in_v_miladi').value = z.v_miladi; document.getElementById('in_bilgi').value = z.bilgi;
+        document.getElementById('cancel-btn').style.display = "block"; document.getElementById('zat-uyari').style.display = "none";
         const kucukAd = z.isim.toLocaleLowerCase('tr');
-        if (!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)")) {
-            document.getElementById('oto_ra').checked = false;
-        } else {
-            document.getElementById('oto_ra').checked = true;
-        }
-        
+        document.getElementById('oto_ra').checked = !(!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)"));
         window.scrollTo(0,0);
     }
 
     function duzenleOlay(id) {
         const o = olaylar.find(v => v.id === id);
-        document.getElementById('edit-olay-id').value = id;
-        document.getElementById('ol_ad').value = o.ad;
-        document.getElementById('ol_hicri').value = o.hicri;
-        document.getElementById('ol_miladi').value = o.miladi;
-        document.getElementById('ol_bilgi').value = o.bilgi;
-        document.getElementById('olay-cancel-btn').style.display = "block";
-        document.getElementById('olay-uyari').style.display = "none";
+        document.getElementById('edit-olay-id').value = id; document.getElementById('ol_ad').value = o.ad; document.getElementById('ol_hicri').value = o.hicri; document.getElementById('ol_miladi').value = o.miladi; document.getElementById('ol_bilgi').value = o.bilgi;
+        document.getElementById('olay-cancel-btn').style.display = "block"; document.getElementById('olay-uyari').style.display = "none";
         window.scrollTo(0,0);
     }
 
-    function temizle() { 
-        document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); 
-        document.getElementById('edit-id').value = ""; 
-        document.getElementById('cancel-btn').style.display = "none"; 
-        document.getElementById('zat-uyari').style.display = "none";
-        if(document.getElementById('oto_ra')) document.getElementById('oto_ra').checked = true; 
-    }
-    
-    function temizleOlay() { 
-        document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); 
-        document.getElementById('edit-olay-id').value = ""; 
-        document.getElementById('olay-cancel-btn').style.display = "none"; 
-        document.getElementById('olay-uyari').style.display = "none";
-    }
+    function temizle() { document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); document.getElementById('edit-id').value = ""; document.getElementById('cancel-btn').style.display = "none"; document.getElementById('zat-uyari').style.display = "none"; if(document.getElementById('oto_ra')) document.getElementById('oto_ra').checked = true; }
+    function temizleOlay() { document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); document.getElementById('edit-olay-id').value = ""; document.getElementById('olay-cancel-btn').style.display = "none"; document.getElementById('olay-uyari').style.display = "none"; }
 
     function aramaYap() {
         const val = document.getElementById('ara').value;
@@ -1190,14 +799,6 @@
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
         btn.classList.add('active-filter');
         aramaYap();
-    }
-
-    function paylas(platform) {
-        const url = encodeURIComponent(window.location.href);
-        const metin = encodeURIComponent("Asr-ı Saadet Portalı'nı incelemelisin! Sahabeler ve tarihi olaylar hakkında harika bir dijital kaynak: ");
-        if(platform === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${metin}&url=${url}`, '_blank');
-        if(platform === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${metin}%20${url}`, '_blank');
-        if(platform === 'email') window.location.href = `mailto:?subject=Asr-ı Saadet Portalı Tavsiyesi&body=${metin} ${url}`;
     }
 </script>
 </body>
