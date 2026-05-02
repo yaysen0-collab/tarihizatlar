@@ -162,40 +162,22 @@
         .kaynak-eser { font-weight: bold; color: #5d4037; font-style: italic; }
         .kaynak-yazar { color: #8d6e63; font-size: 0.95em; }
 
-        /* =========================================
-           YENİ ARŞİV KISMI (MODERN TASARIM VE POPÜLER)
-           ========================================= */
+        /* ARŞİV KISMI */
         .arsiv-arama-kutu { position: relative; margin-bottom: 15px; } 
-        #ara {
-            width: 100%; padding: 18px 20px 18px 50px; font-size: 1.1rem;
-            border: 2px solid #d7ccc8; border-radius: 30px; transition: 0.3s;
-            box-sizing: border-box; background: white; color: #5d4037;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
+        #ara { width: 100%; padding: 18px 20px 18px 50px; font-size: 1.1rem; border: 2px solid #d7ccc8; border-radius: 30px; transition: 0.3s; box-sizing: border-box; background: white; color: #5d4037; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         #ara:focus { border-color: #8d6e63; box-shadow: 0 5px 20px rgba(141, 110, 99, 0.15); outline: none; }
         .arama-ikon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.3rem; color: #999; }
 
-        /* POPÜLER ARAMALAR BUTONLARI */
         .populer-aramalar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 30px; justify-content: center; }
         .populer-btn { background: #f4ece1; color: #5d4037; border: 1px solid #d7ccc8; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; font-weight: bold; }
         .populer-btn:hover { background: #8d6e63; color: white; border-color: #8d6e63; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
-        .arsiv-kart {
-            background: white; margin-bottom: 18px; border-radius: 12px;
-            border: 1px solid #eee; border-left: 6px solid #8d6e63;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: 0.3s;
-            overflow: hidden;
-        }
+        .arsiv-kart { background: white; margin-bottom: 18px; border-radius: 12px; border: 1px solid #eee; border-left: 6px solid #8d6e63; box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: 0.3s; overflow: hidden; }
         .arsiv-kart:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-left-color: #5d4037; }
         
-        details.arsiv-kart summary {
-            padding: 18px 20px; cursor: pointer; outline: none; list-style: none;
-            position: relative; display: flex; justify-content: space-between; align-items: center;
-            background: #fff; transition: 0.3s;
-        }
+        details.arsiv-kart summary { padding: 18px 20px; cursor: pointer; outline: none; list-style: none; position: relative; display: flex; justify-content: space-between; align-items: center; background: #fff; transition: 0.3s; }
         details.arsiv-kart summary::-webkit-details-marker { display: none; }
         details.arsiv-kart[open] summary { background: #faf9f6; border-bottom: 1px solid #eee; }
-        
         details.arsiv-kart summary::after { content: '➕'; font-size: 1.1em; transition: 0.3s; color: #8d6e63; }
         details.arsiv-kart[open] summary::after { content: '➖'; transform: rotate(180deg); color: #5d4037; }
         
@@ -217,6 +199,14 @@
 
         .bilgi-kutusu { background: #fbf8f3; padding: 18px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #d7ccc8; }
         .bilgi-baslik { font-weight: bold; color: #8d6e63; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; font-size: 1.05rem; }
+
+        /* YENİ EKLENEN: BAĞLANTILI TARİH SİSTEMİ CSS */
+        .btn-sistem { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; padding: 10px 18px; border-radius: 25px; font-size: 0.95rem; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; margin-top: 15px; }
+        .btn-sistem:hover { background: #1565c0; color: white; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(21, 101, 192, 0.2); }
+        .sistem-container { margin-top: 15px; padding: 20px; background: #fff; border-radius: 12px; border: 1px solid #bbdefb; border-left: 5px solid #1565c0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 15px; animation: fadeIn 0.4s ease; }
+        .sistem-grup { font-size: 0.95rem; line-height: 1.8; }
+        .sistem-baslik { font-weight: bold; color: #1565c0; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; font-size: 1.05rem; border-bottom: 1px dashed #e3f2fd; padding-bottom: 5px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -266,7 +256,6 @@
             * Kaynaklar akademik eserler ve klasik tarih kitaplarından alınmıştır.
         </p>
 
-        <!-- YENİ EKLENEN ARŞİVİ KEŞFET BUTONU -->
         <div style="text-align: center; margin-bottom: 50px;">
             <button class="nav-btn" onclick="sayfaDegistir('arsiv')" style="background: #5d4037; color: white; font-size: 1.15rem; padding: 12px 25px; border-radius: 30px; box-shadow: 0 4px 15px rgba(93,64,55,0.3); border: 2px solid #5d4037; transition: 0.3s;">🗂️ Tüm Arşivi Keşfet ➔</button>
         </div>
@@ -539,11 +528,9 @@
         
         <div class="arsiv-arama-kutu">
             <span class="arama-ikon">🔍</span>
-            <!-- YENİ: ARAMA KUTUSUNA OTO TAMLAMASI İÇİN EVENTLER EKLENDİ -->
             <input type="text" id="ara" placeholder="İsim veya içerik ara..." onkeyup="aramaYap()" oninput="gosterAramaOto(this)" onfocus="gosterAramaOto(this)" onblur="setTimeout(() => { const k = document.getElementById('arama-oto-kutu'); if(k) k.style.display='none'; }, 250)">
         </div>
 
-        <!-- POPÜLER ARAMALAR ALANI -->
         <div class="populer-aramalar">
             <span style="font-size: 0.85rem; color: #8d6e63; font-weight: bold; margin-right: 5px;">🔥 Popüler:</span>
             <button class="populer-btn" onclick="document.getElementById('ara').value='Ebu Bekir'; aramaYap();">Ebu Bekir</button>
@@ -674,9 +661,7 @@
     </div>
 </footer>
 
-<!-- Yönetim panelindeki otoyazım kutusu -->
 <div id="oto-kutu" class="oto-liste"></div>
-<!-- YENİ: Arşiv arama çubuğu için otoyazım kutusu -->
 <div id="arama-oto-kutu" class="oto-liste" style="z-index: 10000;"></div>
 
 <script>
@@ -721,7 +706,6 @@
             }
         });
         
-        // YENİ: Scroll olunca her iki oto-tamamlama kutusunu da gizle
         window.addEventListener('scroll', () => { 
             const kutu = document.getElementById('oto-kutu');
             if(kutu) kutu.style.display = 'none'; 
@@ -771,21 +755,90 @@
         }, 300); 
     }
 
-    // YENİ EKLENEN ANA ARAMA KUTUSU OTO TAMAMLAMA FONKSİYONU
+    // YENİ EKLENEN: BAĞLANTILI TARİH SİSTEMİ ÇALIŞTIRICI FONKSİYONU
+    function baglantilariYukle(id, btnId) {
+        const btn = document.getElementById(btnId);
+        const kutu = document.getElementById('baglanti-kutu-' + id);
+
+        if (kutu.style.display === 'flex') {
+            kutu.style.display = 'none';
+            btn.innerHTML = '🌐 Bağlantılı Tarih Sistemini Aç';
+            return;
+        }
+
+        const z = veriler.find(v => v.id === id);
+        if(!z) return;
+
+        const kisaIsim = z.isim.split('(')[0].trim();
+
+        // 1. İlgili Olaylar
+        const ilgiliOlaylar = olaylar.filter(o => (o.bilgi || "").includes(kisaIsim) || (o.ad || "").includes(kisaIsim));
+
+        // 2. İlgili Kişiler (Metin içinde birbirini ananlar)
+        const ilgiliKisiler = veriler.filter(v => v.id !== z.id && (((v.bilgi || "").includes(kisaIsim)) || ((z.bilgi || "").includes(v.isim.split('(')[0].trim()))));
+
+        // 3. Aynı Dönemde Yaşayanlar (Matematiksel Miladi Kesişim)
+        let zd = parseInt(z.d_miladi);
+        let zv = parseInt(z.v_miladi);
+        let donemdaslar = [];
+        if(!isNaN(zd) && !isNaN(zv)) {
+            donemdaslar = veriler.filter(v => {
+                if(v.id === z.id) return false;
+                let vd = parseInt(v.d_miladi); let vv = parseInt(v.v_miladi);
+                if(isNaN(vd) || isNaN(vv)) return false;
+                return (zd <= vv && zv >= vd);
+            }).slice(0, 15); // Sayfa donmasın ve çok uzun olmasın diye maksimum 15 kişi
+        }
+
+        // 4. Soy Bağlantıları 
+        let soyBaglari = [];
+        if(z.baba && z.baba !== "?") soyBaglari.push(`Baba: <span class="smart-link" onclick="arsiveGitVeBul('${z.baba.replace(/'/g, "\\'")}')">${z.baba}</span>`);
+        if(z.anne && z.anne !== "?") soyBaglari.push(`Anne: <span class="smart-link" onclick="arsiveGitVeBul('${z.anne.replace(/'/g, "\\'")}')">${z.anne}</span>`);
+        if(z.es && z.es !== "?") { z.es.split(',').forEach(e => soyBaglari.push(`Eş: <span class="smart-link" onclick="arsiveGitVeBul('${e.trim().replace(/'/g, "\\'")}')">${e.trim()}</span>`)); }
+        if(z.baglar && z.baglar !== "?") { z.baglar.split(',').forEach(b => soyBaglari.push(`Akraba: <span class="smart-link" onclick="arsiveGitVeBul('${b.split('(')[0].trim().replace(/'/g, "\\'")}')">${b.trim()}</span>`)); }
+
+        let html = '';
+
+        if(soyBaglari.length > 0) {
+            html += `<div class="sistem-grup"><div class="sistem-baslik">🌳 Soy ve Aile Bağları</div><div>${soyBaglari.join(' • ')}</div></div>`;
+        }
+
+        if(ilgiliKisiler.length > 0) {
+            let kisilerHtml = ilgiliKisiler.map(k => `<span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span>`).join(', ');
+            html += `<div class="sistem-grup"><div class="sistem-baslik">👥 İlgili Kişiler (Metinlerde Kesişenler)</div><div>${kisilerHtml}</div></div>`;
+        }
+
+        if(ilgiliOlaylar.length > 0) {
+            let olaylarHtml = ilgiliOlaylar.map(o => `<span class="smart-link" onclick="olayOku('${o.id}')">${o.ad}</span>`).join(', ');
+            html += `<div class="sistem-grup"><div class="sistem-baslik">⚔️ İlgili Olaylar ve Savaşlar</div><div>${olaylarHtml}</div></div>`;
+        }
+
+        if(donemdaslar.length > 0) {
+            let donemHtml = donemdaslar.map(k => `<span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span>`).join(', ');
+            html += `<div class="sistem-grup"><div class="sistem-baslik">⏳ Aynı Dönemde Yaşayanlar (Tarihsel Kesişim)</div><div>${donemHtml}</div></div>`;
+        }
+
+        if(html === '') {
+            html = '<div style="color:#999; font-style:italic; font-size:0.95rem;">Şu an için sistemde yeterli kesişim verisi bulunamadı.</div>';
+        }
+
+        kutu.innerHTML = html;
+        kutu.style.display = 'flex';
+        btn.innerHTML = '🌐 Bağlantılı Tarih Sistemini Kapat';
+    }
+
     function gosterAramaOto(inp) {
         const val = inp.value.toLocaleLowerCase('tr').trim();
         const kutu = document.getElementById('arama-oto-kutu');
         
-        // En az 2 harf girilmesini bekle
         if (val.length < 2) { kutu.style.display = 'none'; return; }
 
         let html = '';
         let count = 0;
 
-        // Şahsiyetler içinde ara
         if (aktifFiltre === 'tumu' || aktifFiltre === 'zat') {
             veriler.forEach(v => {
-                if(count > 8) return; // Maksimum 8 kişi
+                if(count > 8) return;
                 if((v.isim || "").toLocaleLowerCase('tr').includes(val)) {
                     html += `<div onclick="document.getElementById('ara').value = '${v.isim.replace(/'/g, "\\'")}'; document.getElementById('arama-oto-kutu').style.display='none'; aramaYap();">👤 ${v.isim}</div>`;
                     count++;
@@ -793,10 +846,9 @@
             });
         }
 
-        // Olaylar içinde ara
         if (aktifFiltre === 'tumu' || aktifFiltre === 'olay') {
             olaylar.forEach(o => {
-                if(count > 15) return; // Toplam maksimum 15 öneri
+                if(count > 15) return;
                 if((o.ad || "").toLocaleLowerCase('tr').includes(val)) {
                     html += `<div onclick="document.getElementById('ara').value = '${o.ad.replace(/'/g, "\\'")}'; document.getElementById('arama-oto-kutu').style.display='none'; aramaYap();">📜 ${o.ad}</div>`;
                     count++;
@@ -994,6 +1046,13 @@
             
             let bilgiHTML = (z.bilgi && z.bilgi.trim() !== "" && z.bilgi.trim() !== "?") ? `<div class="bilgi-kutusu"><div class="bilgi-baslik">📜 Hakkında</div><p style="margin:0; line-height:1.6;">${z.bilgi}</p></div>` : "";
             
+            // YENİ EKLENEN: Dinamik Sistem Butonu
+            let sistemButonu = `
+            <div style="margin-top: 20px;">
+                <button id="btn-bag-${z.id}" onclick="baglantilariYukle('${z.id}', 'btn-bag-${z.id}')" class="btn-sistem">🌐 Bağlantılı Tarih Sistemini Aç</button>
+                <div id="baglanti-kutu-${z.id}" class="sistem-container" style="display:none;"></div>
+            </div>`;
+
             aHtml += `
             <details class="arsiv-kart search-item arsiv-detay" data-search="${aramaMetni}" data-type="zat">
                 <summary>
@@ -1006,6 +1065,7 @@
                     ${tarihHTML}
                     ${babaEki}${anneEki}${esEki}${baglarEki}
                     ${bilgiHTML}
+                    ${sistemButonu}
                 </div>
             </details>`;
         });
