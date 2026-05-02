@@ -49,7 +49,7 @@
         .home-stat-num { display: block; font-size: 2.8rem; font-weight: bold; color: #5d4037; font-family: 'Georgia', serif; line-height: 1; margin-bottom: 8px; }
         .home-stat-label { display: block; font-size: 0.85rem; color: #8d6e63; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* YENİ: MİNİ ZAMAN ÇİZELGESİ (YATAY KAYDIRMALI) */
+        /* MİNİ ZAMAN ÇİZELGESİ (YATAY KAYDIRMALI) */
         .mini-timeline-container {
             display: flex; gap: 15px; overflow-x: auto; padding: 10px 5px 20px 5px; margin-bottom: 15px;
             scroll-snap-type: x mandatory; scroll-behavior: smooth;
@@ -128,7 +128,7 @@
         
         .oto-liste {
             position: absolute; display: none; background: #fff; border: 1px solid #d7ccc8;
-            max-height: 160px; overflow-y: auto; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            max-height: 250px; overflow-y: auto; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.15);
             border-radius: 6px; font-size: 0.95rem; font-family: sans-serif; box-sizing: border-box;
         }
         .oto-liste div { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #eee; color: #5d4037; transition: 0.2s; }
@@ -266,7 +266,7 @@
             * Kaynaklar akademik eserler ve klasik tarih kitaplarından alınmıştır.
         </p>
 
-        <!-- YENİ MİNİ ZAMAN ÇİZELGESİ VİTRİNİ -->
+        <!-- MİNİ ZAMAN ÇİZELGESİ VİTRİNİ -->
         <h2 style="text-align: center; color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">⏳ Mini Zaman Çizelgesi</h2>
         <div class="mini-timeline-container" id="home-mini-timeline">
             <!-- Dinamik doldurulacak -->
@@ -442,6 +442,14 @@
             
             <div class="surum-item">
                 <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v1.6.0 - Akıllı Arama Kutusu</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Arşivdeki ana arama çubuğuna, yazarken anında kişileri ve olayları getiren akıllı önerme sistemi eklendi.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
                 <h3 class="surum-baslik">v1.5.0 - Ana Sayfa Mini Zaman Çizelgesi</h3>
                 <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
                     <li>Ziyaretçilerin hızlı bir şekilde tarihi bir kesiti görebilmesi için ana sayfaya kaydırılabilir "Mini Zaman Çizelgesi" eklendi.</li>
@@ -457,15 +465,6 @@
                     <li>Doğum, vefat ve yaş bilgileri özel renkli rozetler (badge) haline getirildi.</li>
                     <li>Hiyerarşik bilgilerin tamamına (Anne, Baba, Eş vb.) anlamlı ikonlar eklendi.</li>
                     <li>Arama çubuğu ve filtreleme menüsü çok daha estetik bir forma kavuşturuldu.</li>
-                </ul>
-            </div>
-
-            <div class="surum-item">
-                <div class="surum-tarih">Mayıs 2026</div>
-                <h3 class="surum-baslik">v1.3.4 - Rastgele Şahsiyet Özelliği</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Kullanıcıların yeni bilgiler keşfetmesi için sisteme "Rastgele Şahsiyet" kura butonu eklendi.</li>
-                    <li>Akıllı filtreleme ile sadece detaylı bilgi girişi yapılmış zatların kurada çıkması sağlandı.</li>
                 </ul>
             </div>
         </div>
@@ -535,7 +534,8 @@
         
         <div class="arsiv-arama-kutu">
             <span class="arama-ikon">🔍</span>
-            <input type="text" id="ara" placeholder="İsim veya içerik ara..." onkeyup="aramaYap()">
+            <!-- YENİ: ARAMA KUTUSUNA OTO TAMLAMASI İÇİN EVENTLER EKLENDİ -->
+            <input type="text" id="ara" placeholder="İsim veya içerik ara..." onkeyup="aramaYap()" oninput="gosterAramaOto(this)" onfocus="gosterAramaOto(this)" onblur="setTimeout(() => { const k = document.getElementById('arama-oto-kutu'); if(k) k.style.display='none'; }, 250)">
         </div>
 
         <!-- POPÜLER ARAMALAR ALANI -->
@@ -669,7 +669,10 @@
     </div>
 </footer>
 
+<!-- Yönetim panelindeki otoyazım kutusu -->
 <div id="oto-kutu" class="oto-liste"></div>
+<!-- YENİ: Arşiv arama çubuğu için otoyazım kutusu -->
+<div id="arama-oto-kutu" class="oto-liste" style="z-index: 10000;"></div>
 
 <script>
     const firebaseConfig = {
@@ -712,9 +715,13 @@
                 }, 250));
             }
         });
+        
+        // YENİ: Scroll olunca her iki oto-tamamlama kutusunu da gizle
         window.addEventListener('scroll', () => { 
             const kutu = document.getElementById('oto-kutu');
             if(kutu) kutu.style.display = 'none'; 
+            const aKutu = document.getElementById('arama-oto-kutu');
+            if(aKutu) aKutu.style.display = 'none';
         });
     };
 
@@ -759,6 +766,49 @@
         }, 300); 
     }
 
+    // YENİ EKLENEN ANA ARAMA KUTUSU OTO TAMAMLAMA FONKSİYONU
+    function gosterAramaOto(inp) {
+        const val = inp.value.toLocaleLowerCase('tr').trim();
+        const kutu = document.getElementById('arama-oto-kutu');
+        
+        // En az 2 harf girilmesini bekle
+        if (val.length < 2) { kutu.style.display = 'none'; return; }
+
+        let html = '';
+        let count = 0;
+
+        // Şahsiyetler içinde ara
+        if (aktifFiltre === 'tumu' || aktifFiltre === 'zat') {
+            veriler.forEach(v => {
+                if(count > 8) return; // Maksimum 8 kişi
+                if((v.isim || "").toLocaleLowerCase('tr').includes(val)) {
+                    html += `<div onclick="document.getElementById('ara').value = '${v.isim.replace(/'/g, "\\'")}'; document.getElementById('arama-oto-kutu').style.display='none'; aramaYap();">👤 ${v.isim}</div>`;
+                    count++;
+                }
+            });
+        }
+
+        // Olaylar içinde ara
+        if (aktifFiltre === 'tumu' || aktifFiltre === 'olay') {
+            olaylar.forEach(o => {
+                if(count > 15) return; // Toplam maksimum 15 öneri
+                if((o.ad || "").toLocaleLowerCase('tr').includes(val)) {
+                    html += `<div onclick="document.getElementById('ara').value = '${o.ad.replace(/'/g, "\\'")}'; document.getElementById('arama-oto-kutu').style.display='none'; aramaYap();">📜 ${o.ad}</div>`;
+                    count++;
+                }
+            });
+        }
+
+        if(html === '') { kutu.style.display = 'none'; return; }
+        
+        kutu.innerHTML = html;
+        const rect = inp.getBoundingClientRect();
+        kutu.style.left = (rect.left + window.scrollX) + 'px';
+        kutu.style.top = (rect.bottom + window.scrollY) + 'px';
+        kutu.style.width = rect.width + 'px';
+        kutu.style.display = 'block';
+    }
+
     function gosterOto(inp) {
         const val = inp.value.toLocaleLowerCase('tr');
         let html = '';
@@ -766,7 +816,7 @@
         veriler.forEach(v => {
             if(count > 40) return;
             if(v.isim.toLocaleLowerCase('tr').includes(val)) {
-                html += `<div onclick="document.getElementById('${inp.id}').value = '${v.isim}'; document.getElementById('oto-kutu').style.display='none';">${v.isim}</div>`;
+                html += `<div onclick="document.getElementById('${inp.id}').value = '${v.isim.replace(/'/g, "\\'")}'; document.getElementById('oto-kutu').style.display='none';">${v.isim}</div>`;
                 count++;
             }
         });
@@ -1028,16 +1078,13 @@
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
         
-        // ANA ZAMAN ÇİZELGESİ LİSTESİ
         cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: <span class="smart-link" onclick="arsiveGitVeBul('${i.ad.replace(/'/g, "\\'")}')">${i.ad}</span> <small>[${i.t}]</small></div>`).join('');
 
-        // YENİ: MİNİ ZAMAN ÇİZELGESİ (ANA SAYFA İÇİN)
         const homeMiniTimeline = document.getElementById('home-mini-timeline');
         if (homeMiniTimeline) {
             if (bil.length === 0) {
                 homeMiniTimeline.innerHTML = `<p style="text-align: center; width: 100%; color: #999; font-style: italic;">Henüz tarihli veri bulunmuyor.</p>`;
             } else {
-                // Ana sayfa için veritabanındaki en eski ilk 12 kaydı çekiyoruz
                 const miniData = bil.slice(0, 12);
                 homeMiniTimeline.innerHTML = miniData.map(i => `
                     <div class="mini-timeline-kart">
