@@ -161,6 +161,7 @@
         <button class="nav-btn" onclick="sayfaDegistir('arsiv')">Arşiv & Olaylar</button>
         <button class="nav-btn" onclick="sayfaDegistir('cizelge')">Çizelge</button>
         <button class="nav-btn" onclick="sayfaDegistir('soy')">Soyağacı</button>
+        <button class="nav-btn" onclick="rastgeleSahsiyet()" style="background: #d84315; color: white;">🎲 Rastgele Şahsiyet</button>
         <button class="nav-btn" id="nav-admin-btn" style="display:none; background:#1565c0;" onclick="sayfaDegistir('admin')">⚙️ Panel</button>
     </div>
     <div class="header-search">
@@ -364,6 +365,15 @@
         <div class="admin-dashboard" style="background: #faf9f6;">
             <h2 style="color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; text-align: center;">🚀 Sürüm Notları ve Güncellemeler</h2>
             
+            <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v1.3.4 - Rastgele Şahsiyet Özelliği</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Kullanıcıların yeni bilgiler keşfetmesi için sisteme "Rastgele Şahsiyet" kura butonu eklendi.</li>
+                    <li>Akıllı filtreleme ile sadece detaylı bilgi girişi yapılmış zatların kurada çıkması sağlandı.</li>
+                </ul>
+            </div>
+
             <div class="surum-item">
                 <div class="surum-tarih">Mayıs 2026</div>
                 <h3 class="surum-baslik">v1.3.3 - Dinamik Olay Okuma ve Vitrin</h3>
@@ -681,6 +691,35 @@
         sayfaDegistir('arsiv');
         document.getElementById('ara').value = temizIsim;
         aramaYap();
+    }
+
+    // YENİ EKLENEN RASTGELE ŞAHSİYET FONKSİYONU
+    function rastgeleSahsiyet() {
+        // Sadece bilgi kısmı boş olmayanları seç
+        const doluZatlar = veriler.filter(z => z.bilgi && z.bilgi.trim() !== "" && z.bilgi.trim() !== "?");
+        
+        if (doluZatlar.length === 0) {
+            alert("Henüz detaylı bilgi girilmiş bir şahsiyet bulunmuyor.");
+            return;
+        }
+        
+        // Rastgele indeks seçimi
+        const rastgeleIndex = Math.floor(Math.random() * doluZatlar.length);
+        const secilen = doluZatlar[rastgeleIndex];
+        
+        // Önce arşive git ve kişiyi bul (bunu zaten kullanıyorduk)
+        arsiveGitVeBul(secilen.isim);
+        
+        // DOM güncellendikten hemen sonra o kişinin kutusunu bul, aç ve ekrana ortala
+        setTimeout(() => {
+            const elements = document.querySelectorAll('.arsiv-detay');
+            elements.forEach(el => {
+                if (el.style.display !== 'none' && el.querySelector('summary').innerText.includes(secilen.isim.split('(')[0].trim())) {
+                    el.open = true; // Kutuyu aç
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Ekranı oraya kaydır
+                }
+            });
+        }, 300); // Ekranın çizilmesi için ufak bir bekleme süresi
     }
 
     function gosterOto(inp) {
