@@ -142,9 +142,9 @@
         .kaynak-yazar { color: #8d6e63; font-size: 0.95em; }
 
         /* =========================================
-           YENİ ARŞİV KISMI (MODERN TASARIM)
+           YENİ ARŞİV KISMI (MODERN TASARIM VE POPÜLER)
            ========================================= */
-        .arsiv-arama-kutu { position: relative; margin-bottom: 30px; }
+        .arsiv-arama-kutu { position: relative; margin-bottom: 15px; } /* Boşluk azaltıldı ki popüler butonlara yer açılsın */
         #ara {
             width: 100%; padding: 18px 20px 18px 50px; font-size: 1.1rem;
             border: 2px solid #d7ccc8; border-radius: 30px; transition: 0.3s;
@@ -153,6 +153,11 @@
         }
         #ara:focus { border-color: #8d6e63; box-shadow: 0 5px 20px rgba(141, 110, 99, 0.15); outline: none; }
         .arama-ikon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.3rem; color: #999; }
+
+        /* POPÜLER ARAMALAR BUTONLARI */
+        .populer-aramalar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 30px; justify-content: center; }
+        .populer-btn { background: #f4ece1; color: #5d4037; border: 1px solid #d7ccc8; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .populer-btn:hover { background: #8d6e63; color: white; border-color: #8d6e63; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
         .arsiv-kart {
             background: white; margin-bottom: 18px; border-radius: 12px;
@@ -503,6 +508,17 @@
         <div class="arsiv-arama-kutu">
             <span class="arama-ikon">🔍</span>
             <input type="text" id="ara" placeholder="İsim veya içerik ara..." onkeyup="aramaYap()">
+        </div>
+
+        <!-- POPÜLER ARAMALAR ALANI -->
+        <div class="populer-aramalar">
+            <span style="font-size: 0.85rem; color: #8d6e63; font-weight: bold; margin-right: 5px;">🔥 Popüler:</span>
+            <button class="populer-btn" onclick="document.getElementById('ara').value='Ebu Bekir'; aramaYap();">Ebu Bekir</button>
+            <button class="populer-btn" onclick="document.getElementById('ara').value='Ömer'; aramaYap();">Ömer</button>
+            <button class="populer-btn" onclick="document.getElementById('ara').value='Ali'; aramaYap();">Ali</button>
+            <button class="populer-btn" onclick="document.getElementById('ara').value='Hatice'; aramaYap();">Hatice</button>
+            <button class="populer-btn" onclick="document.getElementById('ara').value='Bedir'; aramaYap();">Bedir</button>
+            <button class="populer-btn" onclick="document.getElementById('ara').value='Uhud'; aramaYap();">Uhud</button>
         </div>
         
         <div id="arsivList"></div>
