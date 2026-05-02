@@ -49,6 +49,27 @@
         .home-stat-num { display: block; font-size: 2.8rem; font-weight: bold; color: #5d4037; font-family: 'Georgia', serif; line-height: 1; margin-bottom: 8px; }
         .home-stat-label { display: block; font-size: 0.85rem; color: #8d6e63; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* YENİ: MİNİ ZAMAN ÇİZELGESİ (YATAY KAYDIRMALI) */
+        .mini-timeline-container {
+            display: flex; gap: 15px; overflow-x: auto; padding: 10px 5px 20px 5px; margin-bottom: 15px;
+            scroll-snap-type: x mandatory; scroll-behavior: smooth;
+        }
+        .mini-timeline-container::-webkit-scrollbar { height: 8px; }
+        .mini-timeline-container::-webkit-scrollbar-track { background: #f4ece1; border-radius: 4px; }
+        .mini-timeline-container::-webkit-scrollbar-thumb { background: #d7ccc8; border-radius: 4px; }
+        .mini-timeline-container::-webkit-scrollbar-thumb:hover { background: #8d6e63; }
+        
+        .mini-timeline-kart {
+            min-width: 220px; max-width: 250px; background: white; border-radius: 12px; padding: 18px;
+            border-top: 4px solid #8d6e63; box-shadow: 0 4px 10px rgba(0,0,0,0.05); scroll-snap-align: start;
+            flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between;
+            transition: 0.3s;
+        }
+        .mini-timeline-kart:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); border-top-color: #5d4037; }
+        .mini-timeline-yil { font-weight: bold; color: #5d4037; font-size: 1.3rem; border-bottom: 1px dashed #eee; padding-bottom: 8px; margin-bottom: 10px; font-family: 'Georgia', serif; }
+        .mini-timeline-isim { color: #444; font-size: 1rem; line-height: 1.4; font-weight: bold; }
+        .mini-timeline-tur { font-size: 0.75rem; color: #999; margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+
         /* MAKALE VE OLAY KARTLARI */
         .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .article-card { background: white; padding: 25px; border-radius: 12px; cursor: pointer; border-top: 6px solid #5d4037; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
@@ -144,7 +165,7 @@
         /* =========================================
            YENİ ARŞİV KISMI (MODERN TASARIM VE POPÜLER)
            ========================================= */
-        .arsiv-arama-kutu { position: relative; margin-bottom: 15px; } /* Boşluk azaltıldı ki popüler butonlara yer açılsın */
+        .arsiv-arama-kutu { position: relative; margin-bottom: 15px; } 
         #ara {
             width: 100%; padding: 18px 20px 18px 50px; font-size: 1.1rem;
             border: 2px solid #d7ccc8; border-radius: 30px; transition: 0.3s;
@@ -244,6 +265,15 @@
         <p style="text-align: center; font-style: italic; color: #8d6e63; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;">
             * Kaynaklar akademik eserler ve klasik tarih kitaplarından alınmıştır.
         </p>
+
+        <!-- YENİ MİNİ ZAMAN ÇİZELGESİ VİTRİNİ -->
+        <h2 style="text-align: center; color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">⏳ Mini Zaman Çizelgesi</h2>
+        <div class="mini-timeline-container" id="home-mini-timeline">
+            <!-- Dinamik doldurulacak -->
+        </div>
+        <div style="text-align: center; margin-bottom: 40px;">
+            <button class="nav-btn" onclick="sayfaDegistir('cizelge')" style="background: #f4ece1; color: #5d4037; border: 1px solid #d7ccc8;">Tüm Çizelgeyi Gör ➔</button>
+        </div>
 
         <h2 style="text-align: center; color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">📜 Son Eklenen Tarihi Olaylar</h2>
         <div class="article-grid" id="home-olaylar-grid">
@@ -412,6 +442,15 @@
             
             <div class="surum-item">
                 <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v1.5.0 - Ana Sayfa Mini Zaman Çizelgesi</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Ziyaretçilerin hızlı bir şekilde tarihi bir kesiti görebilmesi için ana sayfaya kaydırılabilir "Mini Zaman Çizelgesi" eklendi.</li>
+                    <li>Sitenin en altına Firebase'i yormayan, güvenli ve otomatik ziyaretçi sayacı rozeti entegre edildi.</li>
+                </ul>
+            </div>
+
+            <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
                 <h3 class="surum-baslik">v1.4.0 - Modern Arşiv Tasarımı</h3>
                 <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
                     <li>Arşiv listesi tamamen yenilendi. Kullanıcı deneyimi yüksek "Modern Kart" tasarımına geçildi.</li>
@@ -429,17 +468,6 @@
                     <li>Akıllı filtreleme ile sadece detaylı bilgi girişi yapılmış zatların kurada çıkması sağlandı.</li>
                 </ul>
             </div>
-
-            <div class="surum-item">
-                <div class="surum-tarih">Mayıs 2026</div>
-                <h3 class="surum-baslik">v1.3.3 - Dinamik Olay Okuma ve Vitrin</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Olayların detaylı ve uzun makaleler şeklinde okunabilmesi için "Akıllı Okuma Sayfası" altyapısı geliştirildi.</li>
-                    <li>Sisteme yeni eklenen son 3 olayın anında görüntülendiği "Son Eklenen Tarihi Olaylar" vitrini ana sayfaya entegre edildi.</li>
-                    <li>Arşivdeki kartlara 7 gün boyunca otomatik olarak kendini imha eden "YENİ" rozeti sistemi eklendi.</li>
-                </ul>
-            </div>
-            
         </div>
     </div>
 
@@ -495,7 +523,7 @@
         </div>
     </div>
 
-    <!-- YENİLENEN ARŞİV VE OLAYLAR SAYFASI -->
+    <!-- ARŞİV VE OLAYLAR SAYFASI -->
     <div id="arsiv" class="page">
         <h2 style="color: #5d4037; text-align: center; margin-bottom: 25px; font-family: 'Georgia', serif;">📚 Arşiv ve Olaylar</h2>
         
@@ -629,7 +657,6 @@
     <div class="footer-bottom">
         <div>&copy; 2026 Asrı Saadet Portalı. Tüm hakları saklıdır. &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="sayfaDegistir('gizlilik')">Gizlilik Politikası</a></div>
         
-        <!-- YENİ EKLENEN ZİYARETÇİ SAYACI -->
         <div style="display:flex; align-items:center;" title="Toplam Site Ziyareti">
             <img src="https://hits.sh/tarihizatlar.firebaseapp.com.svg?style=flat-square&label=Toplam%20Ziyaret&color=8d6e63&labelColor=5d4037" alt="Ziyaretçi Sayacı" style="border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         </div>
@@ -1000,7 +1027,29 @@
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
+        
+        // ANA ZAMAN ÇİZELGESİ LİSTESİ
         cizelge.innerHTML = bil.map(i => `<div class="data-box"${i.t === 'Olay' ? ' style="border-left-color: #8d6e63; background-color: #fbf8f3;"' : ''}><b>M. ${i.s}</b>: <span class="smart-link" onclick="arsiveGitVeBul('${i.ad.replace(/'/g, "\\'")}')">${i.ad}</span> <small>[${i.t}]</small></div>`).join('');
+
+        // YENİ: MİNİ ZAMAN ÇİZELGESİ (ANA SAYFA İÇİN)
+        const homeMiniTimeline = document.getElementById('home-mini-timeline');
+        if (homeMiniTimeline) {
+            if (bil.length === 0) {
+                homeMiniTimeline.innerHTML = `<p style="text-align: center; width: 100%; color: #999; font-style: italic;">Henüz tarihli veri bulunmuyor.</p>`;
+            } else {
+                // Ana sayfa için veritabanındaki en eski ilk 12 kaydı çekiyoruz
+                const miniData = bil.slice(0, 12);
+                homeMiniTimeline.innerHTML = miniData.map(i => `
+                    <div class="mini-timeline-kart">
+                        <div>
+                            <div class="mini-timeline-yil">M. ${i.s}</div>
+                            <div class="mini-timeline-isim"><span class="smart-link" onclick="arsiveGitVeBul('${i.ad.replace(/'/g, "\\'")}')">${i.ad}</span></div>
+                        </div>
+                        <div class="mini-timeline-tur">${i.t === 'Olay' ? '📜 Tarihi Olay' : '👤 Şahsiyet Doğumu'}</div>
+                    </div>
+                `).join('');
+            }
+        }
 
         const gruplar = {};
         veriler.forEach(z => { 
