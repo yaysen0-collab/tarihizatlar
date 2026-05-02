@@ -75,8 +75,9 @@
         .article-card { background: white; padding: 25px; border-radius: 12px; cursor: pointer; border-top: 6px solid #5d4037; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
         .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top-color: #8d6e63; }
         
-        .card-meta-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .card-meta-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 5px;}
         .category-tag { background: #f4ece1; color: #5d4037; font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
+        .devir-tag { background: #e3f2fd; color: #1565c0; font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; border: 1px solid #bbdefb;}
         .new-badge { background: #d32f2f; color: white; font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px; }
         .card-meta-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px; }
         .read-time { font-size: 0.85rem; color: #999; display: inline-flex; align-items: center; gap: 5px; font-weight: bold; }
@@ -92,9 +93,10 @@
         .back-btn { background: #8d6e63; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 5px; }
         .back-btn:hover { background: #5d4037; }
 
-        .filter-container { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; flex-wrap: wrap; }
-        .filter-btn { background: #d7ccc8; color: #5d4037; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+        .filter-container { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; flex-wrap: wrap; }
+        .filter-btn { background: #d7ccc8; color: #5d4037; border: none; padding: 10px 18px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
         .filter-btn.active-filter { background: #5d4037; color: white; box-shadow: 0 4px 10px rgba(93, 64, 55, 0.3); }
+        .devir-btn.active-filter { background: #1565c0; color: white; box-shadow: 0 4px 10px rgba(21, 101, 192, 0.3); }
         
         .admin-section { background: #e7e5e4; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; font-size: 15px; }
@@ -147,21 +149,6 @@
         .footer-bottom a { color: #8d6e63; text-decoration: none; margin-left: 15px; transition: 0.2s; }
         .footer-bottom a:hover { color: #5d4037; font-weight: bold; }
 
-        /* SSS VE DİĞER SAYFA BİÇİMLENDİRMELERİ İÇİN */
-        .sss-item { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .sss-item strong { color: #5d4037; display: block; margin-bottom: 5px; font-size: 1.05rem; }
-        .contact-form { display: flex; flex-direction: column; gap: 15px; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid #d7ccc8; border-radius: 8px; background: #faf9f6; font-size: 1rem; color: #333; box-sizing: border-box; }
-        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #8d6e63; background: #fff; }
-        .surum-item { margin-bottom: 25px; border-left: 4px solid #8d6e63; padding-left: 20px; background: #fff; padding-top: 15px; padding-bottom: 15px; padding-right: 15px; border-radius: 0 8px 8px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .surum-tarih { font-size: 0.9rem; color: #999; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .surum-baslik { color: #5d4037; margin: 0 0 10px 0; font-size: 1.2rem; }
-        .kaynakca-liste { list-style: none; padding-left: 0; margin-top: 5px; }
-        .kaynakca-liste li { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d7ccc8; color: #444; }
-        .kaynakca-liste li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .kaynak-eser { font-weight: bold; color: #5d4037; font-style: italic; }
-        .kaynak-yazar { color: #8d6e63; font-size: 0.95em; }
-
         /* ARŞİV KISMI */
         .arsiv-arama-kutu { position: relative; margin-bottom: 15px; } 
         #ara { width: 100%; padding: 18px 20px 18px 50px; font-size: 1.1rem; border: 2px solid #d7ccc8; border-radius: 30px; transition: 0.3s; box-sizing: border-box; background: white; color: #5d4037; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
@@ -200,7 +187,7 @@
         .bilgi-kutusu { background: #fbf8f3; padding: 18px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #d7ccc8; }
         .bilgi-baslik { font-weight: bold; color: #8d6e63; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; font-size: 1.05rem; }
 
-        /* YENİ EKLENEN: BAĞLANTILI TARİH SİSTEMİ CSS */
+        /* BAĞLANTILI TARİH SİSTEMİ CSS */
         .btn-sistem { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; padding: 10px 18px; border-radius: 25px; font-size: 0.95rem; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; margin-top: 15px; }
         .btn-sistem:hover { background: #1565c0; color: white; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(21, 101, 192, 0.2); }
         .sistem-container { margin-top: 15px; padding: 20px; background: #fff; border-radius: 12px; border: 1px solid #bbdefb; border-left: 5px solid #1565c0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 15px; animation: fadeIn 0.4s ease; }
@@ -436,29 +423,18 @@
             
             <div class="surum-item">
                 <div class="surum-tarih">Mayıs 2026</div>
+                <h3 class="surum-baslik">v2.0.0 - Devirler Sistemi ve Bağlantılı Tarih</h3>
+                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
+                    <li>Arşive Devirler Sistemi eklendi (Hulefâ-yi Râşidîn, Emeviler vb.). Eski veriler otomatik Asr-ı Saadet'e taşındı.</li>
+                    <li>Şahsiyet kartlarına yapay zeka mantığıyla çalışan "Bağlantılı Tarih Sistemi" entegre edildi.</li>
+                </ul>
+            </div>
+            
+            <div class="surum-item">
+                <div class="surum-tarih">Mayıs 2026</div>
                 <h3 class="surum-baslik">v1.6.0 - Akıllı Arama Kutusu</h3>
                 <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
                     <li>Arşivdeki ana arama çubuğuna, yazarken anında kişileri ve olayları getiren akıllı önerme sistemi eklendi.</li>
-                </ul>
-            </div>
-
-            <div class="surum-item">
-                <div class="surum-tarih">Mayıs 2026</div>
-                <h3 class="surum-baslik">v1.5.0 - Ana Sayfa Mini Zaman Çizelgesi</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Ziyaretçilerin hızlı bir şekilde tarihi bir kesiti görebilmesi için ana sayfaya kaydırılabilir "Mini Zaman Çizelgesi" eklendi.</li>
-                    <li>Sitenin en altına Firebase'i yormayan, güvenli ve otomatik ziyaretçi sayacı rozeti entegre edildi.</li>
-                </ul>
-            </div>
-
-            <div class="surum-item">
-                <div class="surum-tarih">Mayıs 2026</div>
-                <h3 class="surum-baslik">v1.4.0 - Modern Arşiv Tasarımı</h3>
-                <ul style="margin: 0; padding-left: 20px; color: #444; line-height: 1.6;">
-                    <li>Arşiv listesi tamamen yenilendi. Kullanıcı deneyimi yüksek "Modern Kart" tasarımına geçildi.</li>
-                    <li>Doğum, vefat ve yaş bilgileri özel renkli rozetler (badge) haline getirildi.</li>
-                    <li>Hiyerarşik bilgilerin tamamına (Anne, Baba, Eş vb.) anlamlı ikonlar eklendi.</li>
-                    <li>Arama çubuğu ve filtreleme menüsü çok daha estetik bir forma kavuşturuldu.</li>
                 </ul>
             </div>
         </div>
@@ -520,10 +496,20 @@
     <div id="arsiv" class="page">
         <h2 style="color: #5d4037; text-align: center; margin-bottom: 25px; font-family: 'Georgia', serif;">📚 Arşiv ve Olaylar</h2>
         
+        <!-- YENİ: ÇİFT KADEMELİ FİLTRE SİSTEMİ -->
         <div class="filter-container">
             <button class="filter-btn active-filter" onclick="filtreDegistir('tumu', this)">🗂️ Tümü</button>
             <button class="filter-btn" onclick="filtreDegistir('zat', this)">👤 Şahsiyetler</button>
             <button class="filter-btn" onclick="filtreDegistir('olay', this)">📜 Tarihi Olaylar</button>
+        </div>
+        
+        <div class="filter-container" style="margin-top: -5px; margin-bottom: 25px; border-top: 1px dashed #d7ccc8; padding-top: 15px;">
+            <button class="filter-btn devir-btn active-filter" onclick="devirFiltreDegistir('tumu', this)">🌍 Tüm Devirler</button>
+            <button class="filter-btn devir-btn" onclick="devirFiltreDegistir('Asr-ı Saadet', this)">🕌 Asr-ı Saadet</button>
+            <button class="filter-btn devir-btn" onclick="devirFiltreDegistir('Hulefâ-yi Râşidîn', this)">⚖️ Hulefâ-yi Râşidîn</button>
+            <button class="filter-btn devir-btn" onclick="devirFiltreDegistir('Emeviler', this)">🏛️ Emeviler</button>
+            <button class="filter-btn devir-btn" onclick="devirFiltreDegistir('Abbasiler', this)">📚 Abbasiler</button>
+            <button class="filter-btn devir-btn" onclick="devirFiltreDegistir('Endülüs', this)">🌴 Endülüs</button>
         </div>
         
         <div class="arsiv-arama-kutu">
@@ -571,6 +557,17 @@
                 <input type="hidden" id="edit-olay-id">
                 <input id="ol_ad" placeholder="Olay Başlığı" oninput="benzerOlayKontrol()">
                 <div id="olay-uyari" class="canli-uyari"></div>
+                
+                <!-- YENİ: OLAY DEVİR SEÇİMİ -->
+                <select id="ol_devir" style="margin-bottom: 10px;">
+                    <option value="Asr-ı Saadet">🕌 Dönem: Asr-ı Saadet</option>
+                    <option value="Hulefâ-yi Râşidîn">⚖️ Dönem: Hulefâ-yi Râşidîn</option>
+                    <option value="Emeviler">🏛️ Dönem: Emeviler</option>
+                    <option value="Abbasiler">📚 Dönem: Abbasiler</option>
+                    <option value="Endülüs">🌴 Dönem: Endülüs</option>
+                    <option value="Diğer">🌍 Dönem: Diğer / Genel</option>
+                </select>
+                
                 <div class="row"><input id="ol_hicri" placeholder="Hicri (Örn: H. 2)"><input id="ol_miladi" placeholder="Miladi (Örn: M. 624)"></div>
                 <textarea id="ol_bilgi" placeholder="Olayın tam metnini buraya yazın... (Enter ile paragraf yapabilirsiniz)" rows="8"></textarea>
                 <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET VE MAKALE OLARAK YAYINLA</button>
@@ -582,6 +579,17 @@
             <h2 id="form-baslik">👤 Zat Ekle / Düzenle</h2>
             <div class="admin-section">
                 <input type="hidden" id="edit-id">
+                
+                <!-- YENİ: ZAT DEVİR SEÇİMİ -->
+                <select id="in_devir" style="margin-bottom: 10px;">
+                    <option value="Asr-ı Saadet">🕌 Yaşadığı Devir: Asr-ı Saadet</option>
+                    <option value="Hulefâ-yi Râşidîn">⚖️ Yaşadığı Devir: Hulefâ-yi Râşidîn</option>
+                    <option value="Emeviler">🏛️ Yaşadığı Devir: Emeviler</option>
+                    <option value="Abbasiler">📚 Yaşadığı Devir: Abbasiler</option>
+                    <option value="Endülüs">🌴 Yaşadığı Devir: Endülüs</option>
+                    <option value="Diğer">🌍 Yaşadığı Devir: Diğer / Bilinmiyor</option>
+                </select>
+
                 <input id="in_ad" placeholder="İsim" oninput="benzerZatKontrol()">
                 <div style="font-size: 0.85rem; color: #666; margin-bottom: 10px; margin-left: 5px;">
                     <label style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
@@ -680,6 +688,7 @@
     let veriler = [];
     let olaylar = [];
     let aktifFiltre = 'tumu';
+    let aktifDevir = 'tumu'; // YENİ EKLENEN FİLTRE DEĞİŞKENİ
 
     window.addEventListener('popstate', function(event) {
         let hashId = window.location.hash.substring(1);
@@ -755,7 +764,6 @@
         }, 300); 
     }
 
-    // YENİ EKLENEN: BAĞLANTILI TARİH SİSTEMİ ÇALIŞTIRICI FONKSİYONU
     function baglantilariYukle(id, btnId) {
         const btn = document.getElementById(btnId);
         const kutu = document.getElementById('baglanti-kutu-' + id);
@@ -771,13 +779,9 @@
 
         const kisaIsim = z.isim.split('(')[0].trim();
 
-        // 1. İlgili Olaylar
         const ilgiliOlaylar = olaylar.filter(o => (o.bilgi || "").includes(kisaIsim) || (o.ad || "").includes(kisaIsim));
-
-        // 2. İlgili Kişiler (Metin içinde birbirini ananlar)
         const ilgiliKisiler = veriler.filter(v => v.id !== z.id && (((v.bilgi || "").includes(kisaIsim)) || ((z.bilgi || "").includes(v.isim.split('(')[0].trim()))));
 
-        // 3. Aynı Dönemde Yaşayanlar (Matematiksel Miladi Kesişim)
         let zd = parseInt(z.d_miladi);
         let zv = parseInt(z.v_miladi);
         let donemdaslar = [];
@@ -787,10 +791,9 @@
                 let vd = parseInt(v.d_miladi); let vv = parseInt(v.v_miladi);
                 if(isNaN(vd) || isNaN(vv)) return false;
                 return (zd <= vv && zv >= vd);
-            }).slice(0, 15); // Sayfa donmasın ve çok uzun olmasın diye maksimum 15 kişi
+            }).slice(0, 15);
         }
 
-        // 4. Soy Bağlantıları 
         let soyBaglari = [];
         if(z.baba && z.baba !== "?") soyBaglari.push(`Baba: <span class="smart-link" onclick="arsiveGitVeBul('${z.baba.replace(/'/g, "\\'")}')">${z.baba}</span>`);
         if(z.anne && z.anne !== "?") soyBaglari.push(`Anne: <span class="smart-link" onclick="arsiveGitVeBul('${z.anne.replace(/'/g, "\\'")}')">${z.anne}</span>`);
@@ -798,29 +801,12 @@
         if(z.baglar && z.baglar !== "?") { z.baglar.split(',').forEach(b => soyBaglari.push(`Akraba: <span class="smart-link" onclick="arsiveGitVeBul('${b.split('(')[0].trim().replace(/'/g, "\\'")}')">${b.trim()}</span>`)); }
 
         let html = '';
+        if(soyBaglari.length > 0) html += `<div class="sistem-grup"><div class="sistem-baslik">🌳 Soy ve Aile Bağları</div><div>${soyBaglari.join(' • ')}</div></div>`;
+        if(ilgiliKisiler.length > 0) html += `<div class="sistem-grup"><div class="sistem-baslik">👥 İlgili Kişiler (Metinlerde Kesişenler)</div><div>${ilgiliKisiler.map(k => `<span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span>`).join(', ')}</div></div>`;
+        if(ilgiliOlaylar.length > 0) html += `<div class="sistem-grup"><div class="sistem-baslik">⚔️ İlgili Olaylar ve Savaşlar</div><div>${ilgiliOlaylar.map(o => `<span class="smart-link" onclick="olayOku('${o.id}')">${o.ad}</span>`).join(', ')}</div></div>`;
+        if(donemdaslar.length > 0) html += `<div class="sistem-grup"><div class="sistem-baslik">⏳ Aynı Dönemde Yaşayanlar (Tarihsel Kesişim)</div><div>${donemdaslar.map(k => `<span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span>`).join(', ')}</div></div>`;
 
-        if(soyBaglari.length > 0) {
-            html += `<div class="sistem-grup"><div class="sistem-baslik">🌳 Soy ve Aile Bağları</div><div>${soyBaglari.join(' • ')}</div></div>`;
-        }
-
-        if(ilgiliKisiler.length > 0) {
-            let kisilerHtml = ilgiliKisiler.map(k => `<span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span>`).join(', ');
-            html += `<div class="sistem-grup"><div class="sistem-baslik">👥 İlgili Kişiler (Metinlerde Kesişenler)</div><div>${kisilerHtml}</div></div>`;
-        }
-
-        if(ilgiliOlaylar.length > 0) {
-            let olaylarHtml = ilgiliOlaylar.map(o => `<span class="smart-link" onclick="olayOku('${o.id}')">${o.ad}</span>`).join(', ');
-            html += `<div class="sistem-grup"><div class="sistem-baslik">⚔️ İlgili Olaylar ve Savaşlar</div><div>${olaylarHtml}</div></div>`;
-        }
-
-        if(donemdaslar.length > 0) {
-            let donemHtml = donemdaslar.map(k => `<span class="smart-link" onclick="arsiveGitVeBul('${k.isim.replace(/'/g, "\\'")}')">${k.isim}</span>`).join(', ');
-            html += `<div class="sistem-grup"><div class="sistem-baslik">⏳ Aynı Dönemde Yaşayanlar (Tarihsel Kesişim)</div><div>${donemHtml}</div></div>`;
-        }
-
-        if(html === '') {
-            html = '<div style="color:#999; font-style:italic; font-size:0.95rem;">Şu an için sistemde yeterli kesişim verisi bulunamadı.</div>';
-        }
+        if(html === '') html = '<div style="color:#999; font-style:italic; font-size:0.95rem;">Şu an için sistemde yeterli kesişim verisi bulunamadı.</div>';
 
         kutu.innerHTML = html;
         kutu.style.display = 'flex';
@@ -830,7 +816,6 @@
     function gosterAramaOto(inp) {
         const val = inp.value.toLocaleLowerCase('tr').trim();
         const kutu = document.getElementById('arama-oto-kutu');
-        
         if (val.length < 2) { kutu.style.display = 'none'; return; }
 
         let html = '';
@@ -838,6 +823,8 @@
 
         if (aktifFiltre === 'tumu' || aktifFiltre === 'zat') {
             veriler.forEach(v => {
+                let d = v.devir || "Asr-ı Saadet";
+                if(aktifDevir !== 'tumu' && d !== aktifDevir) return;
                 if(count > 8) return;
                 if((v.isim || "").toLocaleLowerCase('tr').includes(val)) {
                     html += `<div onclick="document.getElementById('ara').value = '${v.isim.replace(/'/g, "\\'")}'; document.getElementById('arama-oto-kutu').style.display='none'; aramaYap();">👤 ${v.isim}</div>`;
@@ -848,6 +835,8 @@
 
         if (aktifFiltre === 'tumu' || aktifFiltre === 'olay') {
             olaylar.forEach(o => {
+                let d = o.devir || "Asr-ı Saadet";
+                if(aktifDevir !== 'tumu' && d !== aktifDevir) return;
                 if(count > 15) return;
                 if((o.ad || "").toLocaleLowerCase('tr').includes(val)) {
                     html += `<div onclick="document.getElementById('ara').value = '${o.ad.replace(/'/g, "\\'")}'; document.getElementById('arama-oto-kutu').style.display='none'; aramaYap();">📜 ${o.ad}</div>`;
@@ -857,7 +846,6 @@
         }
 
         if(html === '') { kutu.style.display = 'none'; return; }
-        
         kutu.innerHTML = html;
         const rect = inp.getBoundingClientRect();
         kutu.style.left = (rect.left + window.scrollX) + 'px';
@@ -1026,6 +1014,10 @@
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
             
+            // DEVİR OTOMATİK TANIMA (BOŞSA ASR-I SAADET YAPIYORUZ)
+            let devirStr = z.devir || "Asr-ı Saadet";
+            let devirRozet = `<span class="devir-tag">⏳ ${devirStr}</span>`;
+
             let yasStr = (!isNaN(dM) && !isNaN(vM)) ? `<span class="yas-badge">${vM - dM} Yaşında</span>` : "";
             
             let dH = (z.d_hicri && z.d_hicri !== "?") ? "H. " + z.d_hicri : ""; let dMil = (z.d_miladi && z.d_miladi !== "?") ? " (M. " + z.d_miladi + ")" : "";
@@ -1046,7 +1038,6 @@
             
             let bilgiHTML = (z.bilgi && z.bilgi.trim() !== "" && z.bilgi.trim() !== "?") ? `<div class="bilgi-kutusu"><div class="bilgi-baslik">📜 Hakkında</div><p style="margin:0; line-height:1.6;">${z.bilgi}</p></div>` : "";
             
-            // YENİ EKLENEN: Dinamik Sistem Butonu
             let sistemButonu = `
             <div style="margin-top: 20px;">
                 <button id="btn-bag-${z.id}" onclick="baglantilariYukle('${z.id}', 'btn-bag-${z.id}')" class="btn-sistem">🌐 Bağlantılı Tarih Sistemini Aç</button>
@@ -1054,11 +1045,11 @@
             </div>`;
 
             aHtml += `
-            <details class="arsiv-kart search-item arsiv-detay" data-search="${aramaMetni}" data-type="zat">
+            <details class="arsiv-kart search-item arsiv-detay" data-search="${aramaMetni}" data-type="zat" data-devir="${devirStr}">
                 <summary>
                     <div class="kart-baslik-isim">
                         <div class="kart-ikon">👤</div>
-                        <div><h4 class="kart-isim-metin">${z.isim}</h4>${yasStr}</div>
+                        <div><h4 class="kart-isim-metin">${z.isim}</h4>${devirRozet} ${yasStr}</div>
                     </div>
                 </summary>
                 <div class="arsiv-icerik-yeni">
@@ -1081,15 +1072,19 @@
             let oM = (o.miladi && o.miladi !== "?") ? " M. " + o.miladi : "";
             let kisaBilgi = (o.bilgi && o.bilgi.length > 150) ? o.bilgi.substring(0, 150) + "..." : (o.bilgi || "Detaylı bilgi için tıklayın.");
             
+            let devirStr = o.devir || "Asr-ı Saadet";
+            let devirRozet = `<span class="devir-tag">⏳ ${devirStr}</span>`;
+
             let yeniEtiketi = "";
             if (o.eklenmeTarihi && (Date.now() - o.eklenmeTarihi < 604800000)) {
                 yeniEtiketi = `<span class="new-badge">YENİ</span>`;
             }
             
             let kartHtml = `
-            <div class="article-card search-item" style="border-top-color:#8d6e63; margin-bottom: 18px;" data-search="${aramaMetniOlay}" data-type="olay" onclick="olayOku('${o.id}')">
+            <div class="article-card search-item" style="border-top-color:#8d6e63; margin-bottom: 18px;" data-search="${aramaMetniOlay}" data-type="olay" data-devir="${devirStr}" onclick="olayOku('${o.id}')">
                 <div class="card-meta-top">
                     <span class="category-tag">📜 Tarihi Olay</span>
+                    ${devirRozet}
                     ${yeniEtiketi}
                 </div>
                 <div>
@@ -1188,7 +1183,19 @@
         if (document.getElementById('oto_ra').checked) { const kucukAd = ad.toLocaleLowerCase('tr'); if (!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)")) ad += " (ra)"; }
         
         const id = document.getElementById('edit-id').value;
-        const obj = { isim: ad, anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?", es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?", baglar: document.getElementById('in_baglar_liste').value || "?", d_hicri: document.getElementById('in_d_hicri').value || "?", d_miladi: document.getElementById('in_d_miladi').value || "?", v_hicri: document.getElementById('in_v_hicri').value || "?", v_miladi: document.getElementById('in_v_miladi').value || "?", bilgi: document.getElementById('in_bilgi').value || "" };
+        const obj = { 
+            isim: ad, 
+            devir: document.getElementById('in_devir').value, // YENİ: DEVİR BİLGİSİ EKLENDİ
+            anne: kelimeBaslariniBuyut(document.getElementById('in_anne').value) || "?", 
+            baba: kelimeBaslariniBuyut(document.getElementById('in_baba').value) || "?", 
+            es: kelimeBaslariniBuyut(document.getElementById('in_es').value) || "?", 
+            baglar: document.getElementById('in_baglar_liste').value || "?", 
+            d_hicri: document.getElementById('in_d_hicri').value || "?", 
+            d_miladi: document.getElementById('in_d_miladi').value || "?", 
+            v_hicri: document.getElementById('in_v_hicri').value || "?", 
+            v_miladi: document.getElementById('in_v_miladi').value || "?", 
+            bilgi: document.getElementById('in_bilgi').value || "" 
+        };
         if(id) await db.collection("zatlar").doc(id).update(obj); else await db.collection("zatlar").add(obj);
         temizle();
     }
@@ -1201,6 +1208,7 @@
         
         const obj = { 
             ad: ad, 
+            devir: document.getElementById('ol_devir').value, // YENİ: DEVİR BİLGİSİ EKLENDİ
             hicri: document.getElementById('ol_hicri').value || "?", 
             miladi: document.getElementById('ol_miladi').value || "?", 
             bilgi: document.getElementById('ol_bilgi').value || "",
@@ -1232,7 +1240,9 @@
 
     function duzenle(id) {
         const z = veriler.find(v => v.id === id);
-        document.getElementById('edit-id').value = id; document.getElementById('in_ad').value = z.isim; document.getElementById('in_anne').value = z.anne; document.getElementById('in_baba').value = z.baba; document.getElementById('in_es').value = z.es; document.getElementById('in_baglar_liste').value = z.baglar; document.getElementById('in_d_hicri').value = z.d_hicri; document.getElementById('in_d_miladi').value = z.d_miladi; document.getElementById('in_v_hicri').value = z.v_hicri; document.getElementById('in_v_miladi').value = z.v_miladi; document.getElementById('in_bilgi').value = z.bilgi;
+        document.getElementById('edit-id').value = id; 
+        document.getElementById('in_devir').value = z.devir || "Asr-ı Saadet"; // YENİ: DEVİR DÜZENLEME
+        document.getElementById('in_ad').value = z.isim; document.getElementById('in_anne').value = z.anne; document.getElementById('in_baba').value = z.baba; document.getElementById('in_es').value = z.es; document.getElementById('in_baglar_liste').value = z.baglar; document.getElementById('in_d_hicri').value = z.d_hicri; document.getElementById('in_d_miladi').value = z.d_miladi; document.getElementById('in_v_hicri').value = z.v_hicri; document.getElementById('in_v_miladi').value = z.v_miladi; document.getElementById('in_bilgi').value = z.bilgi;
         document.getElementById('cancel-btn').style.display = "block"; document.getElementById('zat-uyari').style.display = "none";
         const kucukAd = z.isim.toLocaleLowerCase('tr');
         document.getElementById('oto_ra').checked = !(!kucukAd.includes("(ra)") && !kucukAd.includes("(r.a.)") && !kucukAd.includes("(r.a)"));
@@ -1241,13 +1251,15 @@
 
     function duzenleOlay(id) {
         const o = olaylar.find(v => v.id === id);
-        document.getElementById('edit-olay-id').value = id; document.getElementById('ol_ad').value = o.ad; document.getElementById('ol_hicri').value = o.hicri; document.getElementById('ol_miladi').value = o.miladi; document.getElementById('ol_bilgi').value = o.bilgi;
+        document.getElementById('edit-olay-id').value = id; 
+        document.getElementById('ol_devir').value = o.devir || "Asr-ı Saadet"; // YENİ: DEVİR DÜZENLEME
+        document.getElementById('ol_ad').value = o.ad; document.getElementById('ol_hicri').value = o.hicri; document.getElementById('ol_miladi').value = o.miladi; document.getElementById('ol_bilgi').value = o.bilgi;
         document.getElementById('olay-cancel-btn').style.display = "block"; document.getElementById('olay-uyari').style.display = "none";
         window.scrollTo(0,0);
     }
 
-    function temizle() { document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); document.getElementById('edit-id').value = ""; document.getElementById('cancel-btn').style.display = "none"; document.getElementById('zat-uyari').style.display = "none"; if(document.getElementById('oto_ra')) document.getElementById('oto_ra').checked = true; }
-    function temizleOlay() { document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); document.getElementById('edit-olay-id').value = ""; document.getElementById('olay-cancel-btn').style.display = "none"; document.getElementById('olay-uyari').style.display = "none"; }
+    function temizle() { document.querySelectorAll('input[id^="in_"], textarea[id^="in_"]').forEach(i => i.value = ""); document.getElementById('in_devir').value = "Asr-ı Saadet"; document.getElementById('edit-id').value = ""; document.getElementById('cancel-btn').style.display = "none"; document.getElementById('zat-uyari').style.display = "none"; if(document.getElementById('oto_ra')) document.getElementById('oto_ra').checked = true; }
+    function temizleOlay() { document.querySelectorAll('input[id^="ol_"], textarea[id^="ol_"]').forEach(i => i.value = ""); document.getElementById('ol_devir').value = "Asr-ı Saadet"; document.getElementById('edit-olay-id').value = ""; document.getElementById('olay-cancel-btn').style.display = "none"; document.getElementById('olay-uyari').style.display = "none"; }
 
     function aramaYap() {
         const val = document.getElementById('ara').value;
@@ -1256,15 +1268,29 @@
         if (gs && document.activeElement === document.getElementById('ara')) gs.value = val;
 
         document.querySelectorAll('.search-item').forEach(k => {
-            const uyar = k.getAttribute('data-search').includes(m);
+            const uyarArama = k.getAttribute('data-search').includes(m);
             const tip = k.getAttribute('data-type');
-            k.style.display = (uyar && (aktifFiltre === 'tumu' || aktifFiltre === tip)) ? 'block' : 'none';
+            const devir = k.getAttribute('data-devir'); // YENİ: DEVİR OKUMA
+            
+            const uyarTip = (aktifFiltre === 'tumu' || aktifFiltre === tip);
+            const uyarDevir = (aktifDevir === 'tumu' || aktifDevir === devir); // YENİ: DEVİR KONTROLÜ
+            
+            k.style.display = (uyarArama && uyarTip && uyarDevir) ? 'block' : 'none';
         });
     }
 
     function filtreDegistir(tur, btn) {
         aktifFiltre = tur;
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
+        // Tip filtrelerini temizle (sadece üstteki .filter-btn lerden active kaldırılır, .devir-btn dokunulmaz)
+        document.querySelectorAll('.filter-container:first-of-type .filter-btn').forEach(b => b.classList.remove('active-filter'));
+        btn.classList.add('active-filter');
+        aramaYap();
+    }
+
+    // YENİ EKLENEN FİLTRE FONKSİYONU
+    function devirFiltreDegistir(devir, btn) {
+        aktifDevir = devir;
+        document.querySelectorAll('.devir-btn').forEach(b => b.classList.remove('active-filter'));
         btn.classList.add('active-filter');
         aramaYap();
     }
