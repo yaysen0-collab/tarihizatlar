@@ -164,7 +164,7 @@
         .footer-col ul li a { text-decoration: none; color: #777; cursor: pointer; transition: 0.2s; font-size: 0.95rem; }
         .footer-col ul li a:hover { color: #333; }
         .footer-bottom { max-width: 1000px; margin: 50px auto 0 auto; padding-top: 25px; border-top: 1px solid #f0ebe1; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #999; flex-wrap: wrap; gap: 15px; }
-        .footer-bottom a { color: #999; text-decoration: none; margin-left: 20px; transition: 0.2s; }
+        .footer-bottom a { color: #999; text-decoration: none; transition: 0.2s; }
         .footer-bottom a:hover { color: #333; }
 
         .canli-uyari { color: #d32f2f; font-size: 0.85em; margin: -5px 0 10px 5px; display: none; }
@@ -576,6 +576,11 @@
     </div>
     <div class="footer-bottom">
         <div>&copy; 2026 Asrı Saadet Portalı &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="sayfaDegistir('gizlilik')">Gizlilik Politikası</a></div>
+        <div style="display: flex; gap: 15px;">
+            <a href="#" target="_blank">WhatsApp</a>
+            <a href="#" target="_blank">X (Twitter)</a>
+            <a href="#" target="_blank">Instagram</a>
+        </div>
     </div>
 </footer>
 
@@ -1022,7 +1027,10 @@
         veriler.forEach(z => { if(!isNaN(parseInt(z.d_miladi))) bil.push({s: parseInt(z.d_miladi), ad: z.isim, t: 'Zat'}); });
         olaylar.forEach(o => { if(!isNaN(parseInt(o.miladi))) bil.push({s: parseInt(o.miladi), ad: o.ad, t: 'Olay'}); });
         bil.sort((a,b) => a.s - b.s);
-        cizelge.innerHTML = bil.map(i => `<div style="padding:15px; border-bottom: 1px solid #e0dcd3; background: white; margin-bottom: 5px; border-radius: 6px;"><b>M. ${i.s}</b>: <span class="smart-link" onclick="arsiveGitVeBul('${i.ad.replace(/'/g, "\\'")}')">${i.ad}</span> <small style="color:#999; margin-left: 10px;">[${i.t}]</small></div>`).join('');
+        cizelge.innerHTML = bil.map(i => {
+            let tRenk = i.t === 'Olay' ? '#d32f2f' : '#5c6ac4';
+            return `<div style="padding:15px; border-bottom: 1px solid #e0dcd3; background: white; margin-bottom: 5px; border-radius: 6px;"><b>M. ${i.s}</b>: <span class="smart-link" onclick="arsiveGitVeBul('${i.ad.replace(/'/g, "\\'")}')">${i.ad}</span> <small style="color:${tRenk}; font-weight:500; margin-left: 10px;">[${i.t}]</small></div>`;
+        }).join('');
 
         const homeMiniTimeline = document.getElementById('home-mini-timeline');
         if (homeMiniTimeline) {
