@@ -179,20 +179,28 @@
         <p style="text-align: center; font-style: italic; color: #8d6e63; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;">
             * Kaynaklar akademik eserler ve klasik tarih kitaplarından alınmıştır.
         </p>
+
+        <!-- YENİ: DİNAMİK OLAYLAR (ANA SAYFA VİTRİNİ) -->
+        <h2 style="text-align: center; color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">📜 Son Eklenen Tarihi Olaylar</h2>
+        <div class="article-grid" id="home-olaylar-grid">
+            <!-- Sisteme eklenen son 3 olay buraya JS ile otomatik gelecek -->
+        </div>
         
+        <!-- MEVCUT SABİT MAKALELER (YENİ rozetleri kaldırıldı) -->
+        <h2 style="text-align: center; color: #5d4037; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">Temel Okumalar</h2>
         <div class="article-grid">
             <div class="article-card" onclick="sayfaDegistir('makale1')">
-                <div class="card-meta-top"><span class="category-tag">🕌 İtikat</span><span class="new-badge">YENİ</span></div>
+                <div class="card-meta-top"><span class="category-tag">🕌 İtikat</span></div>
                 <div><h3>Ashab-ı Kiram'ın İzinde</h3><p>İslam’ın kuvvetli olduğu zamanlarda doğduk. Kuran-ı Kerim'i bize öğretenler oldu. Maalesef ki yeni nesil elimizden kayıp gidiyor...</p></div>
                 <div class="card-meta-bottom"><span class="read-time">⏳ 4 dk okuma</span><span class="read-more">Devamını Oku ➔</span></div>
             </div>
             <div class="article-card" onclick="sayfaDegistir('makale2')">
-                <div class="card-meta-top"><span class="category-tag">📚 İlim</span><span class="new-badge">YENİ</span></div>
+                <div class="card-meta-top"><span class="category-tag">📚 İlim</span></div>
                 <div><h3>Neden Bu İlimleri Öğreniyoruz?</h3><p>İslam dini, okuyup ilim sahibi olmaya çok önem vermiştir. Hatta Peygamber Efendimize indirilen ilk ayeti kerime “Oku” emri ile başlar...</p></div>
                 <div class="card-meta-bottom"><span class="read-time">⏳ 3 dk okuma</span><span class="read-more">Devamını Oku ➔</span></div>
             </div>
             <div class="article-card" onclick="sayfaDegistir('makale3')">
-                <div class="card-meta-top"><span class="category-tag">📖 Siyer</span><span class="new-badge">YENİ</span></div>
+                <div class="card-meta-top"><span class="category-tag">📖 Siyer</span></div>
                 <div><h3>Rasulullah Sevgisi ve Kur'an Eğitimi</h3><p>Resulullah efendimiz bir hadisi şeriflerinde şöyle buyuruyor; "Evlatlarınızı üç haslet üzerine edeplendiriniz: Rasulullah sevgisi..."</p></div>
                 <div class="card-meta-bottom"><span class="read-time">⏳ 5 dk okuma</span><span class="read-more">Devamını Oku ➔</span></div>
             </div>
@@ -342,7 +350,7 @@
                 <input id="ol_ad" placeholder="Olay Başlığı" oninput="benzerOlayKontrol()">
                 <div id="olay-uyari" class="canli-uyari"></div>
                 <div class="row"><input id="ol_hicri" placeholder="Hicri (Örn: H. 2)"><input id="ol_miladi" placeholder="Miladi (Örn: M. 624)"></div>
-                <!-- YENİ: UZUN YAZILAR İÇİN TEXTAREA BÜYÜTÜLDÜ -->
+                <!-- UZUN YAZILAR İÇİN TEXTAREA -->
                 <textarea id="ol_bilgi" placeholder="Olayın tam metnini buraya yazın... (Enter ile paragraf yapabilirsiniz)" rows="8"></textarea>
                 <button class="btn-action" id="olay-main-btn" onclick="olayKaydet()" style="background: #8d6e63;">KAYDET VE MAKALE OLARAK YAYINLA</button>
                 <button class="btn-action" id="olay-cancel-btn" onclick="temizleOlay()" style="background:#999; display:none;">İPTAL</button>
@@ -526,25 +534,19 @@
         }
     }
 
-    // YENİ: DİNAMİK OLAY OKUMA FONKSİYONU
     function olayOku(id) {
         const o = olaylar.find(v => v.id === id);
         if(!o) return;
         
-        // Başlığı yerleştir
         document.getElementById('okuma-baslik').innerText = o.ad;
-        
-        // Tarihi birleştir ve yerleştir
         let oH = (o.hicri && o.hicri !== "?") ? "H. " + o.hicri : "";
         let oM = (o.miladi && o.miladi !== "?") ? " M. " + o.miladi : "";
         let tamTarih = (oH || oM) ? `📅 ${oH} ${oM}` : "Tarih Belirtilmemiş";
         document.getElementById('okuma-tarih').innerText = tamTarih;
 
-        // Enter tuşuyla yapılan satır atlamalarını HTML paragrafına (<br>) çevir
         let formatliBilgi = o.bilgi ? o.bilgi.replace(/\n/g, '<br><br>') : "İçerik bulunamadı.";
         document.getElementById('okuma-icerik').innerHTML = formatliBilgi;
 
-        // Okuma sayfasına geçiş yap
         sayfaDegistir('olay-okuma');
     }
 
@@ -626,12 +628,9 @@
         }
 
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
-        // YENİ EKLENENLER ÜSTTE ÇIKSIN DİYE OLAYLARI TERS ÇEVİREBİLİRİZ, AMA ŞİMDİLİK ALFABETİK:
-        olaylar.sort((a, b) => (a.ad || "").toLocaleLowerCase('tr').localeCompare((b.ad || "").toLocaleLowerCase('tr'), 'tr'));
 
+        // ŞAHSİYETLER (ZATLAR) HTML
         let aHtml = ""; 
-        
-        // ŞAHSİYETLER (Açılır-kapanır Kutu)
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
@@ -655,21 +654,31 @@
                 </div>
             </details>`;
         });
-        
-        // YENİ: OLAYLAR (Makale Kartı Şeklinde)
-        olaylar.forEach(o => {
+
+        // OLAYLAR İÇİN DİNAMİK HTML OLUŞTURMA
+        let aOlayHtml = ""; // Arşiv sayfası için
+        let hOlayHtml = ""; // Ana sayfa vitrini için
+
+        // Olayları eklenme tarihine göre sırala (en yeni en üstte)
+        let siraliOlaylar = [...olaylar].sort((a, b) => (b.eklenmeTarihi || 0) - (a.eklenmeTarihi || 0));
+
+        siraliOlaylar.forEach((o, index) => {
             const aramaMetniOlay = ((o.ad || "") + " " + (o.bilgi || "")).toLocaleLowerCase('tr');
             let oH = (o.hicri && o.hicri !== "?") ? "H. " + o.hicri : "";
             let oM = (o.miladi && o.miladi !== "?") ? " M. " + o.miladi : "";
-            
-            // Eğer yazı çok uzunsa kart üzerinde kısa halini (ilk 150 harfi) gösterelim
             let kisaBilgi = (o.bilgi && o.bilgi.length > 150) ? o.bilgi.substring(0, 150) + "..." : (o.bilgi || "Detaylı bilgi için tıklayın.");
             
-            aHtml += `
+            // YENİ ETİKETİ: Son 7 gün (604800000 ms) içinde eklendiyse YENİ yaz
+            let yeniEtiketi = "";
+            if (o.eklenmeTarihi && (Date.now() - o.eklenmeTarihi < 604800000)) {
+                yeniEtiketi = `<span class="new-badge">YENİ</span>`;
+            }
+            
+            let kartHtml = `
             <div class="article-card search-item" style="border-top-color:#8d6e63; margin-bottom: 15px;" data-search="${aramaMetniOlay}" data-type="olay" onclick="olayOku('${o.id}')">
                 <div class="card-meta-top">
                     <span class="category-tag">📜 Tarihi Olay</span>
-                    <span class="new-badge">YENİ</span>
+                    ${yeniEtiketi}
                 </div>
                 <div>
                     <h3>${o.ad}</h3>
@@ -680,9 +689,18 @@
                     <span class="read-more">Makaleyi Oku ➔</span>
                 </div>
             </div>`;
+
+            aOlayHtml += kartHtml; // Arşiv sayfasına tüm olayları ekle
+            if (index < 3) {
+                hOlayHtml += kartHtml; // Ana sayfaya sadece son 3 olayı ekle
+            }
         });
+
+        arsiv.innerHTML = aHtml + aOlayHtml; // Şahsiyetleri ve Olayları arşive bas
         
-        arsiv.innerHTML = aHtml; 
+        // Ana Sayfa vitrinine son eklenenleri bas
+        const homeOlaylarGrid = document.getElementById('home-olaylar-grid');
+        if(homeOlaylarGrid) homeOlaylarGrid.innerHTML = hOlayHtml;
 
         // Yönetim Listesi Kodu
         let admHtml = `<h4 style="color:#5d4037; margin-top:0;">👤 Zatlar</h4>`;
@@ -745,8 +763,25 @@
         const ad = kelimeBaslariniBuyut(document.getElementById('ol_ad').value.trim());
         if (!ad) { alert("Lütfen bir olay ismi girin!"); return; }
         const id = document.getElementById('edit-olay-id').value;
-        const obj = { ad: ad, hicri: document.getElementById('ol_hicri').value || "?", miladi: document.getElementById('ol_miladi').value || "?", bilgi: document.getElementById('ol_bilgi').value || "" };
-        if(id) await db.collection("olaylar").doc(id).update(obj); else await db.collection("olaylar").add(obj);
+        
+        // YENİ EKLENEN KISIM: eklenmeTarihi
+        const obj = { 
+            ad: ad, 
+            hicri: document.getElementById('ol_hicri').value || "?", 
+            miladi: document.getElementById('ol_miladi').value || "?", 
+            bilgi: document.getElementById('ol_bilgi').value || "",
+            eklenmeTarihi: Date.now() // O anki tarihi milisaniye olarak kaydeder
+        };
+        
+        if(id) {
+            // Eğer sadece güncelleniyorsa, eski eklenme tarihini ezmesin diye kontrol
+            const mevcutOlay = olaylar.find(v => v.id === id);
+            if (mevcutOlay && mevcutOlay.eklenmeTarihi) obj.eklenmeTarihi = mevcutOlay.eklenmeTarihi;
+            await db.collection("olaylar").doc(id).update(obj); 
+        } else {
+            await db.collection("olaylar").add(obj);
+        }
+        
         temizleOlay();
         alert("Tarihi Olay Başarıyla Kaydedildi!");
     }
