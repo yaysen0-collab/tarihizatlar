@@ -658,12 +658,35 @@
         const doluZatlar = veriler.filter(z => z.bilgi && z.bilgi.trim() !== "" && z.bilgi.trim() !== "?");
         if (doluZatlar.length === 0) { alert("Henüz bilgi girilmiş şahsiyet bulunmuyor."); return; }
         const secilen = doluZatlar[Math.floor(Math.random() * doluZatlar.length)];
+        
+        // FİLTRELERİ OTOMATİK SIFIRLA
+        aktifFiltre = 'tumu';
+        aktifDevir = 'tumu';
+        
+        const filterCols = document.querySelectorAll('.filter-col');
+        if(filterCols.length > 0) {
+            filterCols[0].querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
+            filterCols[0].querySelector('.filter-btn').classList.add('active-filter');
+        }
+        if(filterCols.length > 1) {
+            filterCols[1].querySelectorAll('.devir-btn').forEach(b => b.classList.remove('active-filter'));
+            filterCols[1].querySelector('.devir-btn').classList.add('active-filter');
+        }
+
         arsiveGitVeBul(secilen.isim);
+        
         setTimeout(() => {
             document.querySelectorAll('.arsiv-detay').forEach(el => {
                 if (el.style.display !== 'none' && el.querySelector('summary').innerText.includes(secilen.isim.split('(')[0].trim())) {
                     el.open = true; 
                     el.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+                    
+                    // BAĞLANTILI TARİHİ (Olayları vb.) OTOMATİK AÇ
+                    const btnId = 'btn-bag-' + secilen.id;
+                    const kutu = document.getElementById('baglanti-kutu-' + secilen.id);
+                    if (kutu && kutu.style.display !== 'flex') {
+                        baglantilariYukle(secilen.id, btnId);
+                    }
                 }
             });
         }, 300); 
