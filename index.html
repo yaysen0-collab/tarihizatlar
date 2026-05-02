@@ -435,7 +435,6 @@
                 </ul>
             </div>
             
-            <!-- Önceki sürümler gizlendi (Kod çok uzamasın diye) -->
         </div>
     </div>
 
@@ -613,6 +612,12 @@
     </div>
     <div class="footer-bottom">
         <div>&copy; 2026 Asrı Saadet Portalı. Tüm hakları saklıdır. &nbsp;|&nbsp; <a href="javascript:void(0)" onclick="sayfaDegistir('gizlilik')">Gizlilik Politikası</a></div>
+        
+        <!-- YENİ EKLENEN ZİYARETÇİ SAYACI -->
+        <div style="display:flex; align-items:center;" title="Toplam Site Ziyareti">
+            <img src="https://hits.sh/tarihizatlar.firebaseapp.com.svg?style=flat-square&label=Toplam%20Ziyaret&color=8d6e63&labelColor=5d4037" alt="Ziyaretçi Sayacı" style="border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        </div>
+        
         <div>
             <a href="javascript:void(0)" onclick="paylas('twitter')">X (Twitter)</a>
             <a href="javascript:void(0)" onclick="paylas('whatsapp')">WhatsApp</a>
@@ -866,16 +871,13 @@
 
         veriler.sort((a, b) => (a.isim || "").toLocaleLowerCase('tr').localeCompare((b.isim || "").toLocaleLowerCase('tr'), 'tr'));
 
-        // YENİ ARŞİV KARTLARI (ŞAHSİYETLER)
         let aHtml = ""; 
         veriler.forEach(z => {
             const aramaMetni = ((z.isim || "") + " " + (z.bilgi || "")).toLocaleLowerCase('tr');
             let dM = parseInt(z.d_miladi), vM = parseInt(z.v_miladi);
             
-            // Yaş Rozeti
             let yasStr = (!isNaN(dM) && !isNaN(vM)) ? `<span class="yas-badge">${vM - dM} Yaşında</span>` : "";
             
-            // Tarih Rozetleri
             let dH = (z.d_hicri && z.d_hicri !== "?") ? "H. " + z.d_hicri : ""; let dMil = (z.d_miladi && z.d_miladi !== "?") ? " (M. " + z.d_miladi + ")" : "";
             let vH = (z.v_hicri && z.v_hicri !== "?") ? "H. " + z.v_hicri : ""; let vMil = (z.v_miladi && z.v_miladi !== "?") ? " (M. " + z.v_miladi + ")" : "";
             
@@ -887,13 +889,11 @@
                 tarihHTML += `</div>`;
             }
             
-            // İkonlu Bilgi Satırları
             let babaEki = (z.baba && z.baba !== "?") ? `<div class="info-row"><span class="info-label">👨‍👦 Baba:</span> <span class="info-data"><span class="smart-link" onclick="arsiveGitVeBul('${z.baba.replace(/'/g, "\\'")}')">${z.baba}</span></span></div>` : "";
             let anneEki = (z.anne && z.anne !== "?") ? `<div class="info-row"><span class="info-label">🤱 Anne:</span> <span class="info-data"><span class="smart-link" onclick="arsiveGitVeBul('${z.anne.replace(/'/g, "\\'")}')">${z.anne}</span></span></div>` : "";
             let esEki = (z.es && z.es !== "?") ? `<div class="info-row"><span class="info-label">💍 Eş:</span> <span class="info-data">` + z.es.split(',').map(e => `<span class="smart-link" onclick="arsiveGitVeBul('${e.trim().replace(/'/g, "\\'")}')">${e.trim()}</span>`).join(', ') + `</span></div>` : "";
             let baglarEki = (z.baglar && z.baglar !== "?") ? `<div class="info-row"><span class="info-label">🔗 Bağlar:</span> <span class="info-data">` + z.baglar.split(',').map(b => `<span class="smart-link" onclick="arsiveGitVeBul('${b.split('(')[0].trim().replace(/'/g, "\\'")}')">${b.trim()}</span>`).join(', ') + `</span></div>` : "";
             
-            // İçerik Kutusu
             let bilgiHTML = (z.bilgi && z.bilgi.trim() !== "" && z.bilgi.trim() !== "?") ? `<div class="bilgi-kutusu"><div class="bilgi-baslik">📜 Hakkında</div><p style="margin:0; line-height:1.6;">${z.bilgi}</p></div>` : "";
             
             aHtml += `
